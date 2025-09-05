@@ -1,7 +1,7 @@
 
 import './App.css'
 
-import { Navbar , HeroSection, Stats } from './components'
+import { Navbar , HeroSection, Stats, Features } from './components'
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
     <Navbar/>
     <HeroSection/>
     <Stats/>
+    <Features />
     </>
   )
 }

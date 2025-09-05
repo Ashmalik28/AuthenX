@@ -4,7 +4,7 @@ import Button from './Button';
 const HeroSection = () => {
     return (
         <div className="max-w-[1440px] 2xl:max-w-[1800px] mx-auto flex justify-between p-2 ">
-            <div className='flex flex-col items-start pl-20 mt-12'>
+            <div className='flex flex-col items-start justify-center pl-20 mt-26 mb-10'>
             <span className="flex justify-center cursor-pointer items-center rounded-3xl border-1 border-[#343434] px-1.5 gap-1 text-[#343434] h-12 2xl:mt-25 mt-22 hover:shadow-md hover:shadow-blue-500">
                 <span className='bg-blue-500 h-9 text-white font-semibold flex items-center justify-start rounded-3xl pl-2 pr-2'>Blockchain-Powered </span>Solution for Secure, Verified Certificates Worldwide
                 <span className='text-blue-500'>
@@ -13,7 +13,7 @@ const HeroSection = () => {
                     </svg>
                 </span>
             </span>
-            <h1 className="text-6xl 2xl:text-7xl font-bold text-black mt-10 gap-2.5 flex flex-col items-start">
+            <h1 className="text-6xl 2xl:text-7xl font-bold text-black mt-12 gap-2.5 flex flex-col items-start">
             <div className=" border-slate-900 dark:border-white">
             Verify any document,
             </div>
@@ -34,7 +34,7 @@ const HeroSection = () => {
             </div>
             </div>
             
-            <div className='flex flex-col justify-start mt-25 pr-20 '>
+            <div className='flex flex-col justify-start items-center mt-38 pr-20 '>
                 <img className='max-w-lg 2xl:max-w-2xl' src={image} alt="hero" />
             </div>
 

@@ -2,6 +2,7 @@ import logo from "../../images/AuthenXLogo.png"
 import Button from "./Button"
 import { RiAdminFill } from "react-icons/ri";
 import { MdSupportAgent } from "react-icons/md";
+import { useEffect, useState } from "react";
 
 
 const NavbarItem = ({title , classprops}) => {
@@ -41,8 +42,23 @@ const services = [
 
 
 const Navbar = () => {
+    const [scrolled , setScrolled] = useState(false);
+
+    useEffect(()=> {
+      const handleScroll = () => {
+        if(window.scrollY > 10){
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      }
+
+      window.addEventListener("scroll" , handleScroll);
+      return () => window.removeEventListener("scroll" , handleScroll);
+    }, []);
     return (
-       <nav className="max-w-[1440px] 2xl:max-w-[1800px] mx-auto flex justify-between items-center mt-4 ">
+       <nav className="w-full fixed z-50 ">
+        <div className={`flex max-w-[1440px] 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
         <div className="flex-initial pl-20 justify-center items-center">
             <img src={logo} alt="AuthenXLogo" className="w-40 cursor-pointer" />
         </div>
@@ -81,6 +97,7 @@ const Navbar = () => {
                 </svg>
 
             </Button>
+        </div>
         </div>
        </nav>
     )

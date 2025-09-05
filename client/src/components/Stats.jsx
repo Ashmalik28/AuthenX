@@ -3,7 +3,7 @@ import { IoShieldCheckmark } from "react-icons/io5";
 import { GoOrganization } from "react-icons/go";
 
 const StatsCard = ({svg , metrics , headline , subheadline , classprops }) => {
-    return <span className={`p-7 flex w-64 flex-col rounded-2xl items-center bg-white`}>
+    return <span className={`p-7 flex w-64 flex-col rounded-2xl outline-1 outline-gray-200 hover:scale-105 transition-all duration-300 ease-in-out items-center bg-white`}>
      <span className={`${classprops}`}>
         {svg}
     </span>   
@@ -27,7 +27,7 @@ const statsData = [
 ];
 const Stats = () => {
     return (
-        <div className="w-100vw mx-3 my-3 flex flex-col justify-center items-center rounded-t-2xl bg-gray-100 mt-20 h-72">
+        <div className="w-100vw mx-3 my-3 flex flex-col justify-center items-center rounded-2xl bg-gray-100 mt-20 h-72">
             <div className="flex flex-col max-w-[1440px] items-center ">
             <div className="flex justify-center items-center text-xl gap-1 font-semibold">
                 Trusted by Professionals Worldwide
