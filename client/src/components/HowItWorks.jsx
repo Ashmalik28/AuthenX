@@ -3,6 +3,11 @@ import uploadimage from "../../images/HowItWorks/upload.png"
 import blockchainimage from "../../images/HowItWorks/BVerify.png"
 import happyimg from "../../images/HowItWorks/happy.png"
 import { useRef, useState } from "react"
+import connectW from "../../images/HowItWorks/connect.png"
+import registerOrg from "../../images/HowItWorks/register.png"
+import issueDoc from "../../images/HowItWorks/issueDoc.png"
+import verifyDoc from "../../images/HowItWorks/VerifyDoc.png"
+import management from "../../images/HowItWorks/manage.png"
 
 const HowItWorksCard = ({cardNo , image , heading , subheading}) => {
     return (
@@ -22,11 +27,11 @@ const HowItWorksData = [
     {cardNo : "4" , image : <img src={happyimg} alt="happy" /> , heading : "Instant Results" , subheading : "Get immediate confirmation of your document’s authenticity, ensuring trust and protection from fraud"}
 ]
 const HowItWorksOrgData = [
-    {cardNo : "1" , image : <img src={loginimage} alt="login" /> , heading : "Connect Wallet" , subheading : "Start by connecting your MetaMask wallet to AuthenX. This ensures secure access and links your identity with blockchain verification."},
-    {cardNo : "2" , image : <img className="w-45 h-40" src={uploadimage} alt="upload" /> , heading : "Upload Document" , subheading : "Upload your digital document directly to the platform for verification."} ,
-    {cardNo : "3" , image : <img src={blockchainimage} alt="verify" /> , heading : "Blockchain Verification" ,  subheading : "AuthenX matches the document’s unique digital fingerprint (hash) with blockchain records to ensure authenticity."},
-    {cardNo : "4" , image : <img src={happyimg} alt="happy" /> , heading : "Instant Results" , subheading : "Get immediate confirmation of your document’s authenticity, ensuring trust and protection from fraud"},
-     {cardNo : "4" , image : <img src={happyimg} alt="happy" /> , heading : "Instant Results" , subheading : "Get immediate confirmation of your document’s authenticity, ensuring trust and protection from fraud"},
+    {cardNo : "1" , image : <img className="w-32 h-32" src={connectW} alt="connect" /> , heading : "Connect Wallet" , subheading : "Securely connect your MetaMask wallet to AuthenX. This ensures verified access for your organization."},
+    {cardNo : "2" , image : <img src={registerOrg} alt="register" /> , heading : "Register Organization" , subheading : "Complete a quick on-chain registration to verify your organization’s identity and enable document management."} ,
+    {cardNo : "3" , image : <img src={issueDoc} alt="issue" /> , heading : "Issue Documents" ,  subheading : "Upload and issue tamper-proof digital documents, instantly linked to the blockchain for authenticity."},
+    {cardNo : "4" , image : <img className="h-40" src={verifyDoc} alt="verify" /> , heading : "Verify Anytime" , subheading : "Easily validate documents your organization issued, ensuring trust for employees, clients, or partners."},
+    {cardNo : "5" , image : <img src={management} alt="manage" /> , heading : "Seamless Management" , subheading : "Track, manage, and update issued records with full transparency through blockchain-powered security."},
 ]
 
 
@@ -45,8 +50,10 @@ const HowItWorks = () => {
     }
     const handlePrev = (ref , setActive , active ) => {
         if(ref.current){
+            if(active > 2){
             ref.current.scrollBy({left: -cardWidth , behavior : "smooth"});
             setActive(Math.max(active-1 , 0));
+            }
         }
     }
     return (
