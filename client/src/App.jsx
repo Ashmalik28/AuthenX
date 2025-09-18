@@ -1,22 +1,23 @@
 
 import './App.css'
+import Home from './pages/Home'
+import {BrowserRouter , Route , Routes} from "react-router-dom"
+import Signin from "./pages/Signin"
+import Signup from './pages/Signup'
 
-import { Navbar , HeroSection, Stats, Features, FAQ, Footer } from './components'
-import HowItWorks from './components/HowItWorks'
-import Support from './components/Support'
 
 function App() {
 
   return (
     <>
-    <Navbar/>
-    <HeroSection/>
-    <Stats/>
-    <Features />
-    <HowItWorks />
-    <Support />
-    <FAQ />
-    <Footer />
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Home/>} />
+      <Route path='/home' element={<Home/>} />
+      <Route path='/signin' element={<Signin/>} />
+      <Route path='/signup' element={<Signup/>} />
+    </Routes>
+    </BrowserRouter>
     </>
   )
 }
