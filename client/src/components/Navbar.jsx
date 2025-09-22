@@ -5,9 +5,10 @@ import { MdSupportAgent } from "react-icons/md";
 import { useEffect, useState } from "react";
 import {useNavigate } from "react-router-dom";
 
-const NavbarItem = ({title , classprops}) => {
+
+const NavbarItem = ({title , classprops , onClick}) => {
     return (
-        <li className={`mx-4 cursor-pointer hover ${classprops}`}>
+        <li onClick={onClick} className={`mx-4 cursor-pointer hover ${classprops}`}>
             {title}
         </li>
     )
@@ -65,7 +66,7 @@ const Navbar = () => {
         </div>
         <ul className="flex text-[#343434] list-none flex-row justify-between items-center flex-initial font-medium text-base">
             {["Home"].map((item , index)=> (
-                <NavbarItem key={item + index} title={item} classprops={`hover:text-blue-500`} />
+                <NavbarItem onClick={() => navigate("/home")} key={item + index} title={item} classprops={`hover:text-blue-500`} />
             ))}
             <li className="mx-4 relative group cursor-pointer hover:text-blue-500">
               <button className="flex items-center justify-center gap-1.5 ">
@@ -87,7 +88,7 @@ const Navbar = () => {
               </ul>
             </li>
             {["Verify","Dashboard" , "About" ].map((item , index)=> (
-                <NavbarItem key={item + index} title={item} classprops={`hover:text-blue-500`} />
+                <NavbarItem onClick={() => navigate(`/${item}`)} key={item + index} title={item} classprops={`hover:text-blue-500`} />
             ))}
         </ul>
         <div className="pr-20">

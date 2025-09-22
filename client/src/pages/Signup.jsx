@@ -7,11 +7,29 @@ import { useState } from "react";
 import ticon from "../../images/Signup/tw.png"
 import cbicon from "../../images/Signup/cb.png"
 import wcicon from "../../images/Signup/wc.png"
+import API , {signup} from "../../api";
 
 
 const Signup = () => {
     const navigate = useNavigate();
     const [active , setActive] = useState("verifier")
+    const [formData , setFormData] = useState({
+        firstName : "",
+        lastName : "",
+        email : "",
+        password : ""
+    });
+    const handleSignup = async () => {
+        try {
+            const data = await signup(formData);
+            console.log("Signup success" , data);
+            navigate("/signin");
+        }catch (err){
+            console.log("Signup error" , err.response?.data || err.message);
+            alert(err.response?.data?.errors?.map(e => e.message).join("\n") || "Signup failed");
+        }
+    }
+
     return (
         <div className="w-full h-screen flex flex-col">
             <div className="w-full flex border-b-1 border-gray-300">
@@ -108,7 +126,12 @@ const Signup = () => {
                      First Name
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-50 outline-none mt-0" type="text" placeholder="First Name" />
+                    <input className="w-50 outline-none mt-0" 
+                    type="text" 
+                    placeholder="First Name" 
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({...formData , firstName : e.target.value})}
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
                 </div>
@@ -117,7 +140,12 @@ const Signup = () => {
                      Last Name
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-50 outline-none mt-0" type="text" placeholder="Last Name" />
+                    <input className="w-50 outline-none mt-0" 
+                    type="text" 
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({...formData , lastName : e.target.value})}
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
                 </div>
@@ -127,7 +155,12 @@ const Signup = () => {
                      Email
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-full outline-none mt-0" type="email" placeholder="youremail@gmail.com" />
+                    <input className="w-full outline-none mt-0" 
+                    type="email" 
+                    placeholder="youremail@gmail.com" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData , email : e.target.value})}
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
@@ -136,12 +169,17 @@ const Signup = () => {
                      Password
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-full outline-none mt-0" type="password" placeholder="Enter your Password" />
+                    <input className="w-full outline-none mt-0" 
+                    type="password" 
+                    placeholder="Enter your Password" 
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData , password : e.target.value})}
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
               <span className="w-full flex items-center mt-4 flex-col">
-                <Button variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
+                <Button onClick={handleSignup} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
                 Sign Up
                 </Button>
                 <div className="mt-2 text-sm w-2/3 text-center">
