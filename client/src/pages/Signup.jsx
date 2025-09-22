@@ -8,9 +8,6 @@ import ticon from "../../images/Signup/tw.png"
 import cbicon from "../../images/Signup/cb.png"
 import wcicon from "../../images/Signup/wc.png"
 
-const express = require("express");
-import VerifierModel from "../db";
-
 
 const Signup = () => {
     const navigate = useNavigate();
