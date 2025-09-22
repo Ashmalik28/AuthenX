@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import connectDB from './db.js';
 import VerifierModel from './models/Verifier.js';
+import cors from "cors"
 import {z} from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -10,6 +11,10 @@ import authMiddleware from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin : "http://localhost:5173"
+}))
 app.use(express.json());
 
 const SignupSchema = z.object({
@@ -94,6 +99,43 @@ app.get("/verify" , authMiddleware , async function(req,res){
     res.status(500).json({error : "Server error"});
   }
 });
+app.get("/dashboard" , authMiddleware , async function(req,res){
+  try{
+    const user = await VerifierModel.findById(req.user.id).select("-password");
+    if(!user){
+      return res.status(404).json({error : "User not found"});
+    }
+    res.json({message : "Token valid" , user});
+  }catch (err) {
+    console.log("DB error" , err.message);
+    res.status(500).json({error : "Server error"});
+  }
+});
+app.get("/kyc" , authMiddleware , async function(req,res){
+  try{
+    const user = await VerifierModel.findById(req.user.id).select("-password");
+    if(!user){
+      return res.status(404).json({error : "User not found"});
+    }
+    res.json({message : "Token valid" , user});
+  }catch (err) {
+    console.log("DB error" , err.message);
+    res.status(500).json({error : "Server error"});
+  }
+});
+app.get("/issue" , authMiddleware , async function(req,res){
+  try{
+    const user = await VerifierModel.findById(req.user.id).select("-password");
+    if(!user){
+      return res.status(404).json({error : "User not found"});
+    }
+    res.json({message : "Token valid" , user});
+  }catch (err) {
+    console.log("DB error" , err.message);
+    res.status(500).json({error : "Server error"});
+  }
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
