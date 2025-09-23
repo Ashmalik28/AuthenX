@@ -135,6 +135,9 @@ app.get("/issue" , authMiddleware , async function(req,res){
     res.status(500).json({error : "Server error"});
   }
 });
+app.get("/auth/check" , authMiddleware , (req , res) => {
+  res.json({valid : true});
+});
 
 
 app.listen(process.env.PORT, () => {
