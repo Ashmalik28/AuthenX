@@ -7,12 +7,13 @@ import { useState } from "react";
 import ticon from "../../images/Signup/tw.png"
 import cbicon from "../../images/Signup/cb.png"
 import wcicon from "../../images/Signup/wc.png"
-import API , {signup} from "../../api";
+import {signup} from "../../api";
 
 
 const Signup = () => {
     const navigate = useNavigate();
-    const [active , setActive] = useState("verifier")
+    const [active , setActive] = useState("verifier");
+    const [serverError , setServerError] = useState("");
     const [formData , setFormData] = useState({
         firstName : "",
         lastName : "",
@@ -25,8 +26,13 @@ const Signup = () => {
             console.log("Signup success" , data);
             navigate("/signin");
         }catch (err){
-            console.log("Signup error" , err.response?.data || err.message);
-            alert(err.response?.data?.errors?.map(e => e.message).join("\n") || "Signup failed");
+            const zodErrors = err.response?.data?.errors;
+            if(zodErrors && zodErrors.length > 0){
+                setServerError(zodErrors[0].message);
+            } else {
+                setServerError("Something went wrong. Please try again.")
+            }
+
         }
     }
 
@@ -108,7 +114,7 @@ const Signup = () => {
               <span className="mt-3 text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>
 
               <div className="w-full">
-                <div className="flex justify-center text-xl font-bold mt-3 border-1 p-2 border-gray-400">Join As </div>
+                <div className="flex justify-center text-xl font-bold mt-3 border-b-1 p-2 border-b-gray-400">Join As </div>
                 <div className="w-full flex mt-5 bg-gray-100 rounded-xl ">
                     <div onClick={() => setActive("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
                     Verifier 
@@ -178,6 +184,9 @@ const Signup = () => {
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
+              {serverError && (
+                <div className="mt-2 p-2 bg-red-100 text-red-600 text-sm">{serverError}</div>
+              )}
               <span className="w-full flex items-center mt-4 flex-col">
                 <Button onClick={handleSignup} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
                 Sign Up

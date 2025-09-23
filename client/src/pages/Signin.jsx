@@ -7,10 +7,31 @@ import { useState } from "react";
 import ticon from "../../images/Signup/tw.png"
 import cbicon from "../../images/Signup/cb.png"
 import wcicon from "../../images/Signup/wc.png"
+import { signin} from "../../api";
 
-const Signup = () => {
+const Signin = () => {
     const navigate = useNavigate();
-    const [active , setActive] = useState("verifier")
+    const [active , setActive] = useState("verifier");
+    const [serverError , setServerError] = useState("")
+    const [formData , setFormData] = useState({
+        email : "",
+        password : ""
+    })
+    const handleSignin = async () => {
+        try {
+            const data = await signin(formData);
+            console.log("Signin Successful" , data);
+            navigate("/dashboard");
+        }catch (err){
+            const zodErrors = err.response?.data?.error;
+            if(zodErrors){
+                setServerError(err.response.data.error);
+            }else {
+                setServerError("Something went wrong , please try again later !")
+            }
+        }
+    }
+    
     return (
         <div className="w-full h-screen flex flex-col">
             <div className="w-full flex border-b-1 border-gray-300">
@@ -106,7 +127,12 @@ const Signup = () => {
                      Email
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-full outline-none mt-0" type="email" placeholder="youremail@gmail.com" />
+                    <input className="w-full outline-none mt-0" 
+                    type="email" 
+                    placeholder="youremail@gmail.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData , email : e.target.value})} 
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
@@ -115,12 +141,20 @@ const Signup = () => {
                      Password
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                    <input className="w-full outline-none mt-0" type="password" placeholder="Enter your Password" />
+                    <input className="w-full outline-none mt-0" 
+                    type="password" 
+                    placeholder="Enter your Password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData , password : e.target.value})}
+                    />
                     <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
+              {serverError && (
+                <div className="mt-2 p-2 bg-red-100 text-red-600 text-sm">{serverError}</div>
+              )}
               <span className="w-full flex items-center mt-4 flex-col">
-                <Button variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
+                <Button onClick={handleSignin} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
                 Login
                 </Button>
                 <div className="mt-2 text-sm w-2/3 text-center">
@@ -184,4 +218,4 @@ const Signup = () => {
     )
 }
 
-export default Signup;
+export default Signin;
