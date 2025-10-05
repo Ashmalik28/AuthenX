@@ -6,6 +6,7 @@ import Signin from "./pages/Signin"
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import Verify from './pages/Verify'
+import { TransactionsProvider } from './context/TransactionContext'
 import ProtectedRoute from './protectedRoute/ProtectedRoute'
 
 
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <>
+    <TransactionsProvider>
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Home/>} />
@@ -23,6 +25,7 @@ function App() {
       <Route path = '/verify' element={<ProtectedRoute><Verify /></ProtectedRoute>} />
     </Routes>
     </BrowserRouter>
+    </TransactionsProvider>
     </>
   )
 }

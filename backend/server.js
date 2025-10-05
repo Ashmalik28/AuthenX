@@ -2,11 +2,13 @@ import express from "express"
 import dotenv from "dotenv"
 import connectDB from './db.js';
 import VerifierModel from './models/Verifier.js';
+import OrganizationModel from "./models/Organization.js";
 import cors from "cors"
 import {z} from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import authMiddleware from "./middleware/authMiddleware.js";
+import {ethers} from "ethers"
 
 dotenv.config();
 
@@ -25,6 +27,45 @@ const SignupSchema = z.object({
 })
 
 connectDB();
+
+app.post("/nonce" , async function(req ,res){
+  const {walletAddress} = req.body;
+  if(!walletAddress){
+    return res.status(400).json({msg : "Wallet Address required"})
+  }
+  try{
+    let org = await OrganizationModel.findOne({walletAddress});
+    if(!org){
+      org = await OrganizationModel.create({
+        walletAddress
+      })
+    }
+    res.json({nonce : org.nonce})
+  }catch (err) {
+    console.error("DB error: " , err.message);
+    res.status(500).json({error : "Server error"})
+  }
+})
+
+app.post("/walletverify" , async function(req,res){
+  const {walletAddress , signature} = req.body;
+  const org = await OrganizationModel.findOne({walletAddress});
+  if(!org){
+    return res.status(400).json({msg : "Organization not found"})
+  }
+  const recovered = ethers.verifyMessage(org.nonce , signature);
+  if(recovered.toLowerCase() !== walletAddress.toLowerCase()){
+    return res.status(401).json({msg : "Invalid Signature"})
+  }
+  org.nonce = Math.floor(Math.random() * 1000000).toString();
+  await org.save();
+
+  const token = jwt.sign({
+    walletAddress : org.walletAddress , id : org._id
+  },process.env.JWT_SECRET , {expiresIn : "1h"})
+
+  res.json({token , iskycVerified : org.iskycVerified});
+})
 
 app.post("/signup" , async function(req , res){
 

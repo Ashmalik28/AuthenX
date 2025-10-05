@@ -8,9 +8,12 @@ import ticon from "../../images/Signup/tw.png"
 import cbicon from "../../images/Signup/cb.png"
 import wcicon from "../../images/Signup/wc.png"
 import {signup} from "../../api";
+import { useContext } from "react";
+import { TransactionContext } from "../context/TransactionContext";
 
 
 const Signup = () => {
+    const {connectWallet , currentAccount , checkIfWalletIsConnected } = useContext(TransactionContext);
     const navigate = useNavigate();
     const [active , setActive] = useState("verifier");
     const [serverError , setServerError] = useState("");
@@ -20,6 +23,9 @@ const Signup = () => {
         email : "",
         password : ""
     });
+    const handleTabSwitch = (tab) => {
+        setActive(tab);
+    };
     const handleSignup = async () => {
         try {
             const data = await signup(formData);
@@ -116,10 +122,10 @@ const Signup = () => {
               <div className="w-full">
                 <div className="flex justify-center text-xl font-bold mt-3 border-b-1 p-2 border-b-gray-400">Join As </div>
                 <div className="w-full flex mt-5 bg-gray-100 rounded-xl ">
-                    <div onClick={() => setActive("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
+                    <div onClick={() => handleTabSwitch("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
                     Verifier 
                     </div>
-                    <div onClick={() => setActive("organization")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "organization" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
+                    <div onClick={() => handleTabSwitch("organization")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "organization" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
                     Organization
                     </div>
 
@@ -199,7 +205,7 @@ const Signup = () => {
               <div className="w-full bg-gray-100 border-gray-100 rounded-2xl flex flex-col items-center border mt-3 pb-3">
                 <div className="flex flex-col items-center bg-white p-5 rounded-2xl mt-5 mb-5">
                 <div className=" flex justify-center text-xl font-bold">Select Wallet</div>
-                <span className="text-lg w-96 font-semibold mt-4 text-white flex justify-center bg-black py-3 hover:bg-neutral-800 px-8 rounded-xl">Continue with Metamask <div className="pl-3 flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
+                <span onClick={connectWallet} className="text-lg w-96 font-semibold mt-4 text-white flex justify-center bg-black py-3 hover:bg-neutral-800 px-8 rounded-xl">Continue with Metamask <div className="pl-3 flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
                 <desc>
                     Metamask Icon Streamline Icon: https://streamlinehq.com
                 </desc>
@@ -236,9 +242,9 @@ const Signup = () => {
                 </span>
                 <div className="mt-2 mb-2 font-semibold">Or</div>
                 <div className="flex flex-col gap-3">
-                <span className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Trust Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={ticon} alt="icon" /></div></span>
-                <span className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Coinbase Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={cbicon} alt="icon" /></div></span>
-                <span className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Wallet Connect <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={wcicon} alt="icon" /></div></span>
+                <span onClick={() => alert("Trust wallet support coming soon ! Continue with Metamask for now")} className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Trust Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={ticon} alt="icon" /></div></span>
+                <span onClick={() => alert("Coinbase wallet support coming soon ! Continue with Metamask for now")}  className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Coinbase Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={cbicon} alt="icon" /></div></span>
+                <span onClick={() => alert("WalletConnect support coming soon ! Continue with Metamask for now")}  className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Wallet Connect <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={wcicon} alt="icon" /></div></span>
                 </div> 
                 </div>
                 <div className="w-2/3 text-center text-sm">AuthenX will never store your <span className="underline">private keys</span>. You stay in control of your wallet</div>
