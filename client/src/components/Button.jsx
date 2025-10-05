@@ -13,7 +13,7 @@ const Button = ({children , variant , size , onClick , className}) => {
     };
 
     return (
-      <button className={` font-medium cursor-pointer outline-2 overflow-hidden transition-all duration-1000 ease-in-out hover:scale-110 
+      <button className={` font-medium cursor-pointer outline-2 overflow-hidden transition-all duration-1000 ease-in-out hover:scale-105
         before:content-[''] before:absolute before:left-[-50px] before:top-0
         before:h-full before:w-0 before:-skew-x-12 
         before:-z-10 before:transition-all before:duration-1000
