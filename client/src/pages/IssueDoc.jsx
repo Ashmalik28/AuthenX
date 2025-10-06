@@ -8,7 +8,21 @@ import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
 import QRCodeDisplay from "../components/QRCodeDisplay"
 
-const Verify = () => {
+
+
+const DocType = [
+  { id: 1, label: "Partnership" },
+  { id: 2, label: "Collaboration" },
+  { id: 3, label: "Career Opportunities" },
+  { id: 4, label: "Press & Media" },
+  { id: 5, label: "Support" },
+  { id: 6, label: "Product Demo" },
+  { id: 7, label: "Investment" },
+  { id: 8, label: "General Inquiry" }
+];
+
+const IssueDoc = () => {
+    const [DocTypeOpen , setDocTypeOpen] = useState(false);
     const [dateTime, setDateTime] = useState(new Date());
     const [kycStatus, setKycStatus] = useState("Pending");
     const {currentAccount} = useContext(TransactionContext);
@@ -16,6 +30,10 @@ const Verify = () => {
     const [isDragging , setIsDragging] = useState(false);
     const [verified , setVerified] = useState(true);
     const qrRef = useRef(null);
+    const [selectedInterest, setSelectedInterest] = useState({
+    id: null,
+    label: "Select your interest"
+    });
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -80,23 +98,73 @@ const Verify = () => {
                  <Sidebar />
                  <div className='flex flex-1 ml-72 mr-5 mb-5'>
                     <div className='ml-5 mt-5 grid grid-cols-3 gap-5 w-full'>
-                    <div className='col-span-2 bg-white p-4 pb-0 rounded-xl flex flex-col'>
-                    <div className='text-black text-6xl font-semibold flex justify-center'>Verify Document</div>
-                    <div className="mt-6 mb-6 flex gap-6 justify-center">
+                    <div className='col-span-2 bg-white p-10 pb-0 rounded-xl flex flex-col'>
+                    <div className='text-black text-6xl font-semibold flex justify-center'>Issue Document</div>
+                    <div className="mt-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Your Name</label>
-                    <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your full name" id='firstname' />
+                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient Name</label>
+                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='firstname' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Email Address</label>
-                    <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your email address" id='firstname' />
+                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient wallet address</label>
+                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='firstname' />
                     </div>
                     </div>
                     </div>
-                    <div className="mt-0 mb-6 flex gap-6 justify-center">
+                    <div className="mt-6 mb-6 flex gap-6 justify-center">
+                    <div className='flex flex-col gap-2'>
+                    <label htmlFor="doctype" className='text-black font-semibold'>Select Document Type</label>
+                    <div id='doctype' className="flex gap-0 outline-1 w-80 outline-gray-400 rounded-xl relative">
+                    <div 
+                    className="w-full flex items-center justify-between h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
+                    onClick={() => setDocTypeOpen(!DocTypeOpen)}
+                     >
+                    <span className="text-black">{selectedInterest.label}</span>
+                    <span className='text-black'>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-6"
+                    >
+                        <path
+                        fillRule="evenodd"
+                        d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Zm-3.75 9.75a.75.75 0 0 1 1.06 0L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"
+                        />
+                    </svg>
+                   </span>
+                 </div>
+                {DocTypeOpen && (
+                <div className="absolute flex flex-col top-full mt-2 max-h-48 left-0 w-80 p-1  bg-white outline-1 outline-gray-400 overflow-y-scroll rounded-xl ">
+                {DocType.map((type) => (
+                    <div
+                    key={type.id}
+                    className="flex items-center rounded-xl gap-2 px-3 py-2 m-1 cursor-pointer hover:bg-gray-200"
+                    onClick={() => {
+                        setSelectedInterest(type);
+                        setDocTypeOpen(false);
+                    }}
+                    >
+                    <span className="text-lg text-gray-500">{type.label}</span>
+                    </div>
+                    ))}
+                </div>
+                  )}
+                </div>
+
+                    </div>
+                     <div className='flex flex-col gap-2'>
+                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient wallet address</label>
+                    <div className="flex w-80 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='firstname' />
+                    </div>
+                    </div>
+                    </div>
+                    <div className="mt-4 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="document" className='text-black font-semibold'>Upload Document</label>
                     <div onDragOver={(e) => {
@@ -136,26 +204,9 @@ const Verify = () => {
                     </div>
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="Result" className='text-black font-semibold'>Result</label>
-                    <div className= {`flex flex-col gap-0 cursor-pointer ${verified ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50"} w-2/3 h-40 border-2   rounded-xl p-2 items-center`}> 
-                    {verified && ( 
-                    <div className='flex flex-col items-center'>
-                    <div className='text-3xl'>😊</div>
-                    <div className='text-green-600 text-xl font-semibold mt-1'>Document Valid and Verified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : Dummy data</div>
-                    <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
-                    </div> )}
-                    {!verified && (
-                    <div className='flex flex-col items-center'>
-                    <div className='text-3xl'>🙁</div>
-                    <div className='text-red-600 text-xl font-semibold mt-1'>Document Invalid and Unverified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : Dummy data</div>
-                    <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
-                    </div>)}
                     </div>
-                    </div>
-                    <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mt-2 mb-0 outline-blue-400 flex gap-2 items-center">
-                     Verify Document
+                    <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mb-0 outline-blue-400 flex gap-2 items-center">
+                     Issue Document
                     </Button>
                     <div className='flex text-sm justify-center items-center gap-1'>
                         <div className='text-green-500'>
@@ -164,21 +215,52 @@ const Verify = () => {
                         </svg>
                         </div>
                       
-                      <div className='text-black'>Verification is powered by Ethereum Smart Contract</div>
+                      <div className='text-black'>Document Issuance is powered by Ethereum Smart Contract</div>
                     </div>
                     
                     </div>
                     </div>
-                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 flex flex-col items-center rounded-xl h-fit'>
-                    <div className='text-3xl text-black font-semibold'>
-                    Verify with QR Code
+                    <div className='flex flex-col gap-5'>
+                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 flex flex-1 flex-col items-center rounded-xl h-fit'>
+                    <div className='text-3xl text-black text-center font-semibold'>
+                    Issued Document QR Code
                     </div>
-                    <div className='flex justify-center w-full mt-8'><QRCodeDisplay /></div>
-                    <p className="mt-8 w-2/3 text-gray-600 text-center text-sm">Scan this to instantly verify the document on our website</p>
-                    <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl justify-center mt-5 mb-0 outline-blue-400 flex gap-2 items-center">
+                    <div className='flex justify-center w-full mt-4'><QRCodeDisplay /></div>
+                    <p className="mt-4 w-2/3 text-gray-600 text-center text-sm">Scan this to instantly verify the document on our website</p>
+                    <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
                     Download QR Code
                     </Button>
                     </div>
+                    <div className='flex-1 bg-white rounded-xl p-4'>
+                    <div className='text-black text-3xl font-semibold'>KYC Status</div>
+                    {kycStatus === "Verified" && 
+                    <div className='mt-4 p-3 bg-green-100 rounded-lg text-green-700 font-semibold flex gap-2'>
+                    <div>✅</div> <div> KYC {kycStatus}</div>
+                    </div>
+                    }
+                    {kycStatus === "Pending" && 
+                    <div>
+                    <div className='mt-5 p-3 bg-red-100 rounded-lg text-red-700 font-semibold flex gap-2'>
+                    <div>❌</div> <div>KYC {kycStatus}</div> 
+                    </div> 
+                    <div>
+                    <p className="text-gray-700 text-base mt-5 font-semibold">
+                        Your KYC verification is still pending. Please complete the process
+                        to unlock the ability to issue documents.
+                    </p>
+                    <div className='flex justify-center'>
+                    <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
+                        Verify Now
+                    </Button> 
+                    </div>
+                    </div>
+                    </div>
+                        
+                    }
+                    </div>
+
+                    </div>
+                    
                     
                  </div>
                  </div>
@@ -187,4 +269,4 @@ const Verify = () => {
     )
 }
 
-export default Verify;
+export default IssueDoc;
