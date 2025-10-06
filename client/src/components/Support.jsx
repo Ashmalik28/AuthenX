@@ -140,7 +140,7 @@ const Support = () => {
                 ))}
                 </div>
             )}
-    </div>
+            </div>
             
             </div>
             <div className="outline-1 outline-gray-400 w-164 rounded-xl mb-8 h-40 p-3">

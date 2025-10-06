@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard'
 import Verify from './pages/Verify'
 import { TransactionsProvider } from './context/TransactionContext'
 import ProtectedRoute from './protectedRoute/ProtectedRoute'
+import IssueDoc from './pages/IssueDoc'
+import MyIssuedDocs from './pages/MyIssuedDocs'
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
       <Route path='/signup' element={<Signup/>} />
       <Route path = '/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path = '/verify' element={<ProtectedRoute><Verify /></ProtectedRoute>} />
+      <Route path = '/issue' element={<ProtectedRoute><IssueDoc /></ProtectedRoute>} />
+      <Route path='/mydocuments' element={<ProtectedRoute><MyIssuedDocs /></ProtectedRoute>} />
     </Routes>
     </BrowserRouter>
     </TransactionsProvider>
