@@ -11,14 +11,14 @@ import QRCodeDisplay from "../components/QRCodeDisplay"
 
 
 const DocType = [
-  { id: 1, label: "Partnership" },
-  { id: 2, label: "Collaboration" },
-  { id: 3, label: "Career Opportunities" },
-  { id: 4, label: "Press & Media" },
-  { id: 5, label: "Support" },
-  { id: 6, label: "Product Demo" },
-  { id: 7, label: "Investment" },
-  { id: 8, label: "General Inquiry" }
+  { id: 1, label: "Employment Certificate" },
+  { id: 2, label: "Partnership Agreement" },
+  { id: 3, label: "Academic Degree" },
+  { id: 4, label: "Training Completion" },
+  { id: 5, label: "License" },
+  { id: 6, label: "Insurance Policy" },
+  { id: 7, label: "Identity Verification" },
+  { id: 8, label: "Ownership Certificate" }
 ];
 
 const IssueDoc = () => {
