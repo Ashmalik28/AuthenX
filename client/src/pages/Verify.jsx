@@ -84,22 +84,22 @@ const Verify = () => {
                     <div className='text-black text-6xl font-semibold flex justify-center'>Verify Document</div>
                     <div className="mt-6 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Your Name</label>
+                    <label htmlFor="fullName" className='text-black font-semibold'>Your Name *</label>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your full name" id='firstname' />
+                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Email Address</label>
+                    <label htmlFor="email" className='text-black font-semibold'>Email Address *</label>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your email address" id='firstname' />
+                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-0 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="document" className='text-black font-semibold'>Upload Document</label>
-                    <div onDragOver={(e) => {
+                    <label htmlFor="document" className='text-black font-semibold'>Upload Document *</label>
+                    <div id='document' onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
                     }} onDragLeave={() => setIsDragging(false)} onDrop={handleDrop} onClick={() => document.getElementById('document').click()} className={`flex gap-0 border-dashed cursor-pointer text-blue-500 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}   w-2/3 h-40 border-2 outline-gray-400 rounded-xl p-3`}> 

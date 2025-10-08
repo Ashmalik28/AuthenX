@@ -32,7 +32,7 @@ const IssueDoc = () => {
     const qrRef = useRef(null);
     const [selectedInterest, setSelectedInterest] = useState({
     id: null,
-    label: "Select your interest"
+    label: "Select type of Document"
     });
 
     const handleFileChange = (e) => {
@@ -102,21 +102,21 @@ const IssueDoc = () => {
                     <div className='text-black text-6xl font-semibold flex justify-center'>Issue Document</div>
                     <div className="mt-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient Name</label>
+                    <label htmlFor="name" className='text-black font-semibold'>Recipient Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='firstname' />
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='name' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient wallet address</label>
+                    <label htmlFor="recipientWallet" className='text-black font-semibold'>Recipient wallet address *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='firstname' />
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='recipientWallet' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-6 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="doctype" className='text-black font-semibold'>Select Document Type</label>
+                    <label htmlFor="doctype" className='text-black font-semibold'>Select Document Type *</label>
                     <div id='doctype' className="flex gap-0 outline-1 w-80 outline-gray-400 rounded-xl relative">
                     <div 
                     className="w-full flex items-center justify-between h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
@@ -158,16 +158,16 @@ const IssueDoc = () => {
 
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-black font-semibold'>Recipient wallet address</label>
+                    <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name</label>
                     <div className="flex w-80 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='firstname' />
+                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-4 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="document" className='text-black font-semibold'>Upload Document</label>
-                    <div onDragOver={(e) => {
+                    <label htmlFor="document" className='text-black font-semibold'>Upload Document *</label>
+                    <div id='document' onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
                     }} onDragLeave={() => setIsDragging(false)} onDrop={handleDrop} onClick={() => document.getElementById('document').click()} className={`flex gap-0 border-dashed cursor-pointer text-blue-500 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}   w-2/3 h-40 border-2 outline-gray-400 rounded-xl p-3`}> 
