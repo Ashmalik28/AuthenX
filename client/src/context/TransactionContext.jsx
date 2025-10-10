@@ -5,7 +5,7 @@ import {contractABI , contractAddress} from "../utils/constants"
 
 export const TransactionContext = React.createContext();
 
-const createEthereumContract = async () => {
+export const createEthereumContract = async () => {
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("No ethereum object");
   }

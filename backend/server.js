@@ -4,15 +4,54 @@ import connectDB from './db.js';
 import VerifierModel from './models/Verifier.js';
 import OrganizationModel from "./models/Organization.js";
 import cors from "cors"
-import {z} from "zod"
+import {success, z} from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import authMiddleware from "./middleware/authMiddleware.js";
 import {ethers} from "ethers"
+import path from 'path'
+import fs from 'fs'
+import multer from "multer";
+import { count } from "console";
+import { Certificate } from "crypto";
 
 dotenv.config();
 
 const app = express();
+
+const uploadDir = "uploads";
+if(!fs.existsSync(uploadDir)){
+   fs.mkdirSync(uploadDir);
+}
+
+const storage = multer.diskStorage({
+  destination : (req , file , cb) => {
+    cb(null , uploadDir);
+  },
+  filename: (req, file, cb) => {
+  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+  const safeName = file.originalname.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9._-]/g, "");
+  cb(null, `${uniqueSuffix}-${safeName}`);
+  }
+});
+
+const fileFilter = (req , file , cb) => {
+  const allowedTypes = ["application/pdf" , "image/jpeg" , "image/png"];
+  if(allowedTypes.includes(file.mimetype)){
+    cb(null , true);
+  }else {
+    cb(new Error("Only Pdf and image files are allowed!"))
+  }
+};
+
+const upload = multer({
+  storage ,
+  limits : {fileSize: 10 * 1024 * 1024},
+  fileFilter,
+});
+
+app.use("/uploads" , express.static(uploadDir));
+
 
 app.use(cors({
   origin : "http://localhost:5173"
@@ -25,6 +64,26 @@ const SignupSchema = z.object({
   email : z.string().email("Invalid email format"),
   password : z.string().min(8 , "Password must be at least 8 characters long")
 })
+
+export const OrgKYCSchema = z.object({
+  orgName: z.string().min(2, "Organization name must be at least 2 characters").max(50, "Organization name must be at most 50 characters"),
+  orgType: z.string().min(2, "Organization type is required"),
+  officialEmail: z.string().email("Invalid official email format"),
+  website: z.string().url("Invalid website URL").optional().or(z.literal("")),
+  address: z.string().min(5, "Registered address must be at least 5 characters"),
+  country: z.string().min(2, "Country is required"),
+  registrationNo: z.string().min(2, "Registration number is required"),
+  certificate: z
+  .any()
+  .refine(file => file instanceof File, "Certificate file is required")
+  .refine(file => file?.size <= 10_000_000, "File size must be less than 5MB") 
+  .refine(file => ["application/pdf", "image/png", "image/jpeg"].includes(file?.type), 
+          "Only PDF, PNG, or JPEG files are allowed"),
+  fullName: z.string().min(2, "Full name must be at least 2 characters").max(50, "Full name must be at most 50 characters"),
+  position: z.string().min(2, "Position is required").max(30, "Position must be at most 30 characters"),
+  contactNo: z.string().min(5, "Contact number is required"),
+  personalEmail: z.string().email("Invalid personal email format"),
+});
 
 connectDB();
 
@@ -152,18 +211,61 @@ app.get("/dashboard" , authMiddleware , async function(req,res){
     res.status(500).json({error : "Server error"});
   }
 });
-app.get("/kyc" , authMiddleware , async function(req,res){
-  try{
-    const user = await VerifierModel.findById(req.user.id).select("-password");
-    if(!user){
-      return res.status(404).json({error : "User not found"});
+app.post("/kyc", authMiddleware, upload.single("certificate"), async (req, res) => {
+  try {
+    const org = await OrganizationModel.findById(req.user.id);
+    if (!org) {
+      return res.status(404).json({ error: "Organization not found" });
     }
-    res.json({message : "Token valid" , user});
-  }catch (err) {
-    console.log("DB error" , err.message);
-    res.status(500).json({error : "Server error"});
+
+    const payload = {
+      ...req.body,
+      certificate: req.file
+    };
+
+    const validatedData = OrgKYCSchema.safeParse(payload);
+
+    const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
+    const updatedOrg = await OrganizationModel.findOneAndUpdate(
+      { walletAddress: req.user.walletAddress },
+      {
+        kycDetails: {
+          orgName: validatedData.orgName,
+          orgType: validatedData.orgType,
+          officialEmail: validatedData.officialEmail,
+          website: validatedData.website,
+          address: validatedData.address,
+          country: validatedData.country,
+          registrationNo: validatedData.registrationNo,
+          certificateUrl: fileUrl,
+          contactPerson: {
+            fullName: validatedData.fullName,
+            position: validatedData.position,
+            contactNo: validatedData.contactNo,
+            personalEmail: validatedData.personalEmail
+          },
+          status: "Pending"
+        },
+        iskycVerified: false
+      },
+      { new: true }
+    );
+
+    res.json({ success: true, message: "KYC submitted successfully!", data: updatedOrg });
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(400).json({ errors: err.errors });
+    }
+    if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ success: false, message: "File size should not exceed 10 MB" });
+    }
+    console.log("DB error", err.message);
+    res.status(500).json({ error: "Server error" });
   }
 });
+
+
 app.get("/issue" , authMiddleware , async function(req,res){
   try{
     const user = await VerifierModel.findById(req.user.id).select("-password");

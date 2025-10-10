@@ -2,6 +2,7 @@
 import { useLocation } from 'react-router-dom';
 import logout from '../components/logout';
 import { useNavigate } from 'react-router-dom';
+import AdminCheck from '../protectedRoute/AdminProtectedRoute';
 
   
   
@@ -49,11 +50,24 @@ import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const location = useLocation();
+  const isAdmin = AdminCheck();
+
+    const sidebarItems = isAdmin
+    ? [...item, {
+        text: "Admin Panel",
+        path: "/admin",
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+          </svg>
+        )
+      }]
+    : item;
   return (
     
     <div className="h-[calc(100vh-60px)] bg-blue-500 border-gray-200 border-r w-72 fixed left-0 rounded-r-xl flex flex-col justify-between">
      <div className="pt-8 flex flex-col gap-3 px-1">
-      {item.map((item , index) => (
+      {sidebarItems.map((item , index) => (
         <SideBarItem key={index} text={item.text} icon={item.icon} active={location.pathname === item.path} path={item.path} />
       ))}
      </div>
