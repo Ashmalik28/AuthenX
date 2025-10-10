@@ -23,5 +23,10 @@ export const signin = async (data) => {
     return res.data;
 }
 
+export const submitKYC = async (formData) => {
+    const res = await API.post("/kyc" , formData );
+    return res.data;
+}
+
 
 export default API;

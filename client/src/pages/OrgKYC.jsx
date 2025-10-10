@@ -6,6 +6,8 @@ import Sidebar from '../components/Sidebar';
 import { useState , useEffect } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
+import { submitKYC } from '../../api';
+import Loader from '../components/Loader';
 
 const OrgType = [
   { id: 1, label: "Private Limited" },
@@ -46,7 +48,7 @@ const OrgKYC = () => {
     const {currentAccount} = useContext(TransactionContext);
     const [OrgTypeOpen , setOrgTypeOpen] = useState(false);
     const [countryOpen , setCountryOpen] = useState(false);
-    const [selectedInterest, setSelectedInterest] = useState({
+    const [selectedOrg, setSelectedOrg] = useState({
         id: null,
         label: "Select organization type"
         });
@@ -56,6 +58,85 @@ const OrgKYC = () => {
     })
     const [selectedFile , setSelectedFile] = useState(null);
     const [isDragging , setIsDragging] = useState(false);
+    const [orgName, setOrgName] = useState("");
+    const [officialEmail, setOfficialEmail] = useState("");
+    const [website, setWebsite] = useState("");
+    const [address, setAddress] = useState("");
+    const [registrationNo, setRegistrationNo] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [position, setPosition] = useState("");
+    const [contactNo, setContactNo] = useState("");
+    const [personalEmail, setPersonalEmail] = useState("");
+    const [serverError , setServerError] = useState("");
+    const [loading , setLoading] = useState(false);
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setServerError("");
+        setLoading(true);
+        try{
+        
+        if (!orgName) return setServerError("Organization Name is required");
+        if (!selectedOrg.id) return setServerError("Organization Type is required");
+        if (!officialEmail) return setServerError("Official Email is required");
+        if (!address) return setServerError("Registered Address is required");
+        if (!selectedCountry.code) return setServerError("Country is required");
+        if (!registrationNo) return setServerError("Registration Number is required");
+        if (!selectedFile) return setServerError("Certificate upload is required");
+        if (!fullName) return setServerError("Full Name is required");
+        if (!position) return setServerError("Position is required");
+        if (!contactNo) return setServerError("Contact Number is required");
+        if (!personalEmail) return setServerError("Personal Email is required")
+
+        const formData = new FormData();
+        formData.append("orgName" , orgName);
+        formData.append("orgType" , selectedOrg.label);
+        formData.append("officialEmail" , officialEmail);
+        formData.append("website" , website);
+        formData.append("address" , address);
+        formData.append("country" , selectedCountry.name);
+        formData.append("registrationNo" , registrationNo );
+        formData.append("fullName" , fullName);
+        formData.append("position" , position);
+        formData.append("contactNo" , contactNo);
+        formData.append("personalEmail" , personalEmail);
+        formData.append("certificate" , selectedFile);
+
+        const res = await submitKYC(formData);
+        console.log("KYC sumitted" , res);
+
+        alert("KYC submitted successfully!");
+
+        setOrgName("");
+        setSelectedOrg({ id: null, label: "Select organization type" });
+        setOfficialEmail("");
+        setWebsite("");
+        setAddress("");
+        setSelectedCountry({ code: null, name: "Select Country" });
+        setRegistrationNo("");
+        setSelectedFile(null);
+        setFullName("");
+        setPosition("");
+        setContactNo("");
+        setPersonalEmail("");
+        setOrgTypeOpen(false);
+        setCountryOpen(false);
+
+        }catch (err){
+        console.log("KYC submission failed : " , err);
+
+        const zodErrors = err.response?.data?.errors;
+        if(zodErrors && zodErrors.length > 0){
+            setServerError(zodErrors[0].message);
+        }else{
+            setServerError(err.response?.data?.message || "Something went wrong . Please try again");
+        }
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
      const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -133,7 +214,7 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter Organization Name" id='OrgName' />
+                    <input value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter Organization Name" id='OrgName' />
                     </div>
                     </div>
                    <div className='flex flex-col gap-2'>
@@ -143,7 +224,7 @@ const OrgKYC = () => {
                     className="w-full flex items-center justify-between h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
                     onClick={() => setOrgTypeOpen(!OrgTypeOpen)}
                      >
-                    <span className="text-black">{selectedInterest.label}</span>
+                    <span className="text-black">{selectedOrg.label}</span>
                     <span className='text-black'>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +247,7 @@ const OrgKYC = () => {
                     key={type.id}
                     className="flex items-center text-black rounded-xl gap-2 px-3 py-2 m-1 cursor-pointer hover:bg-gray-200"
                     onClick={() => {
-                        setSelectedInterest(type);
+                        setSelectedOrg(type);
                         setOrgTypeOpen(false);
                     }}
                     >
@@ -183,20 +264,20 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="email" className='text-black font-semibold'>Official Email *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="organization@example.com" id='email' />
+                    <input value={officialEmail} onChange={(e) => setOfficialEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="organization@example.com" id='email' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="website" className='text-black font-semibold'>Website URL</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="https://www.example.com" id='website' />
+                    <input value={website} onChange={(e) => setWebsite(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="https://www.example.com" id='website' />
                     </div>
                     </div>
                     </div>
                     <div className='flex flex-col h-fit gap-2 mt-4'>
                     <label htmlFor="address" className='text-black font-semibold'>Registered Address *</label>
                     <div className="outline-1 outline-gray-400 w-full rounded-xl h-24 p-3">
-                    <textarea id='address' className=" w-full h-full text-black outline-none placeholder:top-1" type="text" placeholder="Enter complete registered address " />
+                    <textarea value={address} onChange={(e) => setAddress(e.target.value)} id='address' className=" w-full h-full text-black outline-none placeholder:top-1" type="text" placeholder="Enter complete registered address " />
                     </div>
                     </div>
                     <div className="mt-4 flex  gap-6 justify-start">
@@ -267,7 +348,7 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2 w-full'>
                     <label htmlFor="registrationNo" className='text-black font-semibold'>Registration Number / Business ID *</label>
                     <div className="flex gap-0 w-full outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter registration number or business ID" id='registrationNo' />
+                    <input value={registrationNo} onChange={(e) => setRegistrationNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter registration number or business ID" id='registrationNo' />
                     </div>
                     </div>
                     </div>
@@ -324,13 +405,13 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="fullName" className='text-black font-semibold'>Full Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='fullName' />
+                    <input value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="position" className='text-black font-semibold'>Position *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="e.g., CEO , Director , Manager" id='position' />
+                    <input value={position} onChange={(e) => setPosition(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="e.g., CEO , Director , Manager" id='position' />
                     </div>
                     </div>
                     </div>
@@ -338,25 +419,30 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="contactNo" className='text-black font-semibold'>Contact Number *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='contactNo' />
+                    <input value={contactNo} onChange={(e) => setContactNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='contactNo' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="personalEmail" className='text-black font-semibold'>Personal Email *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="manager@example.com" id='personalEmail' />
+                    <input value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="manager@example.com" id='personalEmail' />
                     </div>
                     </div>
                     </div>
                  </div>
-                 <div className='w-full flex items-end justify-end'>
+                 <div className='w-full flex flex-col items-center-safe justify-end'>
+                     {serverError && (
+                    <div className="mb-3 p-2 w-full rounded-lg bg-red-100 text-red-600 text-sm">{serverError}</div>
+                    )}
                     <div className='flex gap-3'>
+                        {loading ? <Loader /> : <div className='flex gap-3'>
                         <button className='text-black border-1 rounded-xl font-semibold border-gray-400 px-7 py-3'>Cancel</button>
-                        <button className='bg-blue-700 flex gap-1 py-3 text-white px-8 font-semibold rounded-xl'>Submit for Verification 
+                        <button onClick={handleSubmit} className='bg-blue-700 flex gap-1 py-3 text-white transition-all duration-300 ease-in-out hover:bg-black px-8 font-semibold rounded-xl'>Submit for Verification 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                             <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </button> 
+                        </div>}
                     </div>
                  </div>
                  </div>

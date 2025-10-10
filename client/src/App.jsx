@@ -11,6 +11,7 @@ import ProtectedRoute from './protectedRoute/ProtectedRoute'
 import IssueDoc from './pages/IssueDoc'
 import MyIssuedDocs from './pages/MyIssuedDocs'
 import OrgKYC from './pages/OrgKYC'
+import Admin from './pages/Admin'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Route path = '/issue' element={<ProtectedRoute><IssueDoc /></ProtectedRoute>} />
       <Route path='/mydocuments' element={<ProtectedRoute><MyIssuedDocs /></ProtectedRoute>} />
       <Route path='/orgkyc' element = {<ProtectedRoute><OrgKYC /></ProtectedRoute>} />
+      <Route path='/admin' element = {<ProtectedRoute><Admin></Admin></ProtectedRoute>} />
     </Routes>
     </BrowserRouter>
     </TransactionsProvider>
