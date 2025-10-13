@@ -6,10 +6,14 @@ import {shortenAddress} from "../utils/shortenAddress"
 import { TransactionContext } from '../context/TransactionContext';
 import React, { useContext , useState } from 'react'
 import { Button } from "../components";
+import { fetchPendingKYC } from "../../api";
+import { updateOrgStatus } from "../../api";
 
 
 
 const Admin = () => {
+    const [loading , setLoading] = useState(false);
+    const [requests , setRequests] = useState([]);
     const {currentAccount} = useContext(TransactionContext);
     const navigate = useNavigate();
     const isAdmin = AdminCheck();
@@ -38,49 +42,38 @@ const Admin = () => {
     {id:4 , label : "Administrative Error"},
     {id:5 , label : "other"}
     ];
+
+    const loadRequests = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPendingKYC();
+      setRequests(data.requests);
+      console.log(data);
+    } catch (err) {
+      console.error("Error fetching KYC requests:", err.response?.data || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadRequests();
+  }, []);
+
+    const handleStatusUpdate = async (walletAddress, status) => {
+        try {
+            setLoading(true);
+            const result = await updateOrgStatus(walletAddress, status);
+            alert(result.message);
+            loadRequests(); 
+        } catch (err) {
+            console.error(err);
+            alert("Error updating status");
+        } finally {
+            setLoading(false);
+        }
+        };
     
-    const kycRequests = [
-  {
-    orgName: 'TechNova Labs',
-    orgType: 'Software Solutions',
-    email: 'contact@technova.io',
-    website: 'https://technova.io',
-    country: 'India',
-    contactPerson: 'Arjun Mehta',
-    contactPersonEmail : "abc@gmail.com",
-    document: 'https://ipfs.io/ipfs/QmExample1',
-  },
-  {
-    orgName: 'GreenGrid Energy',
-    orgType: 'Renewable Energy',
-    email: 'info@greengrid.com',
-    website: 'https://greengrid.com',
-    country: 'Germany',
-    contactPerson: 'Sophia Müller',
-    contactPersonEmail : "abc@gmail.com",
-    document: 'https://ipfs.io/ipfs/QmExample2',
-  },
-  {
-    orgName: 'FinSure Capital',
-    orgType: 'Fintech',
-    email: 'support@finsure.cap',
-    website: 'https://finsure.cap',
-    country: 'USA',
-    contactPerson: 'David Carter',
-    contactPersonEmail : "abc@gmail.com",
-    document: 'https://ipfs.io/ipfs/QmExample3',
-  },
-  {
-    orgName: 'MediCure Health',
-    orgType: 'Healthcare',
-    email: 'admin@medicure.org',
-    website: 'https://medicure.org',
-    country: 'Singapore',
-    contactPerson: 'Lina Wong',
-    contactPersonEmail : "abc@gmail.com",
-    document: 'https://ipfs.io/ipfs/QmExample4',
-  },
-];
 
   const issuedDocuments = [
     {
@@ -217,7 +210,7 @@ const Admin = () => {
     },
   ];
    const totalIssuedPages = Math.ceil(issuedDocuments.length/docsPerPage);
-   const totalKycDocs = Math.ceil(kycRequests.length/docsPerPage)
+   const totalKycDocs = Math.ceil(requests.length/docsPerPage)
    const indexOfLastDoc = currentPage * docsPerPage;
    const indexOfFirstDoc = indexOfLastDoc - docsPerPage;
    const currentDocs = issuedDocuments.slice(indexOfFirstDoc, indexOfLastDoc);
@@ -237,8 +230,6 @@ const Admin = () => {
       setCurrentPage(currentPage - 1);
     }
     };
-
-
 
 
     useEffect(() => {
@@ -315,25 +306,25 @@ const Admin = () => {
                             <div>Actions</div>
                 </div>
                 <div>
-                {kycRequests.map((req, index) => (
+                {requests.map((req, index) => (
                 <div
                     key={index}
                     className="grid grid-cols-7 gap-4 px-4 py-3 border-b border-gray-200 text-gray-800 items-center hover:bg-gray-50 transition"
                 >
-                    <div className="text-lg font-semibold">{req.orgName}</div>
-                    <div>{req.orgType}</div>
+                    <div className="text-lg font-semibold">{req.kycDetails.orgName}</div>
+                    <div>{req.kycDetails.orgType}</div>
                     <div>
-                    <p className="text-sm font-semibold">{req.email}</p>
-                    <p className="text-xs text-blue-600">{req.website}</p>
+                    <p className="text-sm font-semibold">{req.kycDetails.officialEmail}</p>
+                    <p className="text-xs text-blue-600">{req.kycDetails.website}</p>
                     </div>
-                    <div>{req.country}</div>
+                    <div>{req.kycDetails.country}</div>
                     <div >
-                    <p className="text-sm font-semibold">{req.contactPerson}</p>
-                    <p className="text-xs text-blue-600">{req.contactPersonEmail}</p>
+                    <p className="text-sm font-semibold">{req.kycDetails.contactPerson.fullName}</p>
+                    <p className="text-xs text-blue-600">{req.kycDetails.contactPerson.personalEmail}</p>
                     </div>
                     <div>
                     <a
-                        href={req.document}
+                        href={req.kycDetails.certificateUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 underline text-sm"
@@ -342,10 +333,10 @@ const Admin = () => {
                     </a>
                     </div>
                     <div className="flex gap-2 justify-start">
-                    <button className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    <button onClick={() => handleStatusUpdate(req.walletAddress, "Approved")} className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
                         Approve
                     </button>
-                    <button className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
+                    <button onClick={() => handleStatusUpdate(req.walletAddress, "Rejected")} className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
                         Reject
                     </button>
                     </div>
