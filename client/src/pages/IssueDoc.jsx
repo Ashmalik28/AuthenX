@@ -7,7 +7,7 @@ import { useState , useEffect , useRef } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
 import QRCodeDisplay from "../components/QRCodeDisplay"
-
+import Loader from '../components/Loader';
 
 
 const DocType = [
@@ -22,18 +22,22 @@ const DocType = [
 ];
 
 const IssueDoc = () => {
+    const [loading , setLoading] = useState(false);
+    const {issueDocument , isLoading} = useContext(TransactionContext)
     const [DocTypeOpen , setDocTypeOpen] = useState(false);
-    const [dateTime, setDateTime] = useState(new Date());
     const [kycStatus, setKycStatus] = useState("Pending");
     const {currentAccount} = useContext(TransactionContext);
     const [selectedFile , setSelectedFile] = useState(null);
     const [isDragging , setIsDragging] = useState(false);
-    const [verified , setVerified] = useState(true);
     const qrRef = useRef(null);
     const [selectedInterest, setSelectedInterest] = useState({
     id: null,
     label: "Select type of Document"
     });
+    const [personName , setPersonName] = useState("");
+    const [personWallet , setPersonWallet] = useState("");
+    const [orgName ,setOrgName] = useState("");
+    const [docHash , setdocHash] = useState("");
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -50,6 +54,61 @@ const IssueDoc = () => {
         link.download = "AuthenX_QR_Code.png";
         link.click();
     }
+    
+    const uploadFile = async () => {
+    if (!selectedFile) return null;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+        const res = await fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Upload failed");
+        console.log(data);
+        return data; 
+    } catch (err) {
+        console.error("File upload failed:", err.message);
+        alert("File upload failed: " + err.message);
+        return null;
+    }
+    };
+
+    const handleIssueDocument = async () => {
+    try {
+      setLoading(true); 
+
+      const uploadResult = await uploadFile();
+
+      if (!uploadResult || !uploadResult.success) {
+        alert("❌ Upload failed, please try again.");
+        setLoading(false);
+        return;
+      }
+
+      const docHash = uploadResult.data.cid;
+      console.log("✅ File uploaded, CID:", docHash);
+
+      if (!personName || !personWallet || !docType || !orgName) {
+        alert("⚠️ Please fill all fields before issuing the document.");
+        setLoading(false);
+        return;
+      }
+
+      await issueDocument(personName, personWallet, docType, orgName, docHash);
+
+      alert("✅ Document successfully issued!");
+    } catch (error) {
+      console.error("❌ Error issuing document:", error);
+      alert("❌ Something went wrong: " + error.message);
+    } finally {
+      setLoading(false); 
+    }
+  };
 
     const handleDrop = (e) => {
         e.preventDefault();
@@ -104,13 +163,13 @@ const IssueDoc = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="name" className='text-black font-semibold'>Recipient Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='name' />
+                    <input value={personName} onChange={(e)=> setPersonName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='name' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="recipientWallet" className='text-black font-semibold'>Recipient wallet address *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='recipientWallet' />
+                    <input value={personWallet} onChange={(e) => setPersonWallet(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='recipientWallet' />
                     </div>
                     </div>
                     </div>
@@ -160,14 +219,14 @@ const IssueDoc = () => {
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name</label>
                     <div className="flex w-80 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
+                    <input value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-4 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="document" className='text-black font-semibold'>Upload Document *</label>
-                    <div id='document' onDragOver={(e) => {
+                    <div onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
                     }} onDragLeave={() => setIsDragging(false)} onDrop={handleDrop} onClick={() => document.getElementById('document').click()} className={`flex gap-0 border-dashed cursor-pointer text-blue-500 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}   w-2/3 h-40 border-2 outline-gray-400 rounded-xl p-3`}> 
@@ -205,9 +264,10 @@ const IssueDoc = () => {
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     </div>
-                    <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mb-0 outline-blue-400 flex gap-2 items-center">
+                    {loading ? <Loader /> : 
+                    <Button onClick={handleIssueDocument} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mb-0 outline-blue-400 flex gap-2 items-center">
                      Issue Document
-                    </Button>
+                    </Button> }
                     <div className='flex text-sm justify-center items-center gap-1'>
                         <div className='text-green-500'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">

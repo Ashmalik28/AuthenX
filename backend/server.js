@@ -4,16 +4,16 @@ import connectDB from './db.js';
 import VerifierModel from './models/Verifier.js';
 import OrganizationModel from "./models/Organization.js";
 import cors from "cors"
-import {success, z} from "zod"
+import { z} from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import authMiddleware from "./middleware/authMiddleware.js";
 import {ethers} from "ethers"
-import path from 'path'
 import fs from 'fs'
 import multer from "multer";
-import { count } from "console";
-import { Certificate } from "crypto";
+import { Readable } from "stream";
+import FormData from "form-data";
+import { PinataSDK } from "pinata";
 
 dotenv.config();
 
@@ -35,6 +35,15 @@ const storage = multer.diskStorage({
   }
 });
 
+const storageMemory = multer.memoryStorage();
+
+const pinata = new PinataSDK({
+  pinataJwt: process.env.PINATA_JWT,
+  pinataGateway: "example-gateway.mypinata.cloud", // optional
+});
+
+
+
 const fileFilter = (req , file , cb) => {
   const allowedTypes = ["application/pdf" , "image/jpeg" , "image/png"];
   if(allowedTypes.includes(file.mimetype)){
@@ -43,6 +52,12 @@ const fileFilter = (req , file , cb) => {
     cb(new Error("Only Pdf and image files are allowed!"))
   }
 };
+
+const uploadMemory = multer({
+  storage : storageMemory,
+  limits : {fileSize : 10 * 1024 *1024},
+  fileFilter
+});
 
 const upload = multer({
   storage ,
@@ -186,6 +201,82 @@ app.post("/signin" , async function(req , res){
   }
      
 })
+
+app.post("/upload", uploadMemory.single("file"), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+    const file = new File([blob], req.file.originalname, { type: req.file.mimetype });
+
+    const uploadResponse = await pinata.upload.private.file(file);
+
+    res.json({
+      success: true,
+      message: "✅ File uploaded successfully",
+      data: uploadResponse,
+    });
+  } catch (error) {
+    console.error("❌ Upload failed:", error);
+    res.status(500).json({ error: "Upload failed", details: error.message });
+  }
+});
+
+app.get("/kycrequests", authMiddleware, async (req, res) => {
+  try {
+    const OWNER_WALLET = "0x03034f8896c807b5077ABE110e1a9C7e8358ba50".toLowerCase();
+
+    if (!req.user.walletAddress || req.user.walletAddress.toLowerCase() !== OWNER_WALLET) {
+      return res.status(403).json({ error: "Access denied: Only owner can access this route" });
+    }
+
+    const requests = await OrganizationModel.find({ "kycDetails.status": "Pending" });
+
+    res.json({ success: true, requests });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/updateOrgStatus', async (req, res) => {
+    try {
+        const { walletAddress, status } = req.body;
+
+        if (!walletAddress || !status) {
+            return res.status(400).json({ success: false, message: "Missing required fields" });
+        }
+
+        if (!["Approved", "Rejected"].includes(status)) {
+            return res.status(400).json({ success: false, message: "Invalid status" });
+        }
+
+        const org = await OrganizationModel.findOne({ walletAddress });
+
+        if (!org) {
+            return res.status(404).json({ success: false, message: "Organization not found" });
+        }
+
+        const updatedOrg = await OrganizationModel.findOneAndUpdate(
+        { walletAddress },
+        {
+        $set: {
+            "kycDetails.status": status,
+            iskycVerified: status === "Approved"
+        }
+    },
+    { new: true, runValidators: true }
+);
+
+
+        res.json({ success: true, message: `Organization ${status.toLowerCase()} successfully` , data : updatedOrg });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
 
 app.get("/verify" , authMiddleware , async function(req,res){
   try{

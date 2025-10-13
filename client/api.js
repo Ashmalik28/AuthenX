@@ -28,5 +28,15 @@ export const submitKYC = async (formData) => {
     return res.data;
 }
 
+export const fetchPendingKYC = async () => {
+  const res = await API.get("/kycrequests");
+  return res.data;
+};
+
+export const updateOrgStatus = async (walletAddress, status) => {
+  const res = await API.post("/updateOrgStatus", { walletAddress, status });
+  return res.data;
+};
+
 
 export default API;

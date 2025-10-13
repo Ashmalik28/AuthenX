@@ -99,7 +99,7 @@ const Verify = () => {
                     <div className="mt-0 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="document" className='text-black font-semibold'>Upload Document *</label>
-                    <div id='document' onDragOver={(e) => {
+                    <div onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
                     }} onDragLeave={() => setIsDragging(false)} onDrop={handleDrop} onClick={() => document.getElementById('document').click()} className={`flex gap-0 border-dashed cursor-pointer text-blue-500 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-400"}   w-2/3 h-40 border-2 outline-gray-400 rounded-xl p-3`}> 
