@@ -14,7 +14,7 @@ import { updateOrgStatus } from "../../api";
 const Admin = () => {
     const [loading , setLoading] = useState(false);
     const [requests , setRequests] = useState([]);
-    const {currentAccount} = useContext(TransactionContext);
+    const {currentAccount , approveOrg} = useContext(TransactionContext);
     const navigate = useNavigate();
     const isAdmin = AdminCheck();
     const [currentPage, setCurrentPage] = useState(1);
@@ -71,6 +71,15 @@ const Admin = () => {
             alert("Error updating status");
         } finally {
             setLoading(false);
+        }
+        };
+
+        const handleApprove = async (walletAddress, orgName) => {
+        const success = await approveOrg(walletAddress, orgName);
+        if (success) {
+            await handleStatusUpdate(walletAddress, "Approved");
+        } else {
+            alert("Blockchain approval failed");
         }
         };
     
@@ -333,7 +342,7 @@ const Admin = () => {
                     </a>
                     </div>
                     <div className="flex gap-2 justify-start">
-                    <button onClick={() => handleStatusUpdate(req.walletAddress, "Approved")} className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    <button onClick={() => handleApprove(req.walletAddress , req.kycDetails.orgName)} className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
                         Approve
                     </button>
                     <button onClick={() => handleStatusUpdate(req.walletAddress, "Rejected")} className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">

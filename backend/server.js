@@ -39,7 +39,7 @@ const storageMemory = multer.memoryStorage();
 
 const pinata = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT,
-  pinataGateway: "example-gateway.mypinata.cloud", // optional
+  pinataGateway: "yellow-determined-cephalopod-955.mypinata.cloud", 
 });
 
 
@@ -222,6 +222,35 @@ app.post("/upload", uploadMemory.single("file"), async (req, res) => {
   }
 });
 
+app.get("/view/:cid", authMiddleware, async (req, res) => {
+  try {
+    const { cid } = req.params;
+
+    if (!cid) {
+      return res.status(400).json({ success: false, message: "CID is required" });
+    }
+
+    const accessLink = await pinata.gateways.private.createAccessLink({
+      cid,
+      expires: 30, 
+    });
+
+    res.json({
+      success: true,
+      url: accessLink,
+      expiresIn: "60 seconds",
+    });
+  } catch (error) {
+    console.error("❌ Error creating access link:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to create access link",
+      error: error.message,
+    });
+  }
+});
+
+
 app.get("/kycrequests", authMiddleware, async (req, res) => {
   try {
     const OWNER_WALLET = "0x03034f8896c807b5077ABE110e1a9C7e8358ba50".toLowerCase();
@@ -275,6 +304,19 @@ app.post('/updateOrgStatus', async (req, res) => {
         console.error(error);
         res.status(500).json({ success: false, message: "Server error" });
     }
+});
+
+app.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const org = await OrganizationModel.findOne({ walletAddress: req.user.walletAddress });
+    if (!org) {
+      return res.status(404).json({ success: false, message: "Organization not found" });
+    }
+    res.json({ success: true, kycDetails: org.kycDetails });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 

@@ -38,5 +38,15 @@ export const updateOrgStatus = async (walletAddress, status) => {
   return res.data;
 };
 
+export const fetchOrgDetails = async () => {
+    const res = await API.get("/me");
+    return res.data;
+};
+
+export const viewDocument = async (cid) => {
+  const res = await API.get(`/view/${cid}`);
+  return res.data;
+};
+
 
 export default API;

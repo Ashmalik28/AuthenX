@@ -8,6 +8,7 @@ import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
 import QRCodeDisplay from "../components/QRCodeDisplay"
 import Loader from '../components/Loader';
+import { fetchOrgDetails } from '../../api';
 
 
 const DocType = [
@@ -25,7 +26,7 @@ const IssueDoc = () => {
     const [loading , setLoading] = useState(false);
     const {issueDocument , isLoading} = useContext(TransactionContext)
     const [DocTypeOpen , setDocTypeOpen] = useState(false);
-    const [kycStatus, setKycStatus] = useState("Pending");
+    const [kycStatus, setKycStatus] = useState("");
     const {currentAccount} = useContext(TransactionContext);
     const [selectedFile , setSelectedFile] = useState(null);
     const [isDragging , setIsDragging] = useState(false);
@@ -38,6 +39,23 @@ const IssueDoc = () => {
     const [personWallet , setPersonWallet] = useState("");
     const [orgName ,setOrgName] = useState("");
     const [docHash , setdocHash] = useState("");
+
+    useEffect(() => {
+    const fetchDetails = async () => {
+    try {
+      const res = await fetchOrgDetails();
+      if (res.success && res.kycDetails) {
+        setOrgName(res.kycDetails.orgName);
+        setKycStatus(res.kycDetails.status);
+      }
+    } catch (err) {
+      console.error("Failed to fetch org details:", err);
+    }
+   };
+   fetchDetails();
+   }, []);
+
+   console.log(kycStatus);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -93,13 +111,13 @@ const IssueDoc = () => {
       const docHash = uploadResult.data.cid;
       console.log("✅ File uploaded, CID:", docHash);
 
-      if (!personName || !personWallet || !docType || !orgName) {
+      if (!personName || !personWallet || !selectedInterest.label || !orgName) {
         alert("⚠️ Please fill all fields before issuing the document.");
         setLoading(false);
         return;
       }
 
-      await issueDocument(personName, personWallet, docType, orgName, docHash);
+      await issueDocument(personName, personWallet, selectedInterest.label, docHash);
 
       alert("✅ Document successfully issued!");
     } catch (error) {
@@ -219,7 +237,7 @@ const IssueDoc = () => {
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name</label>
                     <div className="flex w-80 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
+                    <input readOnly value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
                     </div>
                     </div>
                     </div>
@@ -293,12 +311,12 @@ const IssueDoc = () => {
                     </div>
                     <div className='flex-1 bg-white rounded-xl p-4'>
                     <div className='text-black text-3xl font-semibold'>KYC Status</div>
-                    {kycStatus === "Verified" && 
+                    {kycStatus == "Approved" && 
                     <div className='mt-4 p-3 bg-green-100 rounded-lg text-green-700 font-semibold flex gap-2'>
                     <div>✅</div> <div> KYC {kycStatus}</div>
                     </div>
                     }
-                    {kycStatus === "Pending" && 
+                    {kycStatus == "Pending" && 
                     <div>
                     <div className='mt-5 p-3 bg-red-100 rounded-lg text-red-700 font-semibold flex gap-2'>
                     <div>❌</div> <div>KYC {kycStatus}</div> 
