@@ -53,17 +53,24 @@ export const TransactionsProvider = ({ children }) => {
   }
 };
 
- 
   const approveOrg = async (orgAddress, orgName) => {
     try {
       const contract = await createEthereumContract();
-      const tx = await contract.approveOrg(orgAddress, orgName);
+
+      console.log("⛓ Approving organization on blockchain...");
       setIsLoading(true);
+
+      const tx = await contract.approveOrg(orgAddress, orgName);
       await tx.wait();
+
+      console.log("✅ Organization approved on blockchain:", orgAddress);
       setIsLoading(false);
-      console.log("✅ Organization approved:", orgAddress);
+      
+      return true;
     } catch (error) {
-      console.error("approveOrg error:", error);
+      console.error("❌ approveOrg error:", error);
+      setIsLoading(false);
+      return false;
     }
   };
 
@@ -82,10 +89,10 @@ export const TransactionsProvider = ({ children }) => {
   };
 
   // 📌 Issue Document
-  const issueDocument = async (personName, personWallet, docType, orgName, docHash) => {
+  const issueDocument = async (personName, personWallet, docType, docHash) => {
     try {
       const contract = await createEthereumContract();
-      const tx = await contract.issueDocument(personName, personWallet, docType, orgName, docHash);
+      const tx = await contract.issueDocument(personName, personWallet, docType, docHash);
       setIsLoading(true);
       await tx.wait();
       setIsLoading(false);
