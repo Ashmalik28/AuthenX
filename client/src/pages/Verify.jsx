@@ -1,21 +1,27 @@
 import React, { useContext } from 'react'
 import { Button } from '../components';
-
+import * as Hash from 'ipfs-only-hash'; 
 import logo from "../../images/AuthenXLogo.png"
 import Sidebar from '../components/Sidebar';
 import { useState , useEffect , useRef } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
 import QRCodeDisplay from "../components/QRCodeDisplay"
+import { useLocation } from 'react-router-dom';
+import { CID } from 'multiformats/cid';
+import { getWallet } from '../../api';
+import { verifierData } from '../../api';
 
 const Verify = () => {
-    const [dateTime, setDateTime] = useState(new Date());
-    const [kycStatus, setKycStatus] = useState("Pending");
-    const {currentAccount} = useContext(TransactionContext);
+    const {currentAccount ,verifyDocument} = useContext(TransactionContext);
     const [selectedFile , setSelectedFile] = useState(null);
     const [isDragging , setIsDragging] = useState(false);
-    const [verified , setVerified] = useState(true);
+    const [verified , setVerified] = useState(null);
     const qrRef = useRef(null);
+    const [name , setName] = useState("");
+    const [email , setEmail] = useState("");
+    const [docHash , setDocHash] = useState("");
+    const location = useLocation();
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -23,6 +29,61 @@ const Verify = () => {
             setSelectedFile(file);
         }
     }
+
+    useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const hashFromURL = params.get("hash");
+    if (hashFromURL) {
+      setDocHash(hashFromURL);
+      handleAutoVerification(hashFromURL);
+    }
+    }, [location]);
+
+    const calculateCID = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const cidV0 = await Hash.of(uint8Array , {cidVersion : 1 , rawLeaves : true});
+    const cidV1 = CID.parse(cidV0).toV1().toString(); 
+    return cidV1;
+    };
+
+    const handleAutoVerification = async (hash) => {
+    const result = await verifyDocument(hash);
+    setVerified(result);
+    };
+
+    const handleVerify = async () => {
+    try {
+      if (!selectedFile) {
+        alert("Please upload a document");
+        return;
+      }
+      if (!name || !email) {
+        alert("Please fill all required fields");
+        return;
+      }
+
+      const cid = await calculateCID(selectedFile);
+      setDocHash(cid);
+
+      const {walletAddress} = await getWallet(cid);
+
+      const result = await verifyDocument(walletAddress , cid);
+      console.log(result);
+      
+      if (result) {
+        const res = await verifierData(name , email , cid);
+        if(res){
+        setVerified(true);
+        }
+      } else {
+        setVerified(false);
+      }
+    } catch (error) {
+      console.error("Verification failed:", error);
+      setVerified(false);
+    }
+  };
     
     const downloadQRCode = () => {
         const canvas = qrRef.current.querySelector('canvas');
@@ -86,13 +147,13 @@ const Verify = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="fullName" className='text-black font-semibold'>Your Name *</label>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
+                    <input value={name} onChange={(e) => setName(e.target.value)} className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="email" className='text-black font-semibold'>Email Address *</label>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-70 outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
                     </div>
                     </div>
                     </div>
@@ -137,24 +198,24 @@ const Verify = () => {
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="Result" className='text-black font-semibold'>Result</label>
-                    <div className= {`flex flex-col gap-0 cursor-pointer ${verified ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50"} w-2/3 h-40 border-2   rounded-xl p-2 items-center`}> 
+                    <div className= {`flex flex-col gap-0 cursor-pointer ${verified ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50"} w-2/3 h-40 border-2 rounded-xl p-2 items-center`}> 
                     {verified && ( 
                     <div className='flex flex-col items-center'>
                     <div className='text-3xl'>😊</div>
                     <div className='text-green-600 text-xl font-semibold mt-1'>Document Valid and Verified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : Dummy data</div>
+                    <div className='text-gray-500 mt-2'>Document Hash : {shortenAddress(docHash)}</div>
                     <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
                     </div> )}
                     {!verified && (
                     <div className='flex flex-col items-center'>
                     <div className='text-3xl'>🙁</div>
                     <div className='text-red-600 text-xl font-semibold mt-1'>Document Invalid and Unverified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : Dummy data</div>
+                    <div className='text-gray-500 mt-2'>Document Hash : {shortenAddress(docHash)}</div>
                     <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
                     </div>)}
                     </div>
                     </div>
-                    <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mt-2 mb-0 outline-blue-400 flex gap-2 items-center">
+                    <Button onClick={handleVerify} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mt-2 mb-0 outline-blue-400 flex gap-2 items-center">
                      Verify Document
                     </Button>
                     <div className='flex text-sm justify-center items-center gap-1'>

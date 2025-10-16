@@ -94,19 +94,21 @@ export const TransactionsProvider = ({ children }) => {
       const contract = await createEthereumContract();
       const tx = await contract.issueDocument(personName, personWallet, docType, docHash);
       setIsLoading(true);
-      await tx.wait();
+      const receipt = await tx.wait();
+      console.log("Transaction confirmed:", receipt);
       setIsLoading(false);
       console.log("✅ Document issued!");
+      return receipt; 
     } catch (error) {
       console.error("issueDocument error:", error);
     }
   };
 
   // 📌 Verify Document
-  const verifyDocument = async (docHash) => {
+  const verifyDocument = async (personWallet , docHash) => {
     try {
       const contract = await createEthereumContract();
-      return await contract.verifyDocument(docHash);
+      return await contract.verifyDocument(personWallet , docHash);
     } catch (error) {
       console.error("verifyDocument error:", error);
       return false;

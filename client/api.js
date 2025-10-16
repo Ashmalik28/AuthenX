@@ -48,5 +48,19 @@ export const viewDocument = async (cid) => {
   return res.data;
 };
 
+export const issuedDocument = async (data) => {
+    const res = await API.post("/issue" , data);
+    return res.data;
+}
+export const getWallet = async (docHash) => {
+    const res = await API.post("/getWallet" , {docHash});
+    return res.data;
+}
+
+export const verifierData = async (name , email , cid) => {
+    const res = await API.post("/verify" , {name , email , cid});
+    return res.data;
+}
+
 
 export default API;
