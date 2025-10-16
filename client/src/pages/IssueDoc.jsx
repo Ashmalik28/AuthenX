@@ -9,6 +9,7 @@ import {shortenAddress} from "../utils/shortenAddress"
 import QRCodeDisplay from "../components/QRCodeDisplay"
 import Loader from '../components/Loader';
 import { fetchOrgDetails } from '../../api';
+import {issuedDocument} from '../../api'
 
 
 const DocType = [
@@ -117,9 +118,23 @@ const IssueDoc = () => {
         return;
       }
 
-      await issueDocument(personName, personWallet, selectedInterest.label, docHash);
+      const tx = await issueDocument(personName, personWallet, selectedInterest.label, docHash);
+      console.log("Transaction Result :" , tx);
 
-      alert("✅ Document successfully issued!");
+      if (tx) {
+      const docData = {
+        personName,
+        personWallet,
+        docType: selectedInterest.label,
+        orgWallet: currentAccount,
+        orgName,
+        docHash
+      };
+
+      const dbRes = await issuedDocument(docData);
+      console.log("✅ Document stored in DB:", dbRes);
+      alert("✅ Document successfully issued and recorded!");
+    }
     } catch (error) {
       console.error("❌ Error issuing document:", error);
       alert("❌ Something went wrong: " + error.message);

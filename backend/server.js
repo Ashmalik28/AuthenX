@@ -3,6 +3,8 @@ import dotenv from "dotenv"
 import connectDB from './db.js';
 import VerifierModel from './models/Verifier.js';
 import OrganizationModel from "./models/Organization.js";
+import VerificationModel from "./models/Verification.js";
+import issuedDocsModel from "./models/IssuedDocs.js";
 import cors from "cors"
 import { z} from "zod"
 import bcrypt from "bcrypt"
@@ -11,8 +13,6 @@ import authMiddleware from "./middleware/authMiddleware.js";
 import {ethers} from "ethers"
 import fs from 'fs'
 import multer from "multer";
-import { Readable } from "stream";
-import FormData from "form-data";
 import { PinataSDK } from "pinata";
 
 dotenv.config();
@@ -319,19 +319,41 @@ app.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
-
-app.get("/verify" , authMiddleware , async function(req,res){
+app.post("/verify" , authMiddleware , async function(req,res){
   try{
-    const user = await VerifierModel.findById(req.user.id).select("-password");
-    if(!user){
-      return res.status(404).json({error : "User not found"});
+    let user = await VerifierModel.findById(req.user.id).select("-password");
+    if (!user) {
+      user = await OrganizationModel.findById(req.user.id).select("-password");
     }
-    res.json({message : "Token valid" , user});
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const {name , email , cid} = req.body;
+
+    if(!name || !email || !cid){
+      return res.status(400).json({error : "All fields (name, email, cid) are required when submitting a form"});
+    }
+
+    const newVerification = new VerificationModel({
+      name , email , cid , timestamp : new Date()
+    })
+
+    await newVerification.save();
+
+    res.status(201).json({
+      message: "Verification details stored successfully",
+      data: newVerification,
+    });
+
+
   }catch (err) {
     console.log("DB error" , err.message);
     res.status(500).json({error : "Server error"});
   }
 });
+
 app.get("/dashboard" , authMiddleware , async function(req,res){
   try{
     const user = await VerifierModel.findById(req.user.id).select("-password");
@@ -399,18 +421,70 @@ app.post("/kyc", authMiddleware, upload.single("certificate"), async (req, res) 
 });
 
 
-app.get("/issue" , authMiddleware , async function(req,res){
-  try{
-    const user = await VerifierModel.findById(req.user.id).select("-password");
-    if(!user){
-      return res.status(404).json({error : "User not found"});
+app.post("/issue", authMiddleware, async (req, res) => {
+  try {
+    const {
+      personName,
+      personWallet,
+      docType,
+      orgWallet,
+      orgName,
+      docHash,
+    } = req.body;
+
+    let user = await VerifierModel.findById(req.user.id).select("-password");
+    if (!user) {
+      user = await OrganizationModel.findById(req.user.id).select("-password");
     }
-    res.json({message : "Token valid" , user});
-  }catch (err) {
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const existingDoc = await issuedDocsModel.findOne({ docHash });
+    if (existingDoc) {
+      return res.status(400).json({ error: "Document already issued" });
+    }
+
+    const issuedDoc = new issuedDocsModel({
+      personName,
+      personWallet,
+      docType,
+      orgWallet,
+      orgName,
+      docHash,
+    });
+
+    await issuedDoc.save();
+
+    res.status(201).json({
+      message: "Document issued successfully",
+      issuedDoc,
+    });
+  } catch (err) {
+    console.error("DB error:", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("/getWallet" , authMiddleware , async (req , res) => {
+  try {
+    const {docHash} = req.body;
+    let doc = await issuedDocsModel.findOne({docHash});
+    if(!doc){
+      return res.status(401).json({error : "No wallet address available"})
+    }
+    return res.status(200).json({
+      message : "Wallet address found" ,
+      walletAddress : doc.personWallet
+    })
+  }catch (err){
     console.log("DB error" , err.message);
     res.status(500).json({error : "Server error"});
   }
-});
+})
+
+
 app.get("/auth/check" , authMiddleware , (req , res) => {
   res.json({valid : true});
 });

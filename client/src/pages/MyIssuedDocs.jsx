@@ -113,7 +113,7 @@ const MyIssuedDocs = () => {
         }
     };
 
-    const handleShareDocument = async (cid, index) => {
+  const handleShareDocument = async (cid, index) => {
   try {
     setloadingSIndex(index);
     const data = await viewDocument(cid);
@@ -121,7 +121,7 @@ const MyIssuedDocs = () => {
       if (navigator.share) {
         await navigator.share({
           title: "AuthenX Document",
-          text: "Here’s your verified document link:",
+          text: "Here’s your verified document link: its valid for only next 60 seconds",
           url: data.url,
         });
       } else {
@@ -133,7 +133,6 @@ const MyIssuedDocs = () => {
     }
   } catch (error) {
     console.error("Share document error:", error);
-    alert("Something went wrong while sharing document");
   } finally {
     setloadingSIndex(null);
   }
@@ -342,14 +341,14 @@ const MyIssuedDocs = () => {
                         Download
                         </button>
                          }
-                        
-                        <div onClick={handleShareDocument} className='rounded-lg py-1 px-2 text-black flex justify-center items-center bg-gray-300'>
+                        {loadingSIndex === index ? <Loader height={15} width={15}></Loader> : 
+                         <div onClick={() => handleShareDocument(doc.docHash , index)} className='rounded-lg py-1 px-2 text-black flex justify-center items-center bg-gray-300'>
                             <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3">
                             <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
                             </svg>
                             </div>
-                       </div>
+                       </div>  } 
                       </div>
 
                     </div> )
