@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { CID } from 'multiformats/cid';
 import { getWallet } from '../../api';
 import { verifierData } from '../../api';
+import {Loader} from '../components';
 
 const Verify = () => {
     const {currentAccount ,verifyDocument} = useContext(TransactionContext);
@@ -20,7 +21,8 @@ const Verify = () => {
     const qrRef = useRef(null);
     const [name , setName] = useState("");
     const [email , setEmail] = useState("");
-    const [docHash , setDocHash] = useState("");
+    const [docHash , setDocHash] = useState(null);
+    const [loading , setloading] = useState(null);
     const location = useLocation();
 
     const handleFileChange = (e) => {
@@ -33,6 +35,7 @@ const Verify = () => {
     useEffect(() => {
     const params = new URLSearchParams(location.search);
     const hashFromURL = params.get("hash");
+    console.log(hashFromURL);
     if (hashFromURL) {
       setDocHash(hashFromURL);
       handleAutoVerification(hashFromURL);
@@ -48,12 +51,14 @@ const Verify = () => {
     };
 
     const handleAutoVerification = async (hash) => {
-    const result = await verifyDocument(hash);
+    const {walletAddress} = await getWallet(hash);
+    const result = await verifyDocument(walletAddress , hash);
     setVerified(result);
     };
 
     const handleVerify = async () => {
     try {
+      setloading(true);
       if (!selectedFile) {
         alert("Please upload a document");
         return;
@@ -79,9 +84,12 @@ const Verify = () => {
       } else {
         setVerified(false);
       }
+      setloading(false);
     } catch (error) {
       console.error("Verification failed:", error);
       setVerified(false);
+    } finally {
+      setloading(false);
     }
   };
     
@@ -142,7 +150,7 @@ const Verify = () => {
                  <div className='flex flex-1 ml-72 mr-5 mb-5'>
                     <div className='ml-5 mt-5 grid grid-cols-3 gap-5 w-full'>
                     <div className='col-span-2 bg-white p-4 pb-0 rounded-xl flex flex-col'>
-                    <div className='text-black text-6xl font-semibold flex justify-center'>Verify Document</div>
+                    <div className='text-black text-5xl font-semibold flex justify-center'>Verify Document</div>
                     <div className="mt-6 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="fullName" className='text-black font-semibold'>Your Name *</label>
@@ -198,15 +206,28 @@ const Verify = () => {
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="Result" className='text-black font-semibold'>Result</label>
-                    <div className= {`flex flex-col gap-0 cursor-pointer ${verified ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50"} w-2/3 h-40 border-2 rounded-xl p-2 items-center`}> 
-                    {verified && ( 
+                    <div className= {`flex flex-col gap-0 cursor-pointer border ${verified === null ? "border-blue-500 " : ""} ${verified === false ? "border-red-500 bg-red-50" : ""} ${verified === true ? "border-green-500 bg-green-50" : ""} w-2/3 h-40 border-2 rounded-xl p-2 items-center`}> 
+                    {verified === null && (
+                      <div className='flex flex-col items-center p-1 '>
+                        <div className='w-12 h-12 bg-gray-200 rounded-full flex justify-center items-center text-gray-500'>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                          <path d="M11.625 16.5a1.875 1.875 0 1 0 0-3.75 1.875 1.875 0 0 0 0 3.75Z" />
+                          <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm6 16.5c.66 0 1.277-.19 1.797-.518l1.048 1.048a.75.75 0 0 0 1.06-1.06l-1.047-1.048A3.375 3.375 0 1 0 11.625 18Z" clip-rule="evenodd" />
+                          <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+                          </svg>
+                        </div>
+                        <div className='text-xl font-semibold mt-1 mb-1 text-black'>No document uploaded yet</div>
+                        <div className='text text-center font-semibold text-gray-400'>Upload a document above to verify its authenticity using our blockchain-powered verification system  </div>
+                      </div>
+                    )}
+                    {verified === true && ( 
                     <div className='flex flex-col items-center'>
                     <div className='text-3xl'>😊</div>
                     <div className='text-green-600 text-xl font-semibold mt-1'>Document Valid and Verified !</div>
                     <div className='text-gray-500 mt-2'>Document Hash : {shortenAddress(docHash)}</div>
                     <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
                     </div> )}
-                    {!verified && (
+                    {verified === false && (
                     <div className='flex flex-col items-center'>
                     <div className='text-3xl'>🙁</div>
                     <div className='text-red-600 text-xl font-semibold mt-1'>Document Invalid and Unverified !</div>
@@ -215,9 +236,10 @@ const Verify = () => {
                     </div>)}
                     </div>
                     </div>
+                    {loading === true ? <Loader /> :
                     <Button onClick={handleVerify} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl w-1/2 justify-center mt-2 mb-0 outline-blue-400 flex gap-2 items-center">
                      Verify Document
-                    </Button>
+                    </Button> }
                     <div className='flex text-sm justify-center items-center gap-1'>
                         <div className='text-green-500'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
@@ -234,8 +256,23 @@ const Verify = () => {
                     <div className='text-3xl text-black font-semibold'>
                     Verify with QR Code
                     </div>
-                    <div className='flex justify-center w-full mt-8'><QRCodeDisplay /></div>
-                    <p className="mt-8 w-2/3 text-gray-600 text-center text-sm">Scan this to instantly verify the document on our website</p>
+                    {docHash === null ? (
+                    <div className='text-black m-2 flex flex-col items-center'>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-32">
+                      <path fill-rule="evenodd" d="M3 4.875C3 3.839 3.84 3 4.875 3h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 9.375v-4.5ZM4.875 4.5a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875.375c0-1.036.84-1.875 1.875-1.875h4.5C20.16 3 21 3.84 21 4.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 0 1-1.875-1.875v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75A.75.75 0 0 1 6 7.5v-.75Zm9.75 0A.75.75 0 0 1 16.5 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM3 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.035-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 19.125v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875-.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM6 16.5a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm9.75 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm-3 3a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Z" clip-rule="evenodd" />
+                      </svg>
+                      <div className='text-center mt-2 text-gray-400 font-semibold'>The QR code will appear here once you verify a document</div>
+                    </div>
+                     ) : (
+                    <div className='flex flex-col items-center'>
+                      <div className="flex justify-center w-full mt-8">
+                        <QRCodeDisplay url={`http://localhost:5173/verify?hash=${docHash}`} />
+                      </div>
+                      <p className="mt-8 w-2/3 text-gray-600 text-center text-sm">
+                        Scan this to instantly verify the document on our website
+                      </p>
+                    </div>
+                  )}
                     <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl justify-center mt-5 mb-0 outline-blue-400 flex gap-2 items-center">
                     Download QR Code
                     </Button>

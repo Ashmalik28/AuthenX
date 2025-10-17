@@ -1,11 +1,10 @@
 
 import {QRCodeCanvas} from "qrcode.react"
 
-const QRCodeDisplay = ({value}) => {
+const QRCodeDisplay = ({url}) => {
     return (
         <div className="flex">
-         <QRCodeCanvas value = {value || "Dummy QR Code"} size={200} />
-         
+         <QRCodeCanvas value = {url || "Dummy QR Code"} size={200} />
         </div>
     )
 }

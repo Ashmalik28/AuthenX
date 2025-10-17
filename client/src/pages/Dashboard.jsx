@@ -1,16 +1,57 @@
 import React, { useContext } from 'react'
 import { Button } from '../components';
-
+import {ethers} from "ethers"
 import logo from "../../images/AuthenXLogo.png"
 import Sidebar from '../components/Sidebar';
 import { useState , useEffect } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
+import { fetchOrgDetails } from '../../api';
+import { useNavigate } from 'react-router-dom';
+import { fetchDashboardStats } from '../../api';
 
 const Dashboard = () => {
     const [dateTime, setDateTime] = useState(new Date());
     const [kycStatus, setKycStatus] = useState("Pending");
-    const {currentAccount} = useContext(TransactionContext)
+    const {currentAccount} = useContext(TransactionContext);
+    const [totalDocuments, setTotalDocuments] = useState(0);
+    const [totalVerifications, setTotalVerifications] = useState(0);
+    const [totalVerifiedOrgs, setTotalVerifiedOrgs] = useState(0);
+    const [walletBalance, setWalletBalance] = useState("0");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+    const fetchBalance = async () => {
+      if (!currentAccount) return;
+
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const balance = await provider.getBalance(currentAccount);
+        const formatted = parseFloat(ethers.formatEther(balance)).toFixed(3);
+        setWalletBalance(formatted);
+      } catch (err) {
+        console.error("Failed to fetch wallet balance:", err);
+      }
+    };
+
+    fetchBalance();
+   }, [currentAccount]);
+
+    useEffect(() => {
+    const getStats = async () => {
+    try {
+      const data = await fetchDashboardStats();
+      if (data.success) {
+        setTotalDocuments(data.data.totalDocuments);
+        setTotalVerifications(data.data.totalVerifications);
+        setTotalVerifiedOrgs(data.data.totalVerifiedOrgs);
+      }
+    } catch (err) {
+      console.error("Failed to fetch dashboard stats:", err);
+    }
+   };
+   getStats();
+   }, []);
 
      useEffect(() => {
     const timer = setInterval(() => {
@@ -18,6 +59,20 @@ const Dashboard = () => {
     }, 1000);
     return () => clearInterval(timer);
     }, []);
+
+     useEffect(() => {
+        const fetchDetails = async () => {
+        try {
+          const res = await fetchOrgDetails();
+          if (res.success && res.kycDetails) {
+            setKycStatus(res.kycDetails.status);
+          }
+        } catch (err) {
+          console.error("Failed to fetch org details:", err);
+        }
+       };
+       fetchDetails();
+       }, []);
 
 
     const transactions = [
@@ -92,53 +147,53 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className='flex flex-1 h-screen mt-[60px] bg-gray-300'> 
+            <div className='flex flex-1 h-full w-screen mt-[60px] bg-gray-300'> 
                  <Sidebar />
-                <div className='flex flex-1 flex-col ml-72 mr-6'>
-                    <div className='grid grid-cols-4 gap-5 mt-6 ml-6'>
-                        <div className=' bg-white rounded-xl text-black p-5'>
+                <div className='flex flex-1 flex-col ml-72 mr-5 mb-5'>
+                    <div className='grid grid-cols-4 gap-5 mt-5 ml-5'>
+                        <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='text-xl font-semibold'>Total Verifications</div>
-                            <div className='mt-4 text-4xl font-bold'>1245</div>
+                            <div className='mt-4 text-4xl font-bold'>{totalVerifications}</div>
                         </div>
-                        <div className=' bg-white rounded-xl text-black p-5'>
+                        <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='text-xl font-semibold'>Total Documents Issued</div>
-                            <div className='mt-4 text-4xl font-bold'>562</div>
+                            <div className='mt-4 text-4xl font-bold'>{totalDocuments}</div>
                         </div>
-                        <div className=' bg-white rounded-xl text-black p-5'>
-                            <div className='text-xl font-semibold'>Pending requests</div>
-                            <div className='mt-4 text-4xl font-bold'>562</div>
+                        <div className=' bg-white rounded-xl text-black p-3'>
+                            <div className='text-xl font-semibold'>Verified Organizations</div>
+                            <div className='mt-4 text-4xl font-bold'>{totalVerifiedOrgs}</div>
                         </div>
-                        <div className=' bg-white rounded-xl text-black p-5'>
+                        <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='text-xl font-semibold'>Wallet Balance</div>
-                            <div className='mt-4 text-4xl font-bold'>562</div>
+                            <div className='mt-4 text-4xl font-bold'>{walletBalance} ETH</div>
                         </div>
                     </div>
 
-                    <div className='grid grid-cols-3 gap-5 mt-6 ml-6'>
+                    <div className='grid grid-cols-3 gap-5 mt-5 ml-5'>
                         <div className='bg-white rounded-xl p-6 col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black font-semibold text-2xl'>Quick Actions</div>
-                            <div className='grid grid-cols-3 gap-6 mt-6'>
-                            <div className='bg-blue-100 hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
+                            <div className='grid grid-cols-3 gap-5 mt-5'>
+                            <div onClick={() => navigate("/verify")} className='bg-blue-100 hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-13">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12">
                                 <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                                 </svg>
                                 <div className='w-1/2 flex justify-center text-center text-black text-xl mt-2 font-semibold'>Verify Document</div>
                                 </div>
                             </div>
-                            <div className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
+                            <div onClick={() => navigate("/issue")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-13">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12">
                                 <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
                                 <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
                                 </svg>
                                 <div className='w-1/2 flex justify-center text-center text-black text-xl mt-2 font-semibold'>Issue Document</div>
                                 </div>
                             </div>
-                            <div className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
+                            <div onClick={() => navigate("/about")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-13">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12">
                                 <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
                                 <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
                                 </svg>
@@ -147,7 +202,7 @@ const Dashboard = () => {
                             </div>
                             
                             </div> 
-                            <div className='text-black font-semibold text-2xl mt-8'>Recent Transactions</div>
+                            <div className='text-black font-semibold text-2xl mt-5'>Recent Transactions</div>
                             <div className="grid grid-cols-4 gap-4 pb-3 px-4 border-b-2 border-gray-200 text-left text-lg font-semibold text-gray-500 tracking-wider mt-6">
                             <div>Date</div>
                             <div>Action</div>
@@ -192,32 +247,46 @@ const Dashboard = () => {
                                 <div className='text-black mt-5 text-wrap text-lg'>As a verifier, you can quickly verify documents with trust and transparency.</div>
 
                                 </div>
-                                <div className='flex-1 bg-white rounded-xl p-5'>
-                                    <div className='text-black text-3xl font-semibold'>KYC Status</div>
-                                    {kycStatus === "Verified" && 
-                                    <div className='mt-4 p-3 bg-green-100 rounded-lg text-green-700 font-semibold flex gap-2'>
-                                    <div>✅</div> <div> KYC {kycStatus}</div>
-                                    </div>
-                                    }
-                                    {kycStatus === "Pending" && 
-                                    <div>
-                                    <div className='mt-5 p-3 bg-red-100 rounded-lg text-red-700 font-semibold flex gap-2'>
-                                    <div>❌</div> <div>KYC {kycStatus}</div> 
-                                    </div> 
-                                    <div>
-                                    <p className="text-gray-700 text-base mt-5 font-semibold">
-                                        Your KYC verification is still pending. Please complete the process
-                                        to unlock all features.
-                                    </p>
-                                    <div className='flex justify-center'>
-                                    <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
-                                     Verify Now
-                                    </Button> 
-                                    </div>
-                                    </div>
-                                    </div>
-                                      
-                                    }
+                                <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white rounded-xl p-5`}>
+                                <div className='text-black flex justify-center font-bold text-3xl '>KYC Status</div>
+                                {kycStatus == "Approved" && (
+                                <div className='flex flex-col items-center'>
+                                <div className='mt-4 py-3 px-4 items-center border-1 border-green-400 w-fit bg-green-100 rounded-2xl shadow-xs shadow-green-500 text-green-700 font-semibold flex gap-2'>
+                                <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                </svg>
+                                </div> <div className='font-bold'> KYC {kycStatus}</div>
+                                </div>
+                                <div className='text-center text-sm font-semibold flex flex-col gap-1 text-gray-700 mt-3'>
+                                <div>Your KYC verification is successfully completed!</div>
+                                You now have full access to all platform features.</div>
+                                <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
+                                Issue Document
+                                </Button>
+                                </div>)
+                                }
+                                {kycStatus == "Pending" && 
+                                <div className='flex flex-col items-center'>
+                                <div className='mt-5 py-3 px-4 items-center border-1 border-red-400 w-fit bg-red-100 rounded-2xl shadow-2xs shadow-red-500 text-red-700 font-semibold flex gap-2'>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                    </svg>
+                                </div> <div>KYC {kycStatus}</div> 
+                                </div> 
+                                <div>
+                                <p className="text-gray-700 text-center text-sm mt-3 font-semibold">
+                                    Your KYC verification is still pending. Please complete the process
+                                    to unlock the ability to issue documents.
+                                </p>
+                                <div className='flex justify-center'>
+                                <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
+                                    Verify Now
+                                </Button> 
+                                </div>
+                                </div>
+                                </div>    
+                                }
                                 </div>
                         </div>
                     </div>

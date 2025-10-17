@@ -13,6 +13,7 @@ const MyIssuedDocs = () => {
     const [loadingIndex, setLoadingIndex] = useState(null);
     const [loadingdIndex , setloadingdIndex] = useState(null);
     const [loadingSIndex , setloadingSIndex] = useState(null);
+    const [loading , setLoading] = useState(null);
 
       const [docs, setDocs] = useState([]);
 
@@ -51,11 +52,14 @@ const MyIssuedDocs = () => {
       if (!currentAccount) return;
 
       try {
+        setLoading(true);
         const documents = await getDocumentsByOrg(currentAccount);
         const formatted = formatDocuments(documents);
         setDocs(formatted);
       } catch (error) {
         console.error("Error fetching issued documents:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchDocs();
@@ -196,8 +200,10 @@ const MyIssuedDocs = () => {
 
                     </div>
                  </div>
-                 <div className='flex-1 grid mx-5 mt-24 h-full max-w-100% gap-5 2xl:grid-cols-4 grid-cols-2'>
-                    {docs.map((doc , index) => {
+                 {loading == true ? <div className='flex-1 mt-24 h-full min-w-[calc(100vw-18rem)] flex justify-center items-cente'><Loader /></div>
+                    : (
+                  <div className='flex-1 grid mx-5 mt-24 h-full max-w-100% gap-5 2xl:grid-cols-4 grid-cols-2'>    
+                  {docs.map((doc , index) => {
                      const formatted = formatTimestamp(doc.timestamp);
                      return (
                      <div key={index} className='col-span-1 bg-white max-h-fit rounded-xl shadow-xl'>
@@ -353,8 +359,9 @@ const MyIssuedDocs = () => {
 
                     </div> )
 
-                    })}
-                 </div>
+                    })} 
+                  </div>  )
+                  } 
                  </div>
             </div>
         </div>

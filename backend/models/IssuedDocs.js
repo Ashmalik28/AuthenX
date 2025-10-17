@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const issuedDocsSchema = new Schema({
+const issuedDocsSchema = new Schema({ 
     personName : {type : String , required : true},
     personWallet : {type : String , required : true},
     docType : {type : String , required : true},
