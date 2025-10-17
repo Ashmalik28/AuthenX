@@ -62,5 +62,9 @@ export const verifierData = async (name , email , cid) => {
     return res.data;
 }
 
+export const fetchDashboardStats = async () => {
+  const res = await API.get("/dashboard-stats");
+  return res.data;
+};
 
 export default API;

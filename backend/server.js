@@ -484,6 +484,26 @@ app.post("/getWallet" , authMiddleware , async (req , res) => {
   }
 })
 
+app.get("/dashboard-stats", async (req, res) => {
+  try {
+    const totalDocuments = await issuedDocsModel.countDocuments({ valid: true });
+    const totalVerifications = await VerificationModel.countDocuments();
+    const totalVerifiedOrgs = await OrganizationModel.countDocuments({ "kycDetails.status": "Approved" });
+
+    res.json({
+      success: true,
+      data: {
+        totalDocuments,
+        totalVerifications,
+        totalVerifiedOrgs
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 app.get("/auth/check" , authMiddleware , (req , res) => {
   res.json({valid : true});

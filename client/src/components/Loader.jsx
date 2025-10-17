@@ -1,4 +1,4 @@
-const Loader = ({ height = 24, width = 24 }) => {
+const Loader = ({ height = 48, width = 48 }) => {
   return (
     <div className="flex justify-center items-center py-3">
       <div

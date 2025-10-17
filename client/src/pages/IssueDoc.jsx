@@ -39,7 +39,7 @@ const IssueDoc = () => {
     const [personName , setPersonName] = useState("");
     const [personWallet , setPersonWallet] = useState("");
     const [orgName ,setOrgName] = useState("");
-    const [docHash , setdocHash] = useState("");
+    const [docHash , setdocHash] = useState(null);
 
     useEffect(() => {
     const fetchDetails = async () => {
@@ -110,8 +110,8 @@ const IssueDoc = () => {
       }
 
       const docHash = uploadResult.data.cid;
-      console.log("✅ File uploaded, CID:", docHash);
-
+      setdocHash(docHash);
+      
       if (!personName || !personWallet || !selectedInterest.label || !orgName) {
         alert("⚠️ Please fill all fields before issuing the document.");
         setLoading(false);
@@ -318,26 +318,56 @@ const IssueDoc = () => {
                     <div className='text-3xl text-black text-center font-semibold'>
                     Issued Document QR Code
                     </div>
-                    <div className='flex justify-center w-full mt-4'><QRCodeDisplay /></div>
-                    <p className="mt-4 w-2/3 text-gray-600 text-center text-sm">Scan this to instantly verify the document on our website</p>
+                   {docHash === null ? (
+                    <div className='text-black m-2 flex flex-col items-center'>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-32">
+                      <path fill-rule="evenodd" d="M3 4.875C3 3.839 3.84 3 4.875 3h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 9.375v-4.5ZM4.875 4.5a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875.375c0-1.036.84-1.875 1.875-1.875h4.5C20.16 3 21 3.84 21 4.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 0 1-1.875-1.875v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75A.75.75 0 0 1 6 7.5v-.75Zm9.75 0A.75.75 0 0 1 16.5 6h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM3 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.035-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 0 1 3 19.125v-4.5Zm1.875-.375a.375.375 0 0 0-.375.375v4.5c0 .207.168.375.375.375h4.5a.375.375 0 0 0 .375-.375v-4.5a.375.375 0 0 0-.375-.375h-4.5Zm7.875-.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75ZM6 16.5a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm9.75 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm-3 3a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Zm6 0a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 .75.75v.75a.75.75 0 0 1-.75.75h-.75a.75.75 0 0 1-.75-.75v-.75Z" clip-rule="evenodd" />
+                      </svg>
+                      <div className='text-center mt-2 text-gray-400 font-semibold'>The QR code will appear here once you issue a document for direct verification</div>
+                    </div>
+                     ) : (
+                    <div className='flex flex-col items-center'>
+                      <div className="flex justify-center w-full mt-8">
+                        <QRCodeDisplay url={`http://localhost:5173/verify?hash=${docHash}`} />
+                      </div>
+                      <p className="mt-8 w-2/3 text-gray-600 text-center text-sm">
+                        Scan this to instantly verify the document on our website
+                      </p>
+                    </div>
+                  )}
                     <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
                     Download QR Code
                     </Button>
                     </div>
-                    <div className='flex-1 bg-white rounded-xl p-4'>
-                    <div className='text-black text-3xl font-semibold'>KYC Status</div>
-                    {kycStatus == "Approved" && 
-                    <div className='mt-4 p-3 bg-green-100 rounded-lg text-green-700 font-semibold flex gap-2'>
-                    <div>✅</div> <div> KYC {kycStatus}</div>
+                    <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white  rounded-xl p-4`}>
+                    <div className='text-black flex justify-center text-3xl font-bold'>KYC Status</div>
+                    {kycStatus == "Approved" && (
+                    <div className='flex flex-col items-center'>
+                    <div className='mt-4 py-3 px-4 items-center border-1 border-green-400 w-fit bg-green-100 rounded-2xl shadow-xs shadow-green-500 text-green-700 font-semibold flex gap-2'>
+                    <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                      <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                    </svg>
+                    </div> <div className='font-bold'> KYC {kycStatus}</div>
                     </div>
+                    <div className='text-center text-sm font-semibold flex flex-col gap-1 text-gray-700 mt-3'>
+                    <div>Your KYC verification is successfully completed!</div>
+                    You now have full access to all platform features.</div>
+                    <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
+                    View Details
+                    </Button>
+                    </div>)
                     }
                     {kycStatus == "Pending" && 
+                    <div className='flex flex-col items-center'>
+                    <div className='mt-5 py-3 px-4 items-center border-1 border-red-400 w-fit bg-red-100 rounded-2xl shadow-2xs shadow-red-500 text-red-700 font-semibold flex gap-2'>
                     <div>
-                    <div className='mt-5 p-3 bg-red-100 rounded-lg text-red-700 font-semibold flex gap-2'>
-                    <div>❌</div> <div>KYC {kycStatus}</div> 
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
+                        </svg>
+                    </div> <div>KYC {kycStatus}</div> 
                     </div> 
                     <div>
-                    <p className="text-gray-700 text-base mt-5 font-semibold">
+                    <p className="text-gray-700 text-center text-sm mt-3 font-semibold">
                         Your KYC verification is still pending. Please complete the process
                         to unlock the ability to issue documents.
                     </p>
@@ -347,8 +377,7 @@ const IssueDoc = () => {
                     </Button> 
                     </div>
                     </div>
-                    </div>
-                        
+                    </div>    
                     }
                     </div>
 
