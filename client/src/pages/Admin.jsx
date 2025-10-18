@@ -370,7 +370,7 @@ const Admin = () => {
                     </svg>
                 </div>
               </div>
-            </div>
+               </div>
                 
                 </div>
                  <div className="flex flex-col flex-1 h-fit m-5 bg-white rounded-2xl">

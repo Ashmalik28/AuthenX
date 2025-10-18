@@ -10,6 +10,7 @@ import QRCodeDisplay from "../components/QRCodeDisplay"
 import Loader from '../components/Loader';
 import { fetchOrgDetails } from '../../api';
 import {issuedDocument} from '../../api'
+import { useNavigate } from 'react-router-dom';
 
 
 const DocType = [
@@ -24,6 +25,7 @@ const DocType = [
 ];
 
 const IssueDoc = () => {
+  const navigate = useNavigate();
     const [loading , setLoading] = useState(false);
     const {issueDocument , isLoading} = useContext(TransactionContext)
     const [DocTypeOpen , setDocTypeOpen] = useState(false);
@@ -352,7 +354,7 @@ const IssueDoc = () => {
                     <div className='text-center text-sm font-semibold flex flex-col gap-1 text-gray-700 mt-3'>
                     <div>Your KYC verification is successfully completed!</div>
                     You now have full access to all platform features.</div>
-                    <Button onClick={downloadQRCode} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
+                    <Button onClick={() => navigate("/dashboard")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
                     View Details
                     </Button>
                     </div>)
@@ -372,7 +374,7 @@ const IssueDoc = () => {
                         to unlock the ability to issue documents.
                     </p>
                     <div className='flex justify-center'>
-                    <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
+                    <Button onClick={() => navigate("/orgkyc")} variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
                         Verify Now
                     </Button> 
                     </div>

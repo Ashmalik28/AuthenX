@@ -19,6 +19,54 @@ export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+
+const getTransactionHistory = async () => {
+  try {
+    const contract = await createEthereumContract();
+    const provider = new ethers.BrowserProvider(window.ethereum);
+
+    const [approveEvents, revokeEvents, issueEvents, docRevokeEvents] = await Promise.all([
+      contract.queryFilter('OrgApproved'),
+      contract.queryFilter('OrgRevoked'),
+      contract.queryFilter('DocumentIssued'),
+      contract.queryFilter('DocumentRevoked'),
+    ]);
+
+    const allEvents = [...approveEvents, ...revokeEvents, ...issueEvents, ...docRevokeEvents];
+
+    const transactions = await Promise.all(
+      allEvents.map(async (event) => {
+        try {
+          const tx = await provider.getTransaction(event.transactionHash);
+          const receipt = await provider.getTransactionReceipt(event.transactionHash);
+          const block = await provider.getBlock(event.blockNumber);
+
+          const actionName = event.fragment.name; 
+
+          return {
+            date: new Date(block.timestamp * 1000).toLocaleDateString(),
+            action: actionName, 
+            status: receipt
+              ? receipt.status === 1
+                ? 'Approved'
+                : 'Failed'
+              : 'Pending',
+            walletAddress: tx.from,
+          };
+        } catch (error) {
+          console.error('Event processing error:', error);
+          return null;
+        }
+      })
+    );
+    return transactions.filter(Boolean).sort((b,a) => new Date(a.date) - new Date(b.date));
+  } catch (error) {
+    console.error('getTransactionHistory error:', error);
+    return [];
+  }
+};
+
+
  const connectWallet = async () => {
     try{
       if (!window.ethereum){
@@ -193,6 +241,7 @@ export const TransactionsProvider = ({ children }) => {
         getDocumentsByPerson,
         getDocumentsByOrg,
         getAllDocuments,
+        getTransactionHistory,
       }}
     >
       {children}
