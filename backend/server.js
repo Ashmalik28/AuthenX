@@ -90,9 +90,9 @@ export const OrgKYCSchema = z.object({
   registrationNo: z.string().min(2, "Registration number is required"),
   certificate: z
   .any()
-  .refine(file => file instanceof File, "Certificate file is required")
-  .refine(file => file?.size <= 10_000_000, "File size must be less than 5MB") 
-  .refine(file => ["application/pdf", "image/png", "image/jpeg"].includes(file?.type), 
+  .refine(file => file != null, "Certificate file is required")
+  .refine(file => file.size <= 10_000_000, "File size must be <= 10 MB")
+  .refine(file => ["application/pdf", "image/png", "image/jpeg"].includes(file.mimetype),
           "Only PDF, PNG, or JPEG files are allowed"),
   fullName: z.string().min(2, "Full name must be at least 2 characters").max(50, "Full name must be at most 50 characters"),
   position: z.string().min(2, "Position is required").max(30, "Position must be at most 30 characters"),
@@ -366,60 +366,6 @@ app.get("/dashboard" , authMiddleware , async function(req,res){
     res.status(500).json({error : "Server error"});
   }
 });
-app.post("/kyc", authMiddleware, upload.single("certificate"), async (req, res) => {
-  try {
-    const org = await OrganizationModel.findById(req.user.id);
-    if (!org) {
-      return res.status(404).json({ error: "Organization not found" });
-    }
-
-    const payload = {
-      ...req.body,
-      certificate: req.file
-    };
-
-    const validatedData = OrgKYCSchema.safeParse(payload);
-
-    const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-
-    const updatedOrg = await OrganizationModel.findOneAndUpdate(
-      { walletAddress: req.user.walletAddress },
-      {
-        kycDetails: {
-          orgName: validatedData.orgName,
-          orgType: validatedData.orgType,
-          officialEmail: validatedData.officialEmail,
-          website: validatedData.website,
-          address: validatedData.address,
-          country: validatedData.country,
-          registrationNo: validatedData.registrationNo,
-          certificateUrl: fileUrl,
-          contactPerson: {
-            fullName: validatedData.fullName,
-            position: validatedData.position,
-            contactNo: validatedData.contactNo,
-            personalEmail: validatedData.personalEmail
-          },
-          status: "Pending"
-        },
-        iskycVerified: false
-      },
-      { new: true }
-    );
-
-    res.json({ success: true, message: "KYC submitted successfully!", data: updatedOrg });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return res.status(400).json({ errors: err.errors });
-    }
-    if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
-      return res.status(400).json({ success: false, message: "File size should not exceed 10 MB" });
-    }
-    console.log("DB error", err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
 
 app.post("/issue", authMiddleware, async (req, res) => {
   try {
@@ -500,6 +446,108 @@ app.get("/dashboard-stats", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+app.post("/kyc", authMiddleware, upload.single("certificate"), async (req, res) => {
+  try {
+    const org = await OrganizationModel.findById(req.user.id);
+    if (!org) {
+      return res.status(404).json({ error: "Organization not found" });
+    }
+
+    let website = req.body.website || "";
+
+    if (website && !/^https?:\/\//i.test(website)) {
+    website = "https://" + website; 
+    }
+
+    const payload = {
+      ...req.body,
+      website ,
+      certificate: req.file
+    };
+
+    const validatedData = OrgKYCSchema.safeParse(payload);
+    if (!validatedData.success) {
+    return res.status(400).json({ errors: validatedData.error.issues });
+    }
+
+    const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
+    const updatedOrg = await OrganizationModel.findOneAndUpdate(
+      { walletAddress: req.user.walletAddress },
+      {
+        kycDetails: {
+          orgName: validatedData.data.orgName,
+          orgType: validatedData.data.orgType,
+          officialEmail: validatedData.data.officialEmail,
+          website: validatedData.data.website,
+          address: validatedData.data.address,
+          country: validatedData.data.country,
+          registrationNo: validatedData.data.registrationNo,
+          certificateUrl: fileUrl,
+          contactPerson: {
+            fullName: validatedData.data.fullName,
+            position: validatedData.data.position,
+            contactNo: validatedData.data.contactNo,
+            personalEmail: validatedData.data.personalEmail
+          },
+          status: "Pending"
+        },
+        iskycVerified: false
+      },
+      { new: true }
+    );
+
+    res.json({ success: true, message: "KYC submitted successfully!", data: updatedOrg });
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(400).json({ errors: err.errors });
+    }
+    if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ success: false, message: "File size should not exceed 10 MB" });
+    }
+    console.log("DB error", err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.get("/check-user-type", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id; 
+
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID missing in token" });
+    }
+
+    const org = await OrganizationModel.findById(userId);
+    if (org) {
+      return res.status(200).json({
+        success: true,
+        type: "organization",
+        name: org.kycDetails?.orgName || org.name || "Unnamed Organization",
+      });
+    }
+
+    const verifier = await VerifierModel.findById(userId);
+    if (verifier) {
+      return res.status(200).json({
+        success: true,
+        type: "verifier",
+        name: verifier.firstName,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      type: "normal",
+      name: "Guest User",
+    });
+
+  } catch (error) {
+    console.error("Error checking user type:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

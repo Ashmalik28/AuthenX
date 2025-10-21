@@ -24,7 +24,11 @@ export const signin = async (data) => {
 }
 
 export const submitKYC = async (formData) => {
-    const res = await API.post("/kyc" , formData );
+    const res = await API.post("/kyc" , formData , {
+    headers: {
+    "Content-Type": "multipart/form-data",
+    },
+    } );
     return res.data;
 }
 
@@ -64,6 +68,11 @@ export const verifierData = async (name , email , cid) => {
 
 export const fetchDashboardStats = async () => {
   const res = await API.get("/dashboard-stats");
+  return res.data;
+};
+
+export const fetchUserType = async () => {
+  const res = await API.get("/check-user-type");
   return res.data;
 };
 

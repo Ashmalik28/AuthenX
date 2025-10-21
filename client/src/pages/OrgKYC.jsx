@@ -104,8 +104,7 @@ const OrgKYC = () => {
         formData.append("certificate" , selectedFile);
 
         const res = await submitKYC(formData);
-        console.log("KYC sumitted" , res);
-
+    
         alert("KYC submitted successfully!");
 
         setOrgName("");
@@ -214,7 +213,7 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter Organization Name" id='OrgName' />
+                    <input autoComplete='off' value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter Organization Name" id='OrgName' />
                     </div>
                     </div>
                    <div className='flex flex-col gap-2'>
@@ -264,20 +263,20 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="email" className='text-black font-semibold'>Official Email *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={officialEmail} onChange={(e) => setOfficialEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="organization@example.com" id='email' />
+                    <input autoComplete='off' value={officialEmail} onChange={(e) => setOfficialEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="organization@example.com" id='email' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="website" className='text-black font-semibold'>Website URL</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={website} onChange={(e) => setWebsite(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="https://www.example.com" id='website' />
+                    <input autoComplete='off' value={website} onChange={(e) => setWebsite(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="https://www.example.com" id='website' />
                     </div>
                     </div>
                     </div>
                     <div className='flex flex-col h-fit gap-2 mt-4'>
                     <label htmlFor="address" className='text-black font-semibold'>Registered Address *</label>
                     <div className="outline-1 outline-gray-400 w-full rounded-xl h-24 p-3">
-                    <textarea value={address} onChange={(e) => setAddress(e.target.value)} id='address' className=" w-full h-full text-black outline-none placeholder:top-1" type="text" placeholder="Enter complete registered address " />
+                    <textarea autoComplete='off' value={address} onChange={(e) => setAddress(e.target.value)} id='address' className=" w-full h-full text-black outline-none placeholder:top-1" type="text" placeholder="Enter complete registered address " />
                     </div>
                     </div>
                     <div className="mt-4 flex  gap-6 justify-start">
@@ -348,7 +347,7 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2 w-full'>
                     <label htmlFor="registrationNo" className='text-black font-semibold'>Registration Number / Business ID *</label>
                     <div className="flex gap-0 w-full outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={registrationNo} onChange={(e) => setRegistrationNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter registration number or business ID" id='registrationNo' />
+                    <input autoComplete='off' value={registrationNo} onChange={(e) => setRegistrationNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter registration number or business ID" id='registrationNo' />
                     </div>
                     </div>
                     </div>
@@ -405,13 +404,13 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="fullName" className='text-black font-semibold'>Full Name *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='fullName' />
+                    <input autoComplete='off' value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="position" className='text-black font-semibold'>Position *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={position} onChange={(e) => setPosition(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="e.g., CEO , Director , Manager" id='position' />
+                    <input autoComplete='off' value={position} onChange={(e) => setPosition(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="e.g., CEO , Director , Manager" id='position' />
                     </div>
                     </div>
                     </div>
@@ -419,13 +418,13 @@ const OrgKYC = () => {
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="contactNo" className='text-black font-semibold'>Contact Number *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={contactNo} onChange={(e) => setContactNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='contactNo' />
+                    <input autoComplete='off' value={contactNo} onChange={(e) => setContactNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='contactNo' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="personalEmail" className='text-black font-semibold'>Personal Email *</label>
                     <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
-                    <input value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="manager@example.com" id='personalEmail' />
+                    <input autoComplete='off' value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="manager@example.com" id='personalEmail' />
                     </div>
                     </div>
                     </div>

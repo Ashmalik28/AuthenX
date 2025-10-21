@@ -16,20 +16,21 @@ contract AuthenX {
     }
 
     struct Document {
-        string personName;          // Name of the person
-        address personWallet;       // Wallet address of the person
-        string docType;             // e.g., Driving License, Degree, Insurance
-        string orgName;             // Organization issuing the document
-        address orgWallet;          // Wallet address of the organization
-        uint256 issuedAt;           // Timestamp of issuance
-        string docHash;             // Pinata IPFS CID (hash of the document)
-        bool valid;                 // Status: valid or revoked
+        string personName;          
+        address personWallet;       
+        string docType;             
+        string orgName;             
+        address orgWallet;          
+        uint256 issuedAt;           
+        string docHash;             
+        bool valid;                 
     }
 
     // --- STORAGE ---
-    mapping(address => Organization) public organizations;     // orgWallet => Organization
-    mapping(address => Document[]) private orgDocuments;       // orgWallet => documents they issued
-    mapping(address => Document[]) private personDocuments;    // personWallet => documents they own
+    mapping(address => Organization) public organizations;     
+    mapping(address => Document[]) private orgDocuments;       
+    mapping(address => Document[]) private personDocuments;    
+    address[] private orgList; 
 
     // --- EVENTS ---
     event OrgApproved(address indexed orgWallet, string name);
@@ -49,13 +50,23 @@ contract AuthenX {
     }
 
     // --- ORGANIZATION MANAGEMENT ---
-
     function approveOrg(address _orgWallet, string memory _orgName) external onlyOwner {
         organizations[_orgWallet] = Organization({
             name: _orgName,
             wallet: _orgWallet,
             approved: true
         });
+
+        bool exists = false;
+        for (uint i = 0; i < orgList.length; i++) {
+            if (orgList[i] == _orgWallet) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            orgList.push(_orgWallet);
+        }
 
         emit OrgApproved(_orgWallet, _orgName);
     }
@@ -66,8 +77,6 @@ contract AuthenX {
 
         emit OrgRevoked(_orgWallet);
     }
-
-    // --- DOCUMENT MANAGEMENT ---
 
     function issueDocument(
         string memory _personName,
@@ -103,7 +112,7 @@ contract AuthenX {
             ) {
                 docs[i].valid = false;
 
-                // Also update in orgDocuments
+                // Update in orgDocuments
                 Document[] storage orgDocs = orgDocuments[msg.sender];
                 for (uint j = 0; j < orgDocs.length; j++) {
                     if (keccak256(bytes(orgDocs[j].docHash)) == keccak256(bytes(_docHash))) {
@@ -119,7 +128,6 @@ contract AuthenX {
     }
 
     // --- VIEW FUNCTIONS ---
-
     function verifyDocument(address _personWallet, string memory _docHash) external view returns (bool) {
         Document[] memory docs = personDocuments[_personWallet];
         for (uint i = 0; i < docs.length; i++) {
@@ -127,10 +135,10 @@ contract AuthenX {
                 keccak256(bytes(docs[i].docHash)) == keccak256(bytes(_docHash)) &&
                 docs[i].valid
             ) {
-                return true; // Document is valid
+                return true;
             }
         }
-        return false; // Not found or revoked
+        return false;
     }
 
     function getDocumentsByOrg(address _orgWallet) external view returns (Document[] memory) {
@@ -141,24 +149,28 @@ contract AuthenX {
         return personDocuments[_personWallet];
     }
 
-    function getAllDocuments(address[] memory _orgWallets) external view onlyOwner returns (Document[] memory) {
+    function getAllDocuments() external view onlyOwner returns (Document[] memory) {
         uint totalDocs = 0;
-        for (uint i = 0; i < _orgWallets.length; i++) {
-            totalDocs += orgDocuments[_orgWallets[i]].length;
+
+        for (uint i = 0; i < orgList.length; i++) {
+            if (organizations[orgList[i]].approved) {
+                totalDocs += orgDocuments[orgList[i]].length;
+            }
         }
 
         Document[] memory allDocs = new Document[](totalDocs);
         uint index = 0;
 
-        for (uint i = 0; i < _orgWallets.length; i++) {
-            Document[] memory docs = orgDocuments[_orgWallets[i]];
-            for (uint j = 0; j < docs.length; j++) {
-                allDocs[index] = docs[j];
-                index++;
+        for (uint i = 0; i < orgList.length; i++) {
+            if (organizations[orgList[i]].approved) {
+                Document[] memory docs = orgDocuments[orgList[i]];
+                for (uint j = 0; j < docs.length; j++) {
+                    allDocs[index] = docs[j];
+                    index++;
+                }
             }
         }
 
         return allDocs;
     }
 }
-

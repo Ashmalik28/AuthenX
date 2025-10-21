@@ -34,6 +34,6 @@ const organizationSchema = new Schema ({
     iskycVerified : {type : Boolean , default : false},
 },{ timestamps: true });
 
-const OrganizationModel = mongoose.model('organizationSchema' , organizationSchema)
+const OrganizationModel = mongoose.model('OrganizationModel' , organizationSchema)
 
 export default OrganizationModel;
