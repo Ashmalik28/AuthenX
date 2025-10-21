@@ -9,6 +9,7 @@ import {shortenAddress} from "../utils/shortenAddress"
 import { fetchOrgDetails } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { fetchDashboardStats } from '../../api';
+import { fetchUserType } from '../../api';
 
 const Dashboard = () => {
     const [dateTime, setDateTime] = useState(new Date());
@@ -22,6 +23,8 @@ const Dashboard = () => {
     const [transactionsData, setTransactionsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [userType, setUserType] = useState("");
+    const [userName, setUserName] = useState("");
     const docsPerPage = 4;
 
     const totalTransactionData = Math.ceil(transactionsData.length/docsPerPage);
@@ -45,6 +48,22 @@ const Dashboard = () => {
     }
     };
 
+    useEffect(() => {
+    const getUserType = async () => {
+      try {
+        const data = await fetchUserType();
+        if (data.success) {
+          setUserType(data.type);
+          setUserName(data.name);
+        }
+
+      } catch (error) {
+        console.error("Error fetching user type:", error);
+      }
+    };
+
+    getUserType();
+    }, []);
 
     useEffect(() => {
     const fetchTransactions = async () => {
@@ -282,7 +301,7 @@ const Dashboard = () => {
                         </div>
                             <div className='flex flex-col rounded-xl gap-5'>
                                 <div className='flex-1 bg-white rounded-xl p-5 '>
-                                <div className='text-black font-semibold text-3xl'>Welcome , User</div>
+                                <div className='text-black font-semibold text-3xl'>Welcome , {userName}</div>
                                 <div className="text-sm text-white bg-black p-3 rounded-2xl mt-3 flex justify-around">
                                     <div className='flex text-lg gap-2 justify-center items-center'>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -297,6 +316,7 @@ const Dashboard = () => {
                                         {dateTime.toLocaleTimeString()}
                                     </div>
                                 </div>
+                                {userType === "verifier" && <div>
                                 <div className="w-full flex mt-5 bg-gray-100 rounded-xl ">
                                 <div  className="w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg bg-blue-500 text-white">
                                 Verifier 
@@ -304,11 +324,21 @@ const Dashboard = () => {
                                 <div  className="w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg bg-gray-100 text-black">
                                 Organization
                                 </div>
-
-
                                 </div>
                                 <div className='text-black mt-5 text-wrap text-lg'>As a verifier, you can quickly verify documents with trust and transparency.</div>
-
+                                </div>}
+                                {userType === "organization" && <div>
+                                <div className="w-full flex mt-5 bg-gray-100 rounded-xl ">
+                                <div  className="w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg bg-gray-100 text-black">
+                                Verifier 
+                                </div>
+                                <div  className="w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg bg-blue-500 text-white">
+                                Organization
+                                </div>
+                                </div>
+                                <div className='text-black mt-5 text-wrap text-lg'>As an organization, you can issue and manage verified documents with ease and reliability.</div>
+                                </div>}
+                                
                                 </div>
                                 <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white rounded-xl p-5`}>
                                 <div className='text-black flex justify-center font-bold text-3xl '>KYC Status</div>

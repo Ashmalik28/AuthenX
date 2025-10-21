@@ -8,13 +8,18 @@ import React, { useContext , useState } from 'react'
 import { Button } from "../components";
 import { fetchPendingKYC } from "../../api";
 import { updateOrgStatus } from "../../api";
+import { viewDocument } from "../../api";
+import {Loader} from "../components";
 
 
 
 const Admin = () => {
     const [loading , setLoading] = useState(false);
+    const [loadingdocs , setLoadingDocs] = useState(false);
+    const [issuedDocuments , setIssuedDocuments ] = useState([]);
+    const [loadingIndex , setLoadingIndex] = useState(null);
     const [requests , setRequests] = useState([]);
-    const {currentAccount , approveOrg} = useContext(TransactionContext);
+    const {currentAccount , approveOrg , getAllDocuments} = useContext(TransactionContext);
     const navigate = useNavigate();
     const isAdmin = AdminCheck();
     const [currentPage, setCurrentPage] = useState(1);
@@ -43,6 +48,7 @@ const Admin = () => {
     {id:5 , label : "other"}
     ];
 
+
     const loadRequests = async () => {
     setLoading(true);
     try {
@@ -59,6 +65,65 @@ const Admin = () => {
   useEffect(() => {
     loadRequests();
   }, []);
+
+  useEffect(() => {
+  const fetchDocuments = async () => {
+    try {
+      setLoadingDocs(true);
+      const docs = await getAllDocuments();
+      console.log(docs);
+
+    const formattedDocs = docs.map((doc) => {
+    const issuedAt = Number(doc.issuedAt || doc[5]); 
+
+    return {
+        name: doc[0],
+        wallet: doc[1],
+        docType: doc[2],
+        orgName: doc[3],
+        orgWallet: doc[4],
+        hash: doc.hash || doc[6],
+        issuedAt: new Date(issuedAt * 1000).toLocaleDateString(),
+        status: doc[7] == true ? "Issued" : "Failed"  ,
+        link: `https://gateway.pinata.cloud/ipfs/${doc.hash || doc[6]}`,
+    };
+    });
+
+    console.log(formattedDocs);
+
+      setIssuedDocuments(formattedDocs);
+      console.log("Formatted Docs:", formattedDocs);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
+    } finally {
+      setLoadingDocs(false);
+    }
+  };
+
+  fetchDocuments();
+}, []);
+
+const handleViewDocument = async (cid, index) => {
+  try {
+    setLoadingIndex(index);
+    const data = await viewDocument(cid);
+    console.log(data);
+
+    if (data.success && data.url) {
+      const newTab = window.open('', '_blank');
+      newTab.location.href = data.url;
+    } else {
+      alert(data.message || "Failed to open document");
+    }
+  } catch (error) {
+    console.error("View document error:", error);
+    alert("Something went wrong while viewing document");
+  } finally {
+    setLoadingIndex(null);
+  }
+};
+
+
 
     const handleStatusUpdate = async (walletAddress, status) => {
         try {
@@ -83,141 +148,6 @@ const Admin = () => {
         }
         };
     
-
-  const issuedDocuments = [
-    {
-      name: "Aarav Patel",
-      wallet: "0x8b12...f3a9",
-      docType: "Business License",
-      orgName: "TechNova Labs",
-      orgWallet: "0x5f8d...154f",
-      issuedAt: "Oct 8, 2025",
-      hash: "0xa7f12b9cd4e9f1a8d4c3a5b76f89d1234a8fcd67",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample1",
-    },
-    {
-      name: "Sophia Müller",
-      wallet: "0x6c2a...7f1b",
-      docType: "ISO Certification",
-      orgName: "GreenGrid Energy",
-      orgWallet: "0x3f0f...6a8e",
-      issuedAt: "Oct 7, 2025",
-      hash: "0xb4d19e7f8a5a9cde91234af678f1d23b45ed789c",
-      status: "Pending",
-      link: "https://ipfs.io/ipfs/QmDocExample2",
-    },
-    {
-      name: "David Carter",
-      wallet: "0x4a91...a8da",
-      docType: "Financial Audit Report",
-      orgName: "FinSure Capital",
-      orgWallet: "0x7d24...5def",
-      issuedAt: "Oct 5, 2025",
-      hash: "0xc5a3d4b2e1a8f9d0b6c712e5f678a9dcb4f23489",
-      status: "Failed",
-      link: "https://ipfs.io/ipfs/QmDocExample3",
-    },
-    {
-      name: "Lina Wong",
-      wallet: "0x1d23...ac89",
-      docType: "Medical License",
-      orgName: "MediCure Health",
-      orgWallet: "0x9a8c...12d4",
-      issuedAt: "Oct 2, 2025",
-      hash: "0xd9f234b1e5c7a8f0b2e4c8d1a6789bde234f12a3",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample4",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-    {
-      name: "Hiro Tanaka",
-      wallet: "0x3e45...d2c7",
-      docType: "Trade License",
-      orgName: "Nippon Corp",
-      orgWallet: "0x2f8a...1b5d",
-      issuedAt: "Oct 1, 2025",
-      hash: "0xe9b1c3d4a5f8b7c2d9a1b4e678f9c1a2b3c4d567",
-      status: "Completed",
-      link: "https://ipfs.io/ipfs/QmDocExample5",
-    },
-  ];
    const totalIssuedPages = Math.ceil(issuedDocuments.length/docsPerPage);
    const totalKycDocs = Math.ceil(requests.length/docsPerPage)
    const indexOfLastDoc = currentPage * docsPerPage;
@@ -419,21 +349,21 @@ const Admin = () => {
                 >
                     <div>
                     <p className="text-sm font-semibold">{doc.name}</p>
-                    <p className="text-xs text-blue-600">{doc.wallet}</p>
+                    <p className="text-xs text-blue-600">{shortenAddress(doc.wallet)}</p>
                     </div>
                     <div>{doc.docType}</div>
                     <div>
                     <p className="text-sm font-semibold">{doc.orgName}</p>
-                    <p className="text-xs text-blue-600">{doc.orgWallet}</p>
+                    <p className="text-xs text-blue-600">{shortenAddress(doc.orgWallet)}</p>
                     </div>
                     <div>{doc.issuedAt}</div>
-                    <div className="truncate text-sm">{doc.hash}</div>
+                    <div className="truncate text-sm">{shortenAddress(doc.hash)}</div>
                     <div>
                     <span
                         className={`px-2 py-1 rounded-md text-sm font-medium ${
-                        doc.status === "Completed"
+                        doc.status === "Issued"
                             ? "bg-green-100 text-green-700"
-                            : doc.status === "Pending"
+                            : doc.status === "Failed"
                             ? "bg-yellow-100 text-yellow-700"
                             : "bg-red-100 text-red-700"
                         }`}
@@ -442,15 +372,10 @@ const Admin = () => {
                     </span>
                     </div>
                     <div>
-                    <a
-                        href={doc.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline text-sm"
-                    >
-                        View Doc
-                    </a>
-                    </div>
+                    {loadingIndex === index ? <div className='w-64 flex justify-center items-center'><Loader height={15} width={15}></Loader></div>  :
+                    <button onClick={() => handleViewDocument(doc.hash , index )} className="bg-blue-700 text-white px-3 py-1 rounded-xl hover:bg-black transition-all duration-300 ease-in-out">View Doc</button>
+                     }
+                    </div>   
                 </div>
                 ))}
             </div>

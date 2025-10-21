@@ -29,7 +29,7 @@ const IssueDoc = () => {
     const [loading , setLoading] = useState(false);
     const {issueDocument , isLoading} = useContext(TransactionContext)
     const [DocTypeOpen , setDocTypeOpen] = useState(false);
-    const [kycStatus, setKycStatus] = useState("");
+    const [kycStatus, setKycStatus] = useState("Pending");
     const {currentAccount} = useContext(TransactionContext);
     const [selectedFile , setSelectedFile] = useState(null);
     const [isDragging , setIsDragging] = useState(false);
@@ -343,7 +343,7 @@ const IssueDoc = () => {
                     </div>
                     <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white  rounded-xl p-4`}>
                     <div className='text-black flex justify-center text-3xl font-bold'>KYC Status</div>
-                    {kycStatus == "Approved" && (
+                    {kycStatus === "Approved" && (
                     <div className='flex flex-col items-center'>
                     <div className='mt-4 py-3 px-4 items-center border-1 border-green-400 w-fit bg-green-100 rounded-2xl shadow-xs shadow-green-500 text-green-700 font-semibold flex gap-2'>
                     <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
@@ -359,7 +359,7 @@ const IssueDoc = () => {
                     </Button>
                     </div>)
                     }
-                    {kycStatus == "Pending" && 
+                    {kycStatus === "Pending" && 
                     <div className='flex flex-col items-center'>
                     <div className='mt-5 py-3 px-4 items-center border-1 border-red-400 w-fit bg-red-100 rounded-2xl shadow-2xs shadow-red-500 text-red-700 font-semibold flex gap-2'>
                     <div>
