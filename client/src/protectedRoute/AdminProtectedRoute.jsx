@@ -1,5 +1,5 @@
 import { useState , useEffect } from "react"
-import {createEthereumContract} from '../context/TransactionContext'
+import {createReadOnlyContract } from '../context/TransactionContext'
 
 const AdminCheck = () => {
     const [isAdmin , setIsAdmin] = useState(null);
@@ -7,7 +7,7 @@ const AdminCheck = () => {
     useEffect(() => {
         const checkAdmin = async () => {
             try {
-                const contract = await createEthereumContract();
+                const contract = await createReadOnlyContract();
                 const owner = await contract.owner();
                 const accounts = await window.ethereum.request({method : "eth_accounts"});
 

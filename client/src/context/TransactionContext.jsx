@@ -15,6 +15,14 @@ export const createEthereumContract = async () => {
   return new ethers.Contract(contractAddress, contractABI, signer);
 };
 
+export const createReadOnlyContract = () => {
+  const provider = new ethers.JsonRpcProvider(
+    `https://eth-sepolia.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_KEY}`
+  );
+  return new ethers.Contract(contractAddress, contractABI, provider);
+};
+
+
 export const TransactionsProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -155,7 +163,7 @@ const getTransactionHistory = async () => {
   // 📌 Verify Document
   const verifyDocument = async (personWallet , docHash) => {
     try {
-      const contract = await createEthereumContract();
+      const contract = await createReadOnlyContract();
       return await contract.verifyDocument(personWallet , docHash);
     } catch (error) {
       console.error("verifyDocument error:", error);
@@ -242,6 +250,7 @@ const getTransactionHistory = async () => {
         getDocumentsByOrg,
         getAllDocuments,
         getTransactionHistory,
+        createReadOnlyContract,
       }}
     >
       {children}

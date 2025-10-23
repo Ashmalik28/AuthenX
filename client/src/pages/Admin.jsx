@@ -84,15 +84,11 @@ const Admin = () => {
         orgWallet: doc[4],
         hash: doc.hash || doc[6],
         issuedAt: new Date(issuedAt * 1000).toLocaleDateString(),
-        status: doc[7] == true ? "Issued" : "Failed"  ,
-        link: `https://gateway.pinata.cloud/ipfs/${doc.hash || doc[6]}`,
+        status: doc[7] == true ? "Issued" : "Failed"  
     };
     });
 
-    console.log(formattedDocs);
-
       setIssuedDocuments(formattedDocs);
-      console.log("Formatted Docs:", formattedDocs);
     } catch (error) {
       console.error("Error fetching documents:", error);
     } finally {
@@ -372,8 +368,8 @@ const handleViewDocument = async (cid, index) => {
                     </span>
                     </div>
                     <div>
-                    {loadingIndex === index ? <div className='w-64 flex justify-center items-center'><Loader height={15} width={15}></Loader></div>  :
-                    <button onClick={() => handleViewDocument(doc.hash , index )} className="bg-blue-700 text-white px-3 py-1 rounded-xl hover:bg-black transition-all duration-300 ease-in-out">View Doc</button>
+                    {loadingIndex === index ? <div className='w-full flex justify-center items-center'><Loader height={15} width={15}></Loader></div>  :
+                    <div className="w-full flex justify-center items-center"><button onClick={() => handleViewDocument(doc.hash , index )} className="bg-blue-700 text-white px-3 py-1 rounded-xl hover:bg-black transition-all duration-300 ease-in-out">View Doc</button></div>
                      }
                     </div>   
                 </div>
@@ -545,8 +541,8 @@ const handleViewDocument = async (cid, index) => {
                     </div>
                     </div>
                     <div className='flex justify-center'>
-                        <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0 bg-red-700 justify-center text-lg outline-red-400 mt-6 flex gap-2 items-center">
-                            Approve Admin Access
+                        <Button variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0 bg-red-700 justify-center hover:text-red-500text-lg outline-red-400 mt-6 flex gap-2 items-center">
+                            Revoke Document
                         </Button> 
                     </div>
                     </div>

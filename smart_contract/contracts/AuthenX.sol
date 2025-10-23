@@ -8,7 +8,6 @@ contract AuthenX {
         owner = msg.sender;
     }
 
-    // --- STRUCTS ---
     struct Organization {
         string name;
         address wallet;
@@ -26,19 +25,17 @@ contract AuthenX {
         bool valid;                 
     }
 
-    // --- STORAGE ---
     mapping(address => Organization) public organizations;     
     mapping(address => Document[]) private orgDocuments;       
     mapping(address => Document[]) private personDocuments;    
     address[] private orgList; 
 
-    // --- EVENTS ---
     event OrgApproved(address indexed orgWallet, string name);
     event OrgRevoked(address indexed orgWallet);
     event DocumentIssued(address indexed personWallet, address indexed orgWallet, string docType, string docHash);
     event DocumentRevoked(address indexed personWallet, string docHash);
 
-    // --- MODIFIERS ---
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Only contract owner can call this");
         _;
@@ -49,7 +46,7 @@ contract AuthenX {
         _;
     }
 
-    // --- ORGANIZATION MANAGEMENT ---
+
     function approveOrg(address _orgWallet, string memory _orgName) external onlyOwner {
         organizations[_orgWallet] = Organization({
             name: _orgName,
@@ -112,7 +109,6 @@ contract AuthenX {
             ) {
                 docs[i].valid = false;
 
-                // Update in orgDocuments
                 Document[] storage orgDocs = orgDocuments[msg.sender];
                 for (uint j = 0; j < orgDocs.length; j++) {
                     if (keccak256(bytes(orgDocs[j].docHash)) == keccak256(bytes(_docHash))) {
@@ -127,7 +123,6 @@ contract AuthenX {
         }
     }
 
-    // --- VIEW FUNCTIONS ---
     function verifyDocument(address _personWallet, string memory _docHash) external view returns (bool) {
         Document[] memory docs = personDocuments[_personWallet];
         for (uint i = 0; i < docs.length; i++) {

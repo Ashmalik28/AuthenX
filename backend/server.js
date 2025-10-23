@@ -537,6 +537,7 @@ app.get("/check-user-type", authMiddleware, async (req, res) => {
         success: true,
         type: "verifier",
         name: verifier.firstName,
+        email : verifier.email
       });
     }
 
