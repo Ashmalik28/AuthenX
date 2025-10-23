@@ -25,6 +25,8 @@ const Verify = () => {
     const [loading , setloading] = useState(null);
     const location = useLocation();
 
+    const userType = localStorage.getItem("userType")
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if(file){
@@ -35,7 +37,6 @@ const Verify = () => {
     useEffect(() => {
     const params = new URLSearchParams(location.search);
     const hashFromURL = params.get("hash");
-    console.log(hashFromURL);
     if (hashFromURL) {
       setDocHash(hashFromURL);
       handleAutoVerification(hashFromURL);
@@ -74,7 +75,6 @@ const Verify = () => {
       const {walletAddress} = await getWallet(cid);
 
       const result = await verifyDocument(walletAddress , cid);
-      console.log(result);
       
       if (result) {
         const res = await verifierData(name , email , cid);
@@ -132,11 +132,15 @@ const Verify = () => {
                     <img src={logo} alt="logo" className='w-40 h-10 cursor-pointer' />
                 </div>
                 <div className='flex justify-center items-center'>
+                    {userType === "verifier" ? "" :
                     <div className='text-white flex justify-center items-center gap-2 font-semibold outline-1 outline-gray-500 text-lg px-5 py-1 mr-5 bg-gray-500 rounded-3xl '>
+                        <div className='flex justify-center items-center gap-2'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
                         </svg>
-                    {shortenAddress(currentAccount)}</div>
+                        {shortenAddress(currentAccount)}
+                        </div> 
+                    </div> }
                     <div className='border-1 rounded-full h-12 w-12 bg-gray-700 flex justify-center items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7">
                             <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />

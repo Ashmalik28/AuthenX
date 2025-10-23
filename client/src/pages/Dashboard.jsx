@@ -56,6 +56,9 @@ const Dashboard = () => {
           setUserType(data.type);
           setUserName(data.name);
         }
+        if (data.type === "verifier") {
+          setEmail(data.email);
+        }
 
       } catch (error) {
         console.error("Error fetching user type:", error);
@@ -66,8 +69,8 @@ const Dashboard = () => {
     }, []);
 
     useEffect(() => {
-    const fetchTransactions = async () => {
       setIsLoading(true);
+      const fetchTransactions = async () => {
       try {
         const data = await getTransactionHistory();
         setTransactionsData(data.reverse());
@@ -83,8 +86,14 @@ const Dashboard = () => {
 
 
     useEffect(() => {
+    if (!userType) return; 
     const fetchBalance = async () => {
-      if (!currentAccount) return;
+      if(userType == "verifier"){
+        setWalletBalance("N/A");
+        return;
+      }
+    
+      if (!currentAccount || !window.ethereum) return;
 
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -97,7 +106,7 @@ const Dashboard = () => {
     };
 
     fetchBalance();
-   }, [currentAccount]);
+   }, [currentAccount , userType ]);
 
     useEffect(() => {
     const getStats = async () => {
@@ -115,7 +124,7 @@ const Dashboard = () => {
    getStats();
    }, []);
 
-     useEffect(() => {
+    useEffect(() => {
     const timer = setInterval(() => {
       setDateTime(new Date());
     }, 1000);
@@ -168,11 +177,16 @@ const Dashboard = () => {
                     <img src={logo} alt="logo" className='w-40 h-10 cursor-pointer' />
                 </div>
                 <div className='flex justify-center items-center'>
+                    {userType === "verifier" ? "" :
                     <div className='text-white flex justify-center items-center gap-2 font-semibold outline-1 outline-gray-500 text-lg px-5 py-1 mr-5 bg-gray-500 rounded-3xl '>
+                        <div className='flex justify-center items-center gap-2'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
                         </svg>
-                    {shortenAddress(currentAccount)}</div>
+                        {shortenAddress(currentAccount)}
+                        </div> 
+                    </div> }
+                    
                     <div className='border-1 rounded-full h-12 w-12 bg-gray-700 flex justify-center items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7">
                             <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
@@ -199,7 +213,7 @@ const Dashboard = () => {
                         </div>
                         <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='text-xl font-semibold'>Wallet Balance</div>
-                            <div className='mt-4 text-4xl font-bold'>{walletBalance} ETH</div>
+                            <div className='mt-4 text-4xl font-bold'>{walletBalance} {userType === "verifier" ? "" : "ETH"}</div>
                         </div>
                     </div>
 
@@ -216,7 +230,15 @@ const Dashboard = () => {
                                 <div className='w-1/2 flex justify-center text-center text-black text-lg mt-1 font-semibold'>Verify Document</div>
                                 </div>
                             </div>
-                            <div onClick={() => navigate("/issue")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
+                            {userType == "verifier" ? <div onClick={() => navigate("/#support")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
+                                <div className='text-blue-500 flex flex-col justify-center items-center'>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-11">
+                                <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z" />
+                                <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z" />
+                                </svg>
+                                <div className='w-1/2 flex justify-center text-center text-black text-lg mt-1 font-semibold'>Connect With Us</div>
+                                </div>
+                            </div> : <div onClick={() => navigate("/issue")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-11">
                                 <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
@@ -224,7 +246,8 @@ const Dashboard = () => {
                                 </svg>
                                 <div className='w-1/2 flex justify-center text-center text-black text-lg mt-1 font-semibold'>Issue Document</div>
                                 </div>
-                            </div>
+                            </div> }
+                            
                             <div onClick={() => navigate("/about")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-3'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-11">
@@ -262,10 +285,11 @@ const Dashboard = () => {
                             </div>
                             </div>
                             <div>
-                            {isLoading ? (
+                            {userType === "verifier" ? <div className='text-gray-700 p-4 w-full flex justify-center'>No blockchain transactions are needed for verifiers.</div>  : 
+                            isLoading ? (
                                 <div className="text-gray-700 flex justify-center items-center p-4 w-full h-full"><Loader /></div>
                             ) : currentDocs.length === 0 ? (
-                                <div className="text-gray-700 p-4">No recent transactions found.</div>
+                                <div className="text-gray-700 p-4 w-full flex justify-center">No recent transactions found.</div>
                             ) : (
                                 currentDocs.map((tx, index) => (
                                 <TransactionRow key={index} transaction={{
@@ -275,7 +299,7 @@ const Dashboard = () => {
                                     wallet: tx.walletAddress, 
                                 }} />
                                 ))
-                            )}
+                            ) }
                             <div className="flex justify-center bg-blue-500 p-1 rounded-b-2xl items-center gap-3">
                            <div className="flex p-1 rounded-xl bg-white" >
                             <div onClick={prevPage} className="p-2 text-black cursor-pointer">
@@ -336,10 +360,11 @@ const Dashboard = () => {
                                 Organization
                                 </div>
                                 </div>
-                                <div className='text-black mt-5 text-wrap text-lg'>As an organization, you can issue and manage verified documents with ease and reliability.</div>
+                                <div className='text-black mt-5 text-wrap text-md'>As an organization, you can issue and manage verified documents with ease and reliability.</div>
                                 </div>}
                                 
                                 </div>
+                                {userType === "organization" ?
                                 <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white rounded-xl p-5`}>
                                 <div className='text-black flex justify-center font-bold text-3xl '>KYC Status</div>
                                 {kycStatus == "Approved" && (
@@ -380,7 +405,8 @@ const Dashboard = () => {
                                 </div>
                                 </div>    
                                 }
-                                </div>
+                                </div> : <div className='flex h-full w-full  flex-1 justify-cente items-center'></div>
+                                }
                         </div>
                     </div>
 

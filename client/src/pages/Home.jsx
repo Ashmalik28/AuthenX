@@ -10,7 +10,9 @@ function Home() {
     <Stats/>
     <Features />
     <How />
-    <Support />
+    <div id="support">
+        <Support />
+      </div>
     <FAQ />
     <Footer />
     </>

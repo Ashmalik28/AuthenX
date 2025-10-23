@@ -115,13 +115,13 @@ const Signup = () => {
 
             </div>
             <div className="flex w-1/2 bg-gray-200 justify-center items-center">
-              <span className=" w-3/4 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-10">
+              <span className=" w-3/4 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
               <span className="flex justify-start text-3xl font-bold">Create Your AuthenX Account</span>
               <span className="mt-3 text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>
 
               <div className="w-full">
-                <div className="flex justify-center text-xl font-bold mt-3 border-b-1 p-2 border-b-gray-400">Join As </div>
-                <div className="w-full flex mt-5 bg-gray-100 rounded-xl ">
+                <div className="flex justify-center text-xl font-bold mt-2 border-b-1 p-1 border-b-gray-400">Join As </div>
+                <div className="w-full flex mt-3 mb-3 bg-gray-100 rounded-xl ">
                     <div onClick={() => handleTabSwitch("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
                     Verifier 
                     </div>
@@ -191,7 +191,7 @@ const Signup = () => {
                     </div>
               </div>
               {serverError && (
-                <div className="mt-2 p-2 bg-red-100 text-red-600 text-sm">{serverError}</div>
+                <div className="mt-2 p-2 bg-red-100 rounded-lg text-red-600 text-sm">{serverError}</div>
               )}
               <span className="w-full flex items-center mt-4 flex-col">
                 <Button onClick={handleSignup} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
@@ -202,7 +202,9 @@ const Signup = () => {
                 </div>
               </span> </div>}
               {active == "organization" && 
-              <div className="w-full bg-gray-100 border-gray-100 rounded-2xl flex flex-col items-center border mt-3 pb-3">
+              <div>
+               <div className="text-black bg-red-100 rounded-lg py-1 w-full flex justify-center text-sm items-center">🔒 Please unlock your wallet before continuing</div>
+               <div className="w-full bg-gray-100 border-gray-100 rounded-2xl flex flex-col items-center border mt-3 pb-3">
                 <div className="flex flex-col items-center bg-white p-5 rounded-2xl mt-5 mb-5">
                 <div className=" flex justify-center text-xl font-bold">Select Wallet</div>
                 <span onClick={connectWallet} className="text-lg w-96 font-semibold mt-4 text-white flex justify-center bg-black py-3 hover:bg-neutral-800 px-8 rounded-xl">Continue with Metamask <div className="pl-3 flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
@@ -244,11 +246,11 @@ const Signup = () => {
                 <div className="flex flex-col gap-3">
                 <span onClick={() => alert("Trust wallet support coming soon ! Continue with Metamask for now")} className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Trust Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={ticon} alt="icon" /></div></span>
                 <span onClick={() => alert("Coinbase wallet support coming soon ! Continue with Metamask for now")}  className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Coinbase Wallet <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={cbicon} alt="icon" /></div></span>
-                <span onClick={() => alert("WalletConnect support coming soon ! Continue with Metamask for now")}  className="text-lg w-96 font-semibold justify-center text-black flex bg-gray-300 hover:bg-black hover:text-white py-3 px-8 rounded-xl">Continue with Wallet Connect <div className="pl-3 flex justify-center items-center"><img className="w-[24px] h-[24px]" src={wcicon} alt="icon" /></div></span>
                 </div> 
                 </div>
                 <div className="w-2/3 text-center text-sm">AuthenX will never store your <span className="underline">private keys</span>. You stay in control of your wallet</div>
-                </div>
+              </div>
+              </div>
               }
               
               </span>
