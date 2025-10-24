@@ -28,7 +28,12 @@ const HeroSection = () => {
                 <Button variant="primary" size="lg" className="before:bg-white rounded-lg outline-blue-400 flex gap-2 items-center">
                 Get Started
                 </Button>
-                <Button variant="secondary" size="lg" className="before:bg-blue-500 rounded-lg  outline-blue-400 flex gap-2 items-center">
+                <Button onClick={() => {
+                    const faqSection = document.getElementById("faq");
+                    if (faqSection) {
+                    faqSection.scrollIntoView({ behavior: "smooth"  , block: "end"});
+                    }
+                }} variant="secondary" size="lg" className="before:bg-blue-500 rounded-lg  outline-blue-400 flex gap-2 items-center">
                 Learn More
                 </Button>
             </div>

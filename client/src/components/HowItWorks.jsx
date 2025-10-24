@@ -1,4 +1,4 @@
-import loginimage from "../../images/HowItWorks/login.png"
+import loginimage from "../../images/HowItWorks/login1.png"
 import uploadimage from "../../images/HowItWorks/upload.png"
 import blockchainimage from "../../images/HowItWorks/BVerify.png"
 import happyimg from "../../images/HowItWorks/happy.png"
@@ -21,7 +21,7 @@ const HowItWorksCard = ({cardNo , image , heading , subheading}) => {
 }
 
 const HowItWorksData = [
-    {cardNo : "1" , image : <img src={loginimage} alt="login" /> , heading : "Connect Wallet" , subheading : "Start by connecting your MetaMask wallet to AuthenX. This ensures secure access and links your identity with blockchain verification."},
+    {cardNo : "1" , image : <img src={loginimage} alt="login" /> , heading : "Login" , subheading : "Start by logging in with your email and password on AuthenX. This ensures secure access and links your verifier account for document validation."},
     {cardNo : "2" , image : <img className="w-45 h-40" src={uploadimage} alt="upload" /> , heading : "Upload Document" , subheading : "Upload your digital document directly to the platform for verification."} ,
     {cardNo : "3" , image : <img src={blockchainimage} alt="verify" /> , heading : "Blockchain Verification" ,  subheading : "AuthenX matches the document’s unique digital fingerprint (hash) with blockchain records to ensure authenticity."},
     {cardNo : "4" , image : <img src={happyimg} alt="happy" /> , heading : "Instant Results" , subheading : "Get immediate confirmation of your document’s authenticity, ensuring trust and protection from fraud"}

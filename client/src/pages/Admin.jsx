@@ -21,7 +21,7 @@ const Admin = () => {
     const [requests , setRequests] = useState([]);
     const {currentAccount , approveOrg , getAllDocuments} = useContext(TransactionContext);
     const navigate = useNavigate();
-    const isAdmin = AdminCheck();
+    const isAdmin = localStorage.getItem("Admin");
     const [currentPage, setCurrentPage] = useState(1);
     const [AdminTypeOpen , setAdminTypeOpen] = useState(false);
     const [revocationTypeOpen , setRevocationTypeOpen] = useState(false); 

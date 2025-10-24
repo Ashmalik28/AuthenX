@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import logout from '../components/logout';
 import { useNavigate } from 'react-router-dom';
 import AdminCheck from '../protectedRoute/AdminProtectedRoute';
-import { fetchUserType } from '../../api';
-import { useState , useEffect } from 'react';
+
+
 
   
   const SideBarItem = ({text , icon , active , path}) => {
@@ -66,7 +66,8 @@ import { useState , useEffect } from 'react';
 
 const Sidebar = () => {
   const location = useLocation();
-  const isAdmin = AdminCheck();
+  const check = AdminCheck();
+  const isAdmin = localStorage.getItem("Admin");
   const storedType = localStorage.getItem("userType"); 
 
     const organizationItems = isAdmin
