@@ -12,8 +12,10 @@ function Home() {
     <How />
     <div id="support">
         <Support />
-      </div>
-    <FAQ />
+    </div>
+    <div id="faq">
+      <FAQ />
+    </div>
     <Footer />
     </>
   )

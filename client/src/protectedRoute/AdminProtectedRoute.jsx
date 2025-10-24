@@ -2,7 +2,6 @@ import { useState , useEffect } from "react"
 import {createReadOnlyContract } from '../context/TransactionContext'
 
 const AdminCheck = () => {
-    const [isAdmin , setIsAdmin] = useState(null);
     
     useEffect(() => {
         const checkAdmin = async () => {
@@ -12,19 +11,18 @@ const AdminCheck = () => {
                 const accounts = await window.ethereum.request({method : "eth_accounts"});
 
                 if(accounts.length > 0 && typeof owner === "string" && accounts[0].toLowerCase() === owner.toLowerCase()){
-                    setIsAdmin(true);
+                    localStorage.setItem("Admin" , true );
                 }else {
-                    setIsAdmin(false);
+                    localStorage.setItem("Admin" , false);
                 }
             } catch (error){
                 console.log("Admin check failed: " , error);
-                setIsAdmin(false);
+                localStorage.setItem("Admin" , false);
+                
             }
         }
         checkAdmin();
     }, []);
-
-    return isAdmin;
 }
 
 export default AdminCheck;

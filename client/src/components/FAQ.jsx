@@ -4,7 +4,7 @@ import Faqimage from "../../images/FAQ/FAQ.png"
 const FAQitem = ({question , answer }) => {
     const [open , setOpen] = useState(false)
     return (
-     <div role="button" onClick={() => setOpen(!open)} className="mt-4 flex w-4/5 bg-gray-100 py-3 px-4  rounded-2xl flex-col items-between justify-center">
+     <div role="button" onClick={() => setOpen(!open)} className="mt-4 flex w-4/5 bg-gray-100 py-3 bg-opacity-100 px-4  rounded-2xl flex-col items-between justify-center">
         <div className="flex justify-between items-center">
             <div className="font-semibold">{question}</div>
             <div><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className={`transform transition-transform duration-200 ease-in-out  size-4 font-semibold ${open ? "rotate-180" : ""}`}>
@@ -12,7 +12,7 @@ const FAQitem = ({question , answer }) => {
             </svg>
             </div>
         </div>
-        <div className={`bg-gray-100 transition-all duration-500 ease-in-out ${open ? "py-2" : "py-0"} `}  >{open && (
+        <div className={`bg-gray-100 relative z-10 bg-opacity-100 transition-all duration-500 ease-in-out ${open ? "py-2" : "py-0"} `}  >{open && (
             <div>{answer}</div>
         )}</div>
      </div>

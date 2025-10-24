@@ -2,6 +2,7 @@
 import "react-phone-input-2/lib/style.css";
 import { useState } from "react";
 import Button from "./Button";
+import emailjs from '@emailjs/browser';
 
 const countries = [
   { code: "sg", dialCode: "+65", flag: "🇸🇬", name: "Singapore" },
@@ -45,6 +46,61 @@ const Support = () => {
     id: null,
     label: "Select your interest"
   });
+    const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+    });
+   const [isLoading, setIsLoading] = useState(false);
+
+   const handleSendMessage = (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !phone || !formData.message) {
+    alert("Please fill out all required fields.");
+    return;
+    }
+
+    setIsLoading(true);
+
+    const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        phone: `${selectedCountry.dialCode}${phone}`,
+        country: selectedCountry.name,
+        interest: selectedInterest.label,
+        message: formData.message,
+    };
+    emailjs
+    .send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID_SUPPORT, 
+      templateParams,
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    )
+    .then((response) => {
+      console.log("Message sent to support:", response.status);
+
+      return emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID_AUTOREPLY, 
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+    })
+    .then(() => {
+      alert("Your message has been sent! We’ve also sent you a confirmation email.");
+      setFormData({ name: "", email: "", message: "" });
+      setPhone("");
+      setSelectedInterest({ id: null, label: "Select your interest" });
+    })
+    .catch((error) => {
+      console.error("FAILED...", error);
+      alert("Something went wrong. Please try again.");
+    })
+    .finally(() => setIsLoading(false));
+   };
+
     return (
         <div className="flex flex-col w-full items-center justify-center ">
             <div className="flex flex-col items-center justify-center">
@@ -53,11 +109,11 @@ const Support = () => {
             </div>
             <div className="mt-13 mb-6 flex gap-6">
                 <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                <input className="w-70 outline-none mt-0" type="text" placeholder="Your Name" />
+                <input value={formData.name} onChange={(e) => setFormData({...formData , name : e.target.value}) } className="w-70 outline-none mt-0" type="text" placeholder="Your Name" />
                 <span className="flex w-3 justify-end text-gray-400">*</span>
                 </div>
                 <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                <input className="w-70 outline-none mt-0" type="text" placeholder="Email Address" />
+                <input value={formData.email} onChange={(e) => setFormData({...formData , email : e.target.value})} className="w-70 outline-none mt-0" type="text" placeholder="Email Address" />
                 <span className="flex w-3 justify-end text-gray-400">*</span>
                 </div>
             </div>
@@ -144,10 +200,10 @@ const Support = () => {
             
             </div>
             <div className="outline-1 outline-gray-400 w-164 rounded-xl mb-8 h-40 p-3">
-                <textarea className=" w-full h-full outline-none placeholder:top-1" type="text" placeholder="Type in your message" />
+                <textarea value={formData.message} onChange={(e) => setFormData({...formData , message : e.target.value})} className=" w-full h-full outline-none placeholder:top-1" type="text" placeholder="Type in your message" />
             </div>
-            <Button variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-full  outline-blue-400 flex gap-2 items-center">
-                Send your message
+            <Button onClick={handleSendMessage} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-full  outline-blue-400 flex gap-2 items-center">
+                {isLoading ? "Sending..." : "Send your message"}
             </Button>
             <span className="mt-6 text-xs text-black font-medium w-1/5 text-center justify-center">
                 By clicking, you agree to our <span className="underline">Terms & Conditions</span> ,
