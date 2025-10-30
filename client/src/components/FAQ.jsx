@@ -6,14 +6,14 @@ const FAQitem = ({question , answer }) => {
     return (
      <div role="button" onClick={() => setOpen(!open)} className="mt-4 flex w-4/5 bg-gray-100 py-3 bg-opacity-100 px-4  rounded-2xl flex-col items-between justify-center">
         <div className="flex justify-between items-center">
-            <div className="font-semibold">{question}</div>
+            <div className="text-sm lg:text-base font-semibold">{question}</div>
             <div><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className={`transform transition-transform duration-200 ease-in-out  size-4 font-semibold ${open ? "rotate-180" : ""}`}>
             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
             </div>
         </div>
         <div className={`bg-gray-100 relative z-10 bg-opacity-100 transition-all duration-500 ease-in-out ${open ? "py-2" : "py-0"} `}  >{open && (
-            <div>{answer}</div>
+            <div className="text-xs">{answer}</div>
         )}</div>
      </div>
     )
@@ -163,12 +163,12 @@ export const faqs = [
 
 const FAQ = () => {
     return (
-        <div className="w-full bg-black pt-2 mt-10">
-            <div className="max-w-[1440px] mx-auto flex bg-gray-100 h-screen mt-10 rounded-xl">
-            <div className="w-1/2 pt-15 pl-15 flex flex-col gap-2">
+        <div className="w-full min-h-full bg-black pt-2 mt-10">
+            <div className="max-w-[1440px] mx-auto flex lg:flex-row flex-col bg-gray-100 h-full mt-10 rounded-xl">
+            <div className="w-full lg:w-1/2 items-center lg:items-start pt-15 lg:pl-15 flex flex-col gap-2">
             <span className="bg-blue-500 w-15 text-white flex justify-center pt-1 pb-1 rounded-2xl mb-3">FAQ</span>
-            <span className="text-5xl font-semibold">What would you like to</span>
-            <span className="text-5xl font-semibold mb-3">know about AuthenX ?</span>
+            <span className="lg:text-5xl text-4xl font-semibold">What would you like to</span>
+            <span className="lg:text-5xl text-4xl font-semibold mb-3">know about AuthenX ?</span>
             <span className="border-1 border-gray-300 w-32 flex justify-center px-3 py-2 rounded-2xl gap-1">
                 <span className="flex justify-center items-center text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -177,12 +177,12 @@ const FAQ = () => {
                 </span>
                 Talk to us
             </span>
-            <div className="flex justify-start items-center">
-            <img src={Faqimage} alt="FAQ" className="w-4/5"/>
+            <div className="flex lg:justify-start justify-center items-center">
+            <img src={Faqimage} alt="FAQ" className="lg:w-4/5 w-64"/>
             </div>
             </div>
-            <div className="w-1/2 bg-blue-500 rounded-xl">
-            <div className="mt-10 flex flex-col items-center">
+            <div className="w-full min-h-full lg:w-1/2 bg-blue-500 pb-10 rounded-xl">
+            <div className="mt-10 h-full flex flex-col items-center">
                 {faqs.map((item , index) => (
                 <FAQitem
                 key={index} 

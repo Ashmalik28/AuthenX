@@ -4,6 +4,8 @@ import { RiAdminFill } from "react-icons/ri";
 import { MdSupportAgent } from "react-icons/md";
 import { useEffect, useState } from "react";
 import {useNavigate } from "react-router-dom";
+import { HiMenuAlt4 } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
 
 
 const NavbarItem = ({title , classprops , onClick}) => {
@@ -45,6 +47,7 @@ const services = [
 const Navbar = () => {
     const [scrolled , setScrolled] = useState(false);
     const navigate = useNavigate();
+    const [toggleMenu, setToggleMenu] = useState(false);
 
     useEffect(()=> {
       const handleScroll = () => {
@@ -59,46 +62,69 @@ const Navbar = () => {
       return () => window.removeEventListener("scroll" , handleScroll);
     }, []);
     return (
-       <nav className="w-full fixed z-50 ">
-        <div className={`flex max-w-[1440px] 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
-        <div className="flex-initial pl-20 justify-center items-center">
-            <img src={logo} alt="AuthenXLogo" className="w-40 cursor-pointer" />
-        </div>
-        <ul className="flex text-[#343434] list-none flex-row justify-between items-center flex-initial font-medium text-base">
-            {["Home"].map((item , index)=> (
-                <NavbarItem onClick={() => navigate("/home")} key={item + index} title={item} classprops={`hover:text-blue-500`} />
-            ))}
-            <li className="mx-4 relative group cursor-pointer hover:text-blue-500">
-              <button className="flex items-center justify-center gap-1.5 ">
-                Services
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4 transition-transform duration-300 group-hover:rotate-180">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
-              </button>
-              <ul className="absolute left-0 mt-2 top-full w-125 text-black scale-95 group-hover:scale-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out bg-white shadow-lg z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 flex-col border border-gray-300 rounded-2xl">
-              {services.map((service, index) => (
-              <DropdownItem
-               key={service.title + index}
-               title={service.title}
-               icon={service.icon}
-               subtitle={service.subtitle}
-              />
-               ))}
+  <nav className="w-full fixed z-50">
+    <div className={`flex  w-full 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
+      
+      <div className="flex-initial pl-5 lg:pl-20 justify-center items-center">
+        <img src={logo} alt="AuthenXLogo" className=" w-32 lg:w-40 cursor-pointer" />
+      </div>
 
-              </ul>
-            </li>
-            {["Verify","Dashboard" , "About" ].map((item , index)=> (
-                <NavbarItem onClick={() => navigate(`/${item}`)} key={item + index} title={item} classprops={`hover:text-blue-500`} />
+      <ul className="hidden md:flex text-[#343434] list-none flex-row justify-between items-center flex-initial font-medium text-base">
+        <NavbarItem onClick={() => navigate("/home")} title="Home" classprops="hover:text-blue-500" />
+
+        <li className="mx-4 relative group cursor-pointer hover:text-blue-500">
+          <button className="flex items-center justify-center gap-1.5 ">Services
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4 transition-transform duration-300 group-hover:rotate-180">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <ul className="absolute left-0 mt-2 top-full w-125 text-black scale-95 group-hover:scale-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out bg-white shadow-lg z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 flex-col border border-gray-300 rounded-2xl">
+            {services.map((service, index) => (
+              <DropdownItem key={service.title + index} title={service.title} icon={service.icon} subtitle={service.subtitle}/>
             ))}
-        </ul>
-        <div className="pr-20">
-            <Button onClick={() => navigate("/signup")} variant="primary" size="md" className="before:bg-white rounded-lg  outline-blue-400 flex gap-2 items-center">
-                Login/Signup
-            </Button>
-        </div>
-        </div>
-       </nav>
-    )
+          </ul>
+        </li>
+
+        <NavbarItem onClick={() => navigate("/Verify")} title="Verify" classprops="hover:text-blue-500" />
+        <NavbarItem onClick={() => navigate("/Dashboard")} title="Dashboard" classprops="hover:text-blue-500" />
+        <NavbarItem onClick={() => navigate("/About")} title="About" classprops="hover:text-blue-500" />
+      </ul>
+
+      <div className="hidden md:flex pr-5 lg:pr-20">
+        <Button onClick={() => navigate("/signup")} variant="primary" size="md" className="before:bg-white rounded-lg outline-blue-400 flex gap-2 items-center">
+          Login / Signup
+        </Button>
+      </div>
+
+      <div className="md:hidden flex text-black items-center pr-5">
+        {!toggleMenu ? (
+          <HiMenuAlt4 fontSize={28} className="cursor-pointer" onClick={() => setToggleMenu(true)} />
+        ) : (
+          <AiOutlineClose fontSize={28} className="cursor-pointer" onClick={() => setToggleMenu(false)} />
+        )}
+      </div>
+
+    </div>
+
+    {toggleMenu && (
+      <div className="fixed top-0 right-0 w-[75vw] h-screen bg-white shadow-2xl z-50 px-6 py-10 flex flex-col gap-6 animate-slide-in">
+        
+        <button onClick={() => setToggleMenu(false)} className="self-end">
+          <AiOutlineClose fontSize={26} />
+        </button>
+
+        <NavbarItem onClick={() => {navigate("/home"); setToggleMenu(false)}} title="Home" />
+        <NavbarItem onClick={() => {navigate("/Verify"); setToggleMenu(false)}} title="Verify" />
+        <NavbarItem onClick={() => {navigate("/Dashboard"); setToggleMenu(false)}} title="Dashboard" />
+        <NavbarItem onClick={() => {navigate("/About"); setToggleMenu(false)}} title="About" />
+
+        <Button onClick={() => {navigate("/signup"); setToggleMenu(false)}} variant="primary" className="rounded-lg mt-4">
+          Login / Signup
+        </Button>
+      </div>
+    )}
+  </nav>
+ );
 
 }
 

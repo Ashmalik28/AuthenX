@@ -2,7 +2,7 @@ import logo from '../../images/logowhite.png'
 
 const Footer = () => {
     return (
-        <div className="bg-blend-color bg-black w-screen min-h-80">
+        <div className="bg-black w-screen min-h-80">
             <div className="w-[1440px] flex mx-auto justify-between pb-10">
             <div className='mt-5 w-1/4 flex flex-col justify-between'>
             <div>
