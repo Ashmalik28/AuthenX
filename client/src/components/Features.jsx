@@ -1,26 +1,26 @@
 
 
 const FeatureCard = ({svg , headline ,  text , stats , stattext , width , bgcolor}) => {
-    return <div className={`${width} h-80 flex flex-col hover:scale-110 justify-between p-4 transition-all duration-300 ease-in-out ${bgcolor} rounded-2xl`}>
+    return <div className={`${width}  lg:h-80 flex flex-col hover:scale-110 justify-between p-4 transition-all duration-300 ease-in-out ${bgcolor} rounded-2xl`}>
         <div>
         <span>{svg}</span>
         <span className="flex flex-col mt-3">
-            <span className="text-2xl font-semibold">
+            <span className="text-xl lg:text-2xl font-semibold">
                 {headline}
             </span>
-            <span className="text-base mt-2">
+            <span className="text-sm lg:text-base mt-2">
                 {text}
             </span>
         </span>
         </div>
-         <div className="mt-8 flex justify-between items-center" >
+         <div className="lg:mt-8 mt-5 flex justify-between items-center" >
             <span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10 lg:size-12">
                 <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z" clip-rule="evenodd" />
                 </svg>
             </span>
             <span className="flex flex-col items-end">
-                <span className="text-3xl font-extrabold">
+                <span className="text-xl lg:text-3xl font-extrabold">
                 {stats}
                 </span>
                 <span>
@@ -49,17 +49,17 @@ const FeatureCardUpperData = [
 const FeatureCardLowerData = [
     {svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-9">
      <path fill-rule="evenodd" d="M11.484 2.17a.75.75 0 0 1 1.032 0 11.209 11.209 0 0 0 7.877 3.08.75.75 0 0 1 .722.515 12.74 12.74 0 0 1 .635 3.985c0 5.942-4.064 10.933-9.563 12.348a.749.749 0 0 1-.374 0C6.314 20.683 2.25 15.692 2.25 9.75c0-1.39.223-2.73.635-3.985a.75.75 0 0 1 .722-.516l.143.001c2.996 0 5.718-1.17 7.734-3.08ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75ZM12 15a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75H12Z" clip-rule="evenodd" />
-    </svg>, headline : "Fraud Prevention" ,  text : "Ensure fraud prevention by eliminating forgery, duplication, and manipulation through blockchain verification, offering real-time validation, transparency, security, and credibility for organizations, institutions, and individuals globally." , stats : "99.9%" , stattext : "Fraud Prevented" , width : "w-124" , bgcolor : "bg-[#ffe4e3]"
+    </svg>, headline : "Fraud Prevention" ,  text : "Ensure fraud prevention by eliminating forgery, duplication, and manipulation through blockchain verification, offering real-time validation, transparency, security, and credibility for organizations, institutions, and individuals globally." , stats : "99.9%" , stattext : "Fraud Prevented" , width : "w-95 lg:w-124" , bgcolor : "bg-[#ffe4e3]"
     },
     {svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-9">
     <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm2.023 6.828a.75.75 0 1 0-1.06-1.06 3.75 3.75 0 0 1-5.304 0 .75.75 0 0 0-1.06 1.06 5.25 5.25 0 0 0 7.424 0Z" clip-rule="evenodd" />
-    </svg> , headline : "User-Friendly Platform" ,  text : "Experience a user-friendly platform with seamless onboarding and effortless use, simplifying blockchain adoption, empowering organizations and individuals to verify documents securely without technical barriers." , stats : "95%" , stattext : "Positive User" , width : "w-124" , bgcolor: "bg-[#e2dfff]"
+    </svg> , headline : "User-Friendly Platform" ,  text : "Experience a user-friendly platform with seamless onboarding and effortless use, simplifying blockchain adoption, empowering organizations and individuals to verify documents securely without technical barriers." , stats : "95%" , stattext : "Positive User" , width : "w-95 lg:w-124" , bgcolor: "bg-[#e2dfff]"
     },
 ]
 const Features = () => {
     return (
         <span className="max-[1440px] flex flex-col items-center">
-            <div className="flex flex-col items-center mt-8">
+            <div className="flex w-full flex-col items-center mt-8">
                 <span className="text-4xl mb-1" >
                     🚀
                 </span>
@@ -69,12 +69,12 @@ const Features = () => {
                 <span className="flex gap-3">
                   <span className="text-4xl font-bold">Document</span><span className="text-4xl">Verification</span>  
                 </span>
-                <span className="w-3/7 flex text-center mt-3 text-base">
+                <span className="lg:w-3/7 px-3 lg:px-0 flex text-center mt-3 text-sm lg:text-base">
                     With AuthenX's blockchain-powered features, institutions, organizations, and individuais can securely issue, verify, and acces documents anywhere, anytime —with complete trust and transparency.
                 </span>
             </div>
-            <div className="flex flex-col mb-10">
-                <div className="flex mt-10 gap-8 ">
+            <div className="flex w-full flex-col mb-10">
+                <div className="flex items-center lg:justify-center lg:flex-row flex-col mt-10 gap-8 ">
                 {FeatureCardUpperData.map((data , index) => (
                 <FeatureCard
                 key={data.headline + index}
@@ -87,7 +87,7 @@ const Features = () => {
                 bgcolor={data.bgcolor} />  
                 ))}
             </div>
-            <div className="flex gap-8 mt-8">
+            <div className="flex items-center lg:justify-center lg:flex-row flex-col gap-8 mt-8">
                 {FeatureCardLowerData.map((data , index) => (
                 <FeatureCard
                 key={data.headline + index}

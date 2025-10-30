@@ -7,10 +7,10 @@ const Button = ({children , variant , size , onClick , className}) => {
         secondary : "bg-white text-blue-500 hover:bg-blue-500 hover:text-white "
     };
     const sizes = {
-        sm : "px-3 py-1 text-sm" ,
-        md : "px-5 py-2 text-base" ,
-        lg : "px-7 py-3 text-lg"
-    };
+    lg: "px-4 py-2 text-sm lg:px-8 lg:py-3 lg:text-lg", 
+    md: "px-3 py-2 text-sm lg:px-6 lg:py-2 lg:text-base",
+    sm: "px-2 py-1 text-xs lg:px-4 lg:py-1 lg:text-sm",
+  }
 
     return (
       <button className={` font-medium cursor-pointer outline-2 overflow-hidden transition-all duration-1000 ease-in-out hover:scale-105
