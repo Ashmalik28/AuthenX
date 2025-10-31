@@ -102,7 +102,7 @@ const Support = () => {
    };
 
     return (
-        <div className="flex flex-col w-full items-center justify-center ">
+        <div className="flex flex-col max-w-screen items-center justify-center ">
             <div className="flex flex-col items-center justify-center">
             <span className="text-4xl lg:text-6xl font-semibold mt-10">Get in Touch with Us</span>
             <span className="lg:w-1/2 text-center mt-3 text-sm lg:px-0 px-3 lg:text-lg font-medium">Have questions , feedback or need support? We're here to help! Reach out to us for inquiries, technical assistance, or partnership opportunities. Our team will respond as soon as possible.</span>

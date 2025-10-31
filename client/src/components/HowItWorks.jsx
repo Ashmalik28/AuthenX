@@ -57,12 +57,12 @@ const HowItWorks = () => {
         }
     }
     return (
-        <div className="w-full bg-blue-500 flex justify-center">
+        <div className="max-w-screen bg-blue-500 flex justify-center">
             <div className="2xl:w-[1800px] pb-8 md:pb-0 flex flex-col items-center">
             <div className="flex w-full flex-col items-center">
-            <span className="mt-4 text-white text-4xl lg:text-5xl font-bold">How AuthenX Works ??</span>
-            <span className="mt-3 text-white text-base w-screen lg:w-2/4 text-center">Tailored solutions for individuals verifying documents and organizations issuing and managing them with blockchain-powered trust.</span>
-            <span className="mt-6 text-2xl lg:text-3xl text-white font-bold">For End Users</span>
+            <span className="mt-4 text-white text-3xl lg:text-5xl font-bold">How AuthenX Works ??</span>
+            <span className="mt-3 text-white text-sm w-screen lg:w-2/4 text-center">Tailored solutions for individuals verifying documents and organizations issuing and managing them with blockchain-powered trust.</span>
+            <span className="mt-6 text-xl lg:text-3xl text-white font-bold">For End Users</span>
             </div>
             <div className="text-white flex justify-center items-center max-w-[1440px] mt-5 md:mt-10 pl-20 pr-20">
                 <div className="flex justify-center pr-15">
@@ -101,7 +101,7 @@ const HowItWorks = () => {
             ></span>
           ))}
             </div>
-            <div className=" mt-6 text-2xl lg:text-3xl text-white font-bold">For Organizations</div>
+            <div className=" mt-6 text-xl lg:text-3xl text-white font-bold">For Organizations</div>
             <div className="text-white flex justify-center items-center max-w-[1440px] mt-10 pl-20 pr-20 ">
                 <div className="flex justify-center pr-15">
                 <button onClick={() => handlePrev(carouselOrgRef , setActiveOrgIndex ,activeOrgIndex)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-14">
