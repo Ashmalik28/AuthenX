@@ -3,7 +3,7 @@ import image from '../../images/heroleft.png'
 import Button from './Button';
 const HeroSection = () => {
     return (
-        <div className="w-full 2xl:max-w-[1800px] mx-auto flex flex-col lg:flex-row justify-between p-5 lg:p-2 ">
+        <div className="max-w-screen 2xl:max-w-[1800px] mx-auto flex flex-col lg:flex-row justify-between p-5 lg:p-2 ">
             <div className='flex flex-col items-start justify-center lg:pl-20 lg:mt-26 mb-5 lg:mb-10'>
             <span className="flex justify-center cursor-pointer items-center rounded-3xl border-1 border-[#343434] px-1.5 gap-1 text-[#343434] h-12 2xl:mt-25 mt-17 lg:mt-22 hover:shadow-md hover:shadow-blue-500">
                 <span className='bg-blue-500 h-9 text-white font-semibold flex items-center lg:justify-start text-xs lg:text-base rounded-3xl pl-4 pr-2'>Blockchain-Powered </span><span className='lg:text-base text-xs'>Solution for Secure, Verified Certificates Worldwide</span>
@@ -13,14 +13,14 @@ const HeroSection = () => {
                     </svg>
                 </span>
             </span>
-            <h1 className="text-4xl lg:text-6xl 2xl:text-7xl font-bold text-black mt-6 lg:mt-12 gap-2.5 flex flex-col items-center lg:items-start">
+            <h1 className="text-3xl lg:text-6xl 2xl:text-7xl font-bold text-black mt-6 lg:mt-12 gap-2.5 flex flex-col items-center lg:items-start">
             <div className=" border-slate-900 dark:border-white">
             Verify any document,
             </div>
-            <div className="text-3xl lg:text-5xl 2xl:text-6xl lg:mt-3 gap-2 flex">
+            <div className="text-2xl lg:text-5xl 2xl:text-6xl lg:mt-3 gap-2 flex">
             <div className='text-black'>Anywhere ,</div><span className='text-white bg-black rounded-md px-0.5'>Instantly.</span> 
             </div>
-            <div className='text-gray-500 text-center lg:text-start text-sm lg:text-base 2xl:text-xl mt-2 lg:mt-4 2xl:mt-5 lg:w-[70%] '>
+            <div className='text-gray-500 w-[95%] text-center lg:text-start text-sm lg:text-base 2xl:text-xl mt-2 lg:mt-4 2xl:mt-5 lg:w-[70%] '>
                 AuthenX uses blockchain to make academic, legal, and professional documents tamper-proof and easy to verify across institutions
             </div>
             </h1>

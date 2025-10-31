@@ -62,8 +62,8 @@ const Navbar = () => {
       return () => window.removeEventListener("scroll" , handleScroll);
     }, []);
     return (
-  <nav className="w-full fixed z-50">
-    <div className={`flex  w-full 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
+  <nav className="max-w-full fixed z-50">
+    <div className={`flex w-screen 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
       
       <div className="flex-initial pl-5 lg:pl-20 justify-center items-center">
         <img src={logo} alt="AuthenXLogo" className=" w-32 lg:w-40 cursor-pointer" />
@@ -96,7 +96,7 @@ const Navbar = () => {
         </Button>
       </div>
 
-      <div className="md:hidden flex text-black items-center pr-5">
+      <div className="md:hidden flex text-black items-center pr-5 relative">
         {!toggleMenu ? (
           <HiMenuAlt4 fontSize={28} className="cursor-pointer" onClick={() => setToggleMenu(true)} />
         ) : (
@@ -107,7 +107,7 @@ const Navbar = () => {
     </div>
 
     {toggleMenu && (
-      <div className="fixed top-0 right-0 w-[75vw] h-screen bg-white shadow-2xl z-50 px-6 py-10 flex flex-col gap-6 animate-slide-in">
+      <div className="absolute top-0 right-0 w-[75vw] h-screen bg-white shadow-2xl z-50 px-6 py-10 flex flex-col gap-6 animate-slide-in">
         
         <button onClick={() => setToggleMenu(false)} className="self-end">
           <AiOutlineClose fontSize={26} />

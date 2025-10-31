@@ -163,7 +163,7 @@ export const faqs = [
 
 const FAQ = () => {
     return (
-        <div className="w-full min-h-full bg-black pt-2 mt-10">
+        <div className="max-w-screen min-h-full bg-black pt-2 mt-10">
             <div className="max-w-[1440px] mx-auto flex lg:flex-row flex-col bg-gray-100 h-full mt-10 rounded-xl">
             <div className="w-full lg:w-1/2 items-center lg:items-start pt-15 lg:pl-15 flex flex-col gap-2">
             <span className="bg-blue-500 w-15 text-white flex justify-center pt-1 pb-1 rounded-2xl mb-3">FAQ</span>
