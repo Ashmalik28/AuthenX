@@ -65,11 +65,11 @@ const Navbar = () => {
   <nav className="max-w-full fixed z-50">
     <div className={`flex w-screen 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
       
-      <div className="flex-initial pl-5 lg:pl-20 justify-center items-center">
+      <div className="flex-initial pl-5 lg:pl-8 xl:pl-20 justify-center items-center">
         <img src={logo} alt="AuthenXLogo" className=" w-32 lg:w-40 cursor-pointer" />
       </div>
 
-      <ul className="hidden md:flex text-[#343434] list-none flex-row justify-between items-center flex-initial font-medium text-base">
+      <ul className="hidden lg:flex text-[#343434] list-none flex-row justify-between items-center flex-initial font-medium text-base">
         <NavbarItem onClick={() => navigate("/home")} title="Home" classprops="hover:text-blue-500" />
 
         <li className="mx-4 relative group cursor-pointer hover:text-blue-500">
@@ -90,13 +90,13 @@ const Navbar = () => {
         <NavbarItem onClick={() => navigate("/About")} title="About" classprops="hover:text-blue-500" />
       </ul>
 
-      <div className="hidden md:flex pr-5 lg:pr-20">
+      <div className="hidden lg:flex pr-5 lg:pr-8 xl:pr-20">
         <Button onClick={() => navigate("/signup")} variant="primary" size="md" className="before:bg-white rounded-lg outline-blue-400 flex gap-2 items-center">
           Login / Signup
         </Button>
       </div>
 
-      <div className="md:hidden flex text-black items-center pr-5 relative">
+      <div className="lg:hidden flex text-black items-center pr-5 relative">
         {!toggleMenu ? (
           <HiMenuAlt4 fontSize={28} className="cursor-pointer" onClick={() => setToggleMenu(true)} />
         ) : (
