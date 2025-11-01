@@ -15,9 +15,9 @@ const Footer = () => {
              © {new Date().getFullYear()} AuthenX. All rights reserved.
             </p>   
         </div>. 
-            <div className='flex lg:flex-row flex-col flex-1 pl-10 pr-10 lg:justify-around justify-between'>
+            <div className='flex md:flex-row flex-col flex-1 pl-10 pr-10 lg:justify-around justify-between'>
                 <div className=''>
-                <div className='mt-5 flex lg:flex-col justify-between'>
+                <div className='mt-5 flex md:flex-col gap-3 justify-between'>
                 <div className='flex flex-col gap-2'>
                 <span className='text-gray-500 lg:text-base text-sm font-semibold'>Solutions</span> 
                 <ul className='text-gray-300 space-y-2 text-xs lg:text-sm'>
@@ -40,7 +40,7 @@ const Footer = () => {
 
                 </div>
                 <div>
-                <div className='mt-5 flex lg:flex-col justify-between'>
+                <div className='mt-5 flex md:flex-col gap-3 justify-between'>
                 <div className='flex flex-col gap-2'>
                 <span className='text-gray-500 lg:text-base text-sm font-semibold'>Developers</span> 
                 <ul className='text-gray-300 space-y-2 text-xs lg:text-sm '>
@@ -74,7 +74,7 @@ const Footer = () => {
                 </ul> 
                 </div>  
                 <div className='lg:mt-5 flex flex-col gap-2'>
-                <span className='text-gray-500 font-semibold'>Contact</span> 
+                <span className='text-gray-500 lg:text-base text-sm font-semibold'>Contact</span> 
                 <ul className='text-gray-300 space-y-1.5 text-xs lg:text-sm'>
                 <li className='hover:text-white'><a href="#">📧 Email: support@authenx.com</a></li>
                 <li className='hover:text-white'><a href="#">🐦 Twitter: @AuthenXHQ</a></li>
