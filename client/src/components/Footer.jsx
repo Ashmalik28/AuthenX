@@ -3,7 +3,7 @@ import logo from '../../images/logowhite.png'
 const Footer = () => {
     return (
         <div className="bg-black max-w-screen min-h-80">
-            <div className="w-full lg:pl-15 lg:pr-15 flex lg:flex-row flex-col mx-auto pb-10">
+            <div className="w-full xl:pl-15 lg:pl-8 pl-10 pr-5 lg:pr-5 xl:pr-15 flex lg:flex-row flex-col mx-auto pb-10">
             <div className='mt-5 lg:w-1/4 w-full flex flex-col justify-between'>
             <div>
              <div className='w-full flex lg:justify-start justify-center'>
@@ -15,9 +15,8 @@ const Footer = () => {
              © {new Date().getFullYear()} AuthenX. All rights reserved.
             </p>   
         </div>. 
-            <div className='flex md:flex-row flex-col flex-1 pl-10 pr-10 lg:justify-around justify-between'>
-                <div className=''>
-                <div className='mt-5 flex md:flex-col gap-3 justify-between'>
+            <div className='flex md:flex-row flex-col pr-5 flex-1 lg:pl-8 xl:pl-10 xl:justify-around justify-between'>
+                <div className='mt-5 flex md:flex-col gap-3 lg:gap-0 justify-between'>
                 <div className='flex flex-col gap-2'>
                 <span className='text-gray-500 lg:text-base text-sm font-semibold'>Solutions</span> 
                 <ul className='text-gray-300 space-y-2 text-xs lg:text-sm'>
@@ -37,10 +36,8 @@ const Footer = () => {
                 </ul> 
                 </div>  
                 </div>
-
-                </div>
                 <div>
-                <div className='mt-5 flex md:flex-col gap-3 justify-between'>
+                <div className='mt-5 flex md:flex-col gap-3 lg:gap-0 justify-between'>
                 <div className='flex flex-col gap-2'>
                 <span className='text-gray-500 lg:text-base text-sm font-semibold'>Developers</span> 
                 <ul className='text-gray-300 space-y-2 text-xs lg:text-sm '>
@@ -60,7 +57,6 @@ const Footer = () => {
                 </ul> 
                 </div>  
                 </div>
-
                 </div>
                 <div>
                 <div className='mt-5 flex lg:flex-col justify-between'>

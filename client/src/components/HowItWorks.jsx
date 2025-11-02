@@ -64,7 +64,7 @@ const HowItWorks = () => {
             <span className="mt-3 text-white sm:text-lg text-sm w-screen lg:w-2/4 text-center">Tailored solutions for individuals verifying documents and organizations issuing and managing them with blockchain-powered trust.</span>
             <span className="mt-6 text-xl sm:text-2xl lg:text-3xl text-white font-bold">For End Users</span>
             </div>
-            <div className="text-white flex justify-center items-center max-w-[1440px] mt-5 md:mt-10 pl-20 pr-20">
+            <div className="text-white flex justify-center items-center max-w-full mt-5 md:mt-10 pl-20 pr-20">
                 <div className="flex justify-center pr-15">
                 <button className="hidden lg:flex" onClick={() => handlePrev(carouselUserRef , setActiveUserIndex , activeUserIndex )}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-14">
                 <path fill-rule="evenodd" d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z" clip-rule="evenodd" />
@@ -72,7 +72,7 @@ const HowItWorks = () => {
                 </svg>
                 </button>
                 </div>
-                <div ref={carouselUserRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden md:snap-none">
+                <div ref={carouselUserRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden md:snap-none">
                     {HowItWorksData.map((data , index) => (
                     <HowItWorksCard
                     key={data.cardNo + index}
@@ -102,7 +102,7 @@ const HowItWorks = () => {
           ))}
             </div>
             <div className=" mt-6 text-xl sm:text-2xl lg:text-3xl text-white font-bold">For Organizations</div>
-            <div className="text-white flex justify-center items-center max-w-[1440px] mt-10 pl-20 pr-20 ">
+            <div className="text-white flex justify-center items-center max-w-full mt-10 pl-20 pr-20 ">
                 <div className="flex justify-center pr-15">
                 <button onClick={() => handlePrev(carouselOrgRef , setActiveOrgIndex ,activeOrgIndex)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-14">
                 <path fill-rule="evenodd" d="M10.72 11.47a.75.75 0 0 0 0 1.06l7.5 7.5a.75.75 0 1 0 1.06-1.06L12.31 12l6.97-6.97a.75.75 0 0 0-1.06-1.06l-7.5 7.5Z" clip-rule="evenodd" />
@@ -110,7 +110,7 @@ const HowItWorks = () => {
                 </svg>
                 </button>
                 </div>
-                <div ref={carouselOrgRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden lg:snap-none">
+                <div ref={carouselOrgRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden lg:snap-none">
                     {HowItWorksOrgData.map((data , index) => (
                     <HowItWorksCard
                     key={data.cardNo + index}
