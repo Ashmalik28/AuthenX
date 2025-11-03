@@ -37,81 +37,78 @@ const Signin = () => {
     return (
         <div className="w-full h-screen flex flex-col">
             <div className="w-full flex border-b-1 border-gray-300">
-                <div className="flex min-w-[1440px] mx-auto justify-between pb-2">
+                <div className="flex w-full lg:px-10 px-5  mx-auto justify-between pb-2">
                 <div onClick={() => navigate("/home") } className="flex-initial justify-center items-center cursor-pointer pt-3">
-                    <img src={logo} alt="logo" className="w-40" />
+                    <img src={logo} alt="logo" className="lg:w-40 w-24" />
                 </div>
-                <div className="pt-3 flex items-center  font-semibold">
+                <div className="pt-3 flex items-center lg:text-base text-xs   font-semibold">
                 Don't have an account yet ? <span className="pl-3"><Button onClick={() => navigate("/signup")} variant="secondary" size="sm" className="before:bg-blue-500 rounded-lg outline-blue-400 flex gap-2 items-center">
                 Signup
                 </Button></span>
                 </div>
-
             </div>
 
             </div>
-            <div className="flex-1 flex">
-            <div className="w-1/2 bg-gray-200">
+            <div className="flex-1 flex min-h-fit lg:flex-row flex-col">
+            <div className="w-1/2 hidden lg:flex lg:flex-col bg-gray-200">
             <div className="w-full h-full rounded-r-4xl bg-blue-500 pt-5 pl-5">
-                <div className="text-5xl text-white font-semibold">Welcome back to AuthenX 🙂</div>
-                <div className="mt-5 text-white text-xl w-5/6 font-medium">Choose to log in as a Verifier or an Organization. Secure, blockchain-enabled access
-                </div>
-                <div className="w-full mt-10 pr-5 flex">
-                    <div className="w-1/2 border-r-1 border-white pb-12 ">
-                    <div className="flex justify-center items-center pr-5">
-                    <img src={Verifier} alt="Verifier" className="w-72" />
-                    </div>
-                    <div className="text-white text-3xl font-bold flex justify-center pr-5">Verifier</div>
-                    <div className="mt-5 mr-3">
-                        <ul className="text-white flex flex-col gap-1">
-                        <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                        </svg>
-                        </span>Can verify documents instantly with trust and transparency.</li>
-                        <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                        </svg>
-                        </span>Best suited for individuals, employers, or institutions validating credentials.</li>
-                        <li className="flex"><span className="flex items-center pr-2 text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <div className="xl:text-5xl lg:text-4xl  text-white lg:font-bold xl:font-semibold w-3/4">Choose your role to Get Started</div>
+                            <div className="mt-5 text-white lg:text-base xl:text-xl w-5/6 font-medium">AuthenX provides two secure ways to sign up as — <p>Verifier or an Organization.</p>
+                            </div>
+                            <div className="w-full mt-5 pr-5 flex">
+                                <div className="w-1/2 border-r-1 border-white pb-12 ">
+                                <div className="flex justify-center items-center pr-5">
+                                <img src={Verifier} alt="Verifier" className="xl:w-72 lg:w-64 lg:h-48 " />
+                                </div>
+                                <div className="text-white text-3xl font-bold flex justify-center pr-5">Verifier</div>
+                                <div className="mt-5 mr-3">
+                                    <ul className="text-white flex flex-col gap-1">
+                                    <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                    </svg>
+                                    </span><span className="xl:text-base lg:text-sm">Can verify documents instantly with trust and transparency.</span></li>
+                                    <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                    </svg>
+                                    </span><span className="xl:text-base lg:text-sm">Best suited for individuals, employers, or institutions validating credentials.</span></li>
+                                    <li className="flex"><span className="flex items-center pr-2 text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z" clip-rule="evenodd" />
+                                    </svg>
+                                    </span><span className="xl:text-base lg:text-sm">Requirements: Just create an account with basic details — no extra setup needed.</span></li>
+                                    </ul>
+                                </div>
+                                </div>
+                                <div className="w-1/2">
+                                <div className="flex justify-center items-center">
+                                    <img src={Org} alt="Organization" className="xl:w-72 lg:w-64 lg:h-48"/>
+                                </div>
+                                <div className="text-white text-3xl font-bold flex justify-center">Organization</div>
+                                 <div className="mt-5 ml-5">
+                                    <ul className="text-white flex flex-col gap-1">
+                                    <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                    </svg>
+                                    </span><span className="xl:text-base lg:text-sm">Can issue or verify official documents on blockchain.</span></li>
+                                    <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                    </svg>
+                                    </span><span className="xl:text-base lg:text-sm">Ideal for universities, businesses, and government bodies.</span></li>
+                    <li className="flex"><span className="flex items-center pr-2 text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z" clip-rule="evenodd" />
                         </svg>
-                        </span>Requirements: Just create an account with basic details — no extra setup needed.</li>
+                        </span><span className="xl:text-base lg:text-sm" >Requirements: Must have a valid Ethereum wallet beforehand to issue documents.</span></li>
                         </ul>
-                    </div>
-                    </div>
-                    <div className="w-1/2">
-                    <div className="flex justify-center items-center">
-                        <img src={Org} alt="Organization" className="w-72" />
-                    </div>
-                    <div className="text-white text-3xl font-bold flex justify-center">Organization</div>
-                     <div className="mt-5 ml-5">
-                        <ul className="text-white flex flex-col gap-1">
-                        <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                        </svg>
-                        </span>Can issue or verify official documents on blockchain.</li>
-                        <li className="flex"><span className="flex items-center pr-2 text-cyan-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                        <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                        </svg>
-                        </span>Ideal for universities, businesses, and government bodies.</li>
-                        <li className="flex"><span className="flex items-center pr-2 text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                       <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z" clip-rule="evenodd" />
-                       </svg>
-                        </span>Requirements: Must have a valid Ethereum wallet beforehand to issue documents.</li>
-                        </ul>
-                    </div>
-                    </div>
-                </div>
-
+                        </div>
+                        </div>
+                        </div>
             </div>
-
             </div>
-            <div className="flex w-1/2 bg-gray-200 justify-center items-center">
-              <span className=" w-3/4 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-10">
-              <span className="flex justify-start text-3xl font-bold">Signin to your AuthenX Account</span>
-              <span className="mt-3 text-base"><span className="font-bold">Welcome back ! </span>Log in to verify documents securely or issue them with trust</span>
+            <div className="flex lg:w-1/2 w-full h-full bg-gray-200 justify-center items-center">
+              <span className=" xl:w-3/4 sm:w-4/6 lg:w-full  bg-white border-gray-400 rounded-3xl m-5 shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
+              <span className="flex justify-start text-xl sm:text-3xl lg:text-3xl font-bold">Signin to your AuthenX Account</span>
+              <span className="mt-3 text-sm sm:text-base lg:w-full flex justify-center lg:text-base">Welcome back ! Log in to verify documents securely or issue them with trust</span>
 
-              <div className="w-full">
+              <div className="w-full lg:flex lg:flex-col hidden">
                 <div className="flex justify-center text-xl font-bold mt-3 border-1 p-1 border-gray-400">Login As </div>
                 <div className="w-full flex mt-4 mb-3 bg-gray-100 rounded-xl ">
                     <div onClick={() => setActive("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
@@ -125,8 +122,8 @@ const Signin = () => {
               </div>
               {active == "verifier" && <div> 
               <div>
-                    <div className="font-semibold text-gray-600 mb-1 mt-2">
-                     Email
+                    <div className="font-semibold lg:text-base text-sm text-gray-600 mb-1 mt-2">
+                     Email *
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -135,12 +132,11 @@ const Signin = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({...formData , email : e.target.value})} 
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
               <div>
-                    <div className="font-semibold text-gray-600 mb-1 mt-2">
-                     Password
+                    <div className="font-semibold lg:text-base text-sm text-gray-600 mb-1 mt-2">
+                     Password *
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -149,7 +145,6 @@ const Signin = () => {
                     value={formData.password}
                     onChange={(e) => setFormData({...formData , password : e.target.value})}
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
               {serverError && (
@@ -159,7 +154,7 @@ const Signin = () => {
                 <Button onClick={handleSignin} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
                 Login
                 </Button>
-                <div className="mt-2 text-sm w-2/3 text-center">
+                <div className="mt-2 lg:text-sm text-xs w-4/5 lg:w-2/3 text-center">
                     By login, you agree to our Terms & Conditions and Privacy Policy.
                 </div>
               </span> </div>}

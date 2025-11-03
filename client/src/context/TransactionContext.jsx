@@ -77,10 +77,9 @@ const getTransactionHistory = async () => {
 
  const connectWallet = async () => {
     try{
-      if (!window.ethereum){
-      return alert("Please install MetaMask.");
-      } 
-
+      if (!window.ethereum) {
+      return alert("MetaMask not detected. Install MetaMask to continue.");
+      }
       const provider = new ethers.BrowserProvider(window.ethereum);
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       const signer = await provider.getSigner();
@@ -220,16 +219,17 @@ const getTransactionHistory = async () => {
 
   // 📌 Auto-check wallet
   const checkIfWalletIsConnected = async () => {
-    try {
-      if (!window.ethereum) return alert("Please install MetaMask.");
-      const accounts = await window.ethereum.request({ method: "eth_accounts" });
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
-      }
-    } catch (error) {
-      console.error("checkIfWalletIsConnected error:", error);
+  try {
+    if (!window.ethereum) return; 
+    const accounts = await window.ethereum.request({ method: "eth_accounts" });
+    if (accounts.length) {
+      setCurrentAccount(accounts[0]);
     }
-  };
+  } catch (error) {
+    console.error("checkIfWalletIsConnected error:", error);
+  }
+};
+
 
   useEffect(() => {
     checkIfWalletIsConnected();
