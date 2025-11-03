@@ -58,8 +58,8 @@ const Signup = () => {
             </div>
 
             </div>
-            <div className="flex-1 flex lg:flex-row flex-col">
-            <div className="lg:w-1/2 w-full hidden lg:flex bg-gray-200">
+            <div className="flex-1 flex h-full lg:flex-row flex-col">
+            <div className="lg:w-1/2 w-full hidden lg:flex lg:flex-col bg-gray-200">
             <div className="w-full h-full rounded-r-4xl bg-blue-500 pt-5 pl-5">
                 <div className="xl:text-5xl lg:text-4xl  text-white lg:font-bold xl:font-semibold w-3/4">Choose your role to Get Started</div>
                 <div className="mt-5 text-white lg:text-base xl:text-xl w-5/6 font-medium">AuthenX provides two secure ways to sign up as — <p>Verifier or an Organization.</p>
@@ -115,12 +115,12 @@ const Signup = () => {
 
             </div>
             <div className="flex lg:w-1/2 w-full h-full bg-gray-200 justify-center items-center">
-              <span className="xl:w-3/4 justify-center lg:w-full m-5 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
-              <span className="flex justify-start text-xl lg:text-3xl font-bold">Create Your AuthenX Account</span>
-              <span className="mt-3 text-sm lg:text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>
+              <span className="xl:w-3/4 sm:w-4/6 justify-center lg:w-full m-5 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
+              <span className="flex justify-start text-xl sm:text-3xl lg:text-3xl font-bold">Create Your AuthenX Account</span>
+              <span className="mt-3 text-sm sm:text-base sm:w-3/4 lg:w-full flex justify-center lg:text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>
 
-              <div className="w-full lg:flex hidden">
-                <div className="flex justify-center text-xl font-bold mt-2 border-b-1 p-1 border-b-gray-400">Join As </div>
+              <div className="w-full lg:flex lg:flex-col hidden">
+                <div className="flex justify-center text-xl font-bold mt-3 border-1 p-1 border-gray-400">Join As </div>
                 <div className="w-full flex mt-3 mb-3 bg-gray-100 rounded-xl ">
                     <div onClick={() => handleTabSwitch("verifier")} className={`w-1/2 flex justify-center transition-all duration-300 ease-in-out p-2 rounded-xl text-lg ${active == "verifier" ? "bg-blue-500 text-white" : "bg-gray-100 text-black"} `}>
                     Verifier 
@@ -131,11 +131,11 @@ const Signup = () => {
 
                 </div>
               </div>
-              {active == "verifier" && <div className="min-w-full"> 
-                <div className="flex w-full gap-5 justify-between mt-2">
+              {active == "verifier" && <div className="min-w-full lg:mt-0 mt-1"> 
+                <div className="flex w-full lg:gap-5 gap-3 justify-between mt-2">
                 <div className="w-1/2">
-                    <div className="font-semibold text-gray-600 mb-1">
-                     First Name
+                    <div className="font-semibold lg:text-base text-sm text-gray-600 mb-1">
+                     First Name *
                     </div>
                     <div className="flex gap-0 w-full outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -144,12 +144,11 @@ const Signup = () => {
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData , firstName : e.target.value})}
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
                 </div>
                 <div className="w-1/2">
-                    <div className="font-semibold text-gray-600 mb-1">
-                     Last Name
+                    <div className="font-semibold lg:text-base text-sm text-gray-600 mb-1">
+                     Last Name *
                     </div>
                     <div className="flex gap-0 w-full outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -158,13 +157,12 @@ const Signup = () => {
                     value={formData.lastName}
                     onChange={(e) => setFormData({...formData , lastName : e.target.value})}
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
                 </div>
               </div>
               <div>
-                    <div className="font-semibold w-full text-gray-600 mb-1 mt-2">
-                     Email
+                    <div className="font-semibold lg:text-base text-sm w-full text-gray-600 mb-1 mt-2">
+                     Email *
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -173,12 +171,11 @@ const Signup = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({...formData , email : e.target.value})}
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
               <div>
-                    <div className="font-semibold text-gray-600 mb-1 mt-2">
-                     Password
+                    <div className="font-semibold lg:text-base text-sm text-gray-600 mb-1 mt-2">
+                     Password *
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
@@ -187,7 +184,6 @@ const Signup = () => {
                     value={formData.password}
                     onChange={(e) => setFormData({...formData , password : e.target.value})}
                     />
-                    <span className="flex w-3 justify-end text-gray-400">*</span>
                     </div>
               </div>
               {serverError && (
@@ -197,7 +193,7 @@ const Signup = () => {
                 <Button onClick={handleSignup} variant="primary" size="md" className="before:bg-white rounded-full w-1/2 justify-center text-lg  outline-blue-400 flex gap-2 items-center">
                 Sign Up
                 </Button>
-                <div className="mt-2 text-sm w-2/3 text-center">
+                <div className="mt-2 lg:text-sm text-xs lg:w-2/3 w-4/5 text-center">
                     By signing up, you agree to our Terms & Conditions and Privacy Policy.
                 </div>
               </span> </div>}

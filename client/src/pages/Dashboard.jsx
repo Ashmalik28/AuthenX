@@ -10,6 +10,8 @@ import { fetchOrgDetails } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { fetchDashboardStats } from '../../api';
 import { fetchUserType } from '../../api';
+import { HiMenuAlt4 } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Dashboard = () => {
     const [dateTime, setDateTime] = useState(new Date());
@@ -25,6 +27,7 @@ const Dashboard = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [userType, setUserType] = useState("");
     const [userName, setUserName] = useState("");
+    const [toggleMenu, setToggleMenu] = useState(false);
     const docsPerPage = 4;
 
     const totalTransactionData = Math.ceil(transactionsData.length/docsPerPage);
@@ -172,9 +175,16 @@ const Dashboard = () => {
 
     return (
         <div className='w-screen h-screen flex flex-col text-white'>
-            <div className='w-full bg-white fixed top-0 flex justify-between items-center px-2 h-[60px]'>
-                <div className='w-40 h-10'>
-                    <img src={logo} alt="logo" className='w-40 h-10 cursor-pointer' />
+            <div className='w-full bg-white fixed top-0 flex justify-between items-center z-60 px-2 h-[60px]'>
+                <div className="lg:hidden flex text-black items-center relative">
+                {!toggleMenu ? (
+                <HiMenuAlt4 fontSize={24} className="cursor-pointer" onClick={() => setToggleMenu(true)} />
+                ) : (
+                <AiOutlineClose fontSize={24} className="cursor-pointer" onClick={() => setToggleMenu(false)} />
+                )}
+              </div>
+                <div className=''>
+                    <img src={logo} alt="logo" className='lg:w-40 lg:h-10 w-24 h-6 cursor-pointer' />
                 </div>
                 <div className='flex justify-center items-center'>
                     {userType === "verifier" ? "" :
@@ -187,8 +197,8 @@ const Dashboard = () => {
                         </div> 
                     </div> }
                     
-                    <div className='border-1 rounded-full h-12 w-12 bg-gray-700 flex justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7">
+                    <div className='border-1 rounded-full lg:h-12 lg:w-12 w-6 h-6 bg-gray-700 flex justify-center items-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="lg:size-7 size-4">
                             <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
                         </svg>
                     </div>
@@ -196,8 +206,13 @@ const Dashboard = () => {
             </div>
 
             <div className='flex flex-1 h-full w-screen mt-[60px] bg-gray-300'> 
-                 <Sidebar />
-                <div className='flex flex-1 flex-col ml-72 mr-5 mb-5'>
+              <div className='hidden lg:block'><Sidebar /></div>
+              {toggleMenu && (
+              <div className="absolute lg:hidden top-[60px] left-0 w-60 h-screen flex animate-slide-in bg-white z-50 shadow-xl">
+              <Sidebar />
+              </div>
+              )}
+                <div className='flex flex-1 flex-col lg:ml-72 mr-5 mb-5'>
                     <div className='grid grid-cols-4 gap-5 mt-5 ml-5'>
                         <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='text-xl font-semibold'>Total Verifications</div>
