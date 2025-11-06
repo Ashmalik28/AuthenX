@@ -233,7 +233,7 @@ const Dashboard = () => {
                     </div>
 
                     <div className='grid lg:grid-cols-3 gap-5 mt-5 ml-5'>
-                        <div className='bg-white rounded-xl p-6 hidden lg:flex lg:col-span-2'>
+                        <div className='bg-white rounded-xl p-6 hidden lg:flex lg:flex-col lg:col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black font-semibold text-2xl'>Quick Actions</div>
                             <div className='grid grid-cols-3 gap-5 mt-5'>
