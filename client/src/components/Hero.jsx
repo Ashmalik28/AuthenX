@@ -13,14 +13,14 @@ const HeroSection = () => {
                     </svg>
                 </span>
             </span>
-            <h1 className="text-3xl lg:text-5xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-black mt-6 lg:mt-12 gap-2.5 flex flex-col items-center lg:items-start">
+            <h1 className="text-2xl xs:text-3xl lg:text-5xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-black mt-6 lg:mt-12 gap-2.5 flex flex-col items-center lg:items-start">
             <div className=" border-slate-900 dark:border-white">
             Verify any document,
             </div>
-            <div className="text-2xl sm:text-4xl xl:text-5xl 2xl:text-6xl lg:mt-3 gap-2 flex">
+            <div className="text-xl xs:text-2xl sm:text-4xl xl:text-5xl 2xl:text-6xl lg:mt-3 gap-2 flex">
             <div className='text-black'>Anywhere ,</div><span className='text-white bg-black rounded-md px-0.5'>Instantly.</span> 
             </div>
-            <div className='text-gray-500 w-[95%] sm:w-[80%] text-center lg:text-start text-sm lg:text-base 2xl:text-xl mt-2 lg:mt-4 2xl:mt-5 lg:w-[70%] '>
+            <div className='text-gray-500 w-[95%] sm:w-[80%] text-center lg:text-start text-xs xs:text-sm lg:text-base 2xl:text-xl mt-2 lg:mt-4 2xl:mt-5 lg:w-[70%] '>
                 AuthenX uses blockchain to make academic, legal, and professional documents tamper-proof and easy to verify across institutions
             </div>
             </h1>
@@ -39,7 +39,7 @@ const HeroSection = () => {
             </div>
             </div>
             <div className='flex justify-center lg:justify-start items-center mt-5 lg:mt-30 xl:mt-38 lg:pr-8 xl:pr-20 '>
-                <img className='max-w-xs sm:max-w-sm lg:max-w-sm xl:max-w-lg 2xl:max-w-2xl' src={image} alt="hero" />
+                <img className='max-w-80% sm:max-w-sm lg:max-w-sm xl:max-w-lg 2xl:max-w-2xl' src={image} alt="hero" />
             </div>
 
         </div>

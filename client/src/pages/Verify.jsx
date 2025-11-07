@@ -129,7 +129,7 @@ const Verify = () => {
     };
 
     return (
-        <div className='w-screen h-screen flex flex-col text-white'>
+        <div className='w-screen h-full flex flex-col text-white'>
             <div className='w-full bg-white fixed top-0 flex justify-between items-center z-60 px-2 h-[60px]'>
                             <div className="lg:hidden flex text-black items-center relative">
                             {!toggleMenu ? (
@@ -226,7 +226,7 @@ const Verify = () => {
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
                     <label htmlFor="Result" className='text-black font-semibold'>Result</label>
-                    <div className= {`flex flex-col gap-0 cursor-pointer border ${verified === null ? "border-blue-500 " : ""} ${verified === false ? "border-red-500 bg-red-50" : ""} ${verified === true ? "border-green-500 bg-green-50" : ""} lg:w-2/3 lg:h-40 border-2 rounded-xl p-2 items-center`}> 
+                    <div className= {`flex flex-col gap-0 w-full cursor-pointer border ${verified === null ? "border-blue-500 " : ""} ${verified === false ? "border-red-500 bg-red-50" : ""} ${verified === true ? "border-green-500 bg-green-50" : ""} lg:w-2/3 lg:h-40 border-2 rounded-xl p-2 items-center`}> 
                     {verified === null && (
                       <div className='flex flex-col items-center p-1 '>
                         <div className='lg:w-12 lg:h-12 w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-500'>
@@ -242,17 +242,17 @@ const Verify = () => {
                     )}
                     {verified === true && ( 
                     <div className='flex flex-col items-center'>
-                    <div className='text-3xl'>😊</div>
-                    <div className='text-green-600 text-xl font-semibold mt-1'>Document Valid and Verified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : {shortenAddress(docHash)}</div>
-                    <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
+                    <div className='lg:text-3xl text-xl'>😊</div>
+                    <div className='text-green-600 lg:text-xl font-semibold mt-1'>Document Valid and Verified !</div>
+                    <div className='text-gray-500 lg:text-base text-sm mt-2'>Document Hash : {shortenAddress(docHash)}</div>
+                    <button className='bg-gray-700 lg:text-base text-xs mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
                     </div> )}
                     {verified === false && (
                     <div className='flex flex-col items-center'>
-                    <div className='text-3xl'>🙁</div>
-                    <div className='text-red-600 text-xl font-semibold mt-1'>Document Invalid and Unverified !</div>
-                    <div className='text-gray-500 mt-2'>Document Hash : {shortenAddress(docHash)}</div>
-                    <button className='bg-gray-700 mt-2 hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
+                    <div className='lg:text-3xl text-xl'>🙁</div>
+                    <div className='text-red-600 lg:text-xl font-semibold mt-1'>Document Invalid and Unverified !</div>
+                    <div className='text-gray-500 lg:text-base text-sm mt-2'>Document Hash : {shortenAddress(docHash)}</div>
+                    <button className='bg-gray-700 mt-2 lg:text-base text-xs hover:bg-black py-1 px-3 rounded-xl'>Check Transaction on Blockchain Explorer</button> 
                     </div>)}
                     </div>
                     </div>

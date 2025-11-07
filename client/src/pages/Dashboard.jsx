@@ -25,7 +25,6 @@ const Dashboard = () => {
     const [transactionsData, setTransactionsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [userType, setUserType] = useState("");
     const [userName, setUserName] = useState("");
     const [toggleMenu, setToggleMenu] = useState(false);
     const docsPerPage = 4;
@@ -51,12 +50,13 @@ const Dashboard = () => {
     }
     };
 
+    const userType = localStorage.getItem("userType")
+
     useEffect(() => {
     const getUserType = async () => {
       try {
         const data = await fetchUserType();
         if (data.success) {
-          setUserType(data.type);
           setUserName(data.name);
         }
         if (data.type === "verifier") {
@@ -174,7 +174,7 @@ const Dashboard = () => {
     );
 
     return (
-        <div className='w-screen h-full flex flex-col text-white'>
+        <div className='w-screen min-h-[100vh] flex flex-col text-white'>
             <div className='w-full bg-white fixed top-0 flex justify-between items-center z-60 px-2 h-[60px]'>
                 <div className="lg:hidden flex text-black items-center relative">
                 {!toggleMenu ? (
