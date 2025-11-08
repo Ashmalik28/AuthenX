@@ -42,7 +42,7 @@ const Signin = () => {
                     <img src={logo} alt="logo" className="lg:w-40 w-24" />
                 </div>
                 <div className="pt-3 flex items-center lg:text-base text-xs   font-semibold">
-                Don't have an account yet ? <span className="pl-3"><Button onClick={() => navigate("/signup")} variant="secondary" size="sm" className="before:bg-blue-500 rounded-lg outline-blue-400 flex gap-2 items-center">
+                <span className="hidden sm:flex">Don't have an account yet ?</span><span className="pl-3"><Button onClick={() => navigate("/signup")} variant="secondary" size="sm" className="before:bg-blue-500 rounded-lg outline-blue-400 flex gap-2 items-center">
                 Signup
                 </Button></span>
                 </div>

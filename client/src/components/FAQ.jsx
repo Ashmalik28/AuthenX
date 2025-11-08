@@ -4,7 +4,7 @@ import Faqimage from "../../images/FAQ/FAQ.png"
 const FAQitem = ({question , answer }) => {
     const [open , setOpen] = useState(false)
     return (
-     <div role="button" onClick={() => setOpen(!open)} className="mt-4 flex w-4/5 bg-gray-100 py-3 bg-opacity-100 px-4  rounded-2xl flex-col items-between justify-center">
+     <div role="button" onClick={() => setOpen(!open)} className="mt-4 flex w-90% w-[92%] bg-gray-100 py-3 bg-opacity-100 px-4  rounded-2xl flex-col items-between justify-center">
         <div className="flex justify-between items-center">
             <div className="text-sm lg:text-base font-semibold">{question}</div>
             <div><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className={`transform transition-transform duration-200 ease-in-out  size-4 font-semibold ${open ? "rotate-180" : ""}`}>
@@ -167,8 +167,8 @@ const FAQ = () => {
             <div className="max-w-full mx-auto flex lg:flex-row flex-col bg-gray-100 h-full mt-10 rounded-xl">
             <div className="w-full lg:w-1/2 items-center lg:items-start pt-15 lg:pl-15 flex flex-col gap-2">
             <span className="bg-blue-500 w-15 text-white flex justify-center pt-1 pb-1 rounded-2xl mb-3">FAQ</span>
-            <span className="lg:text-5xl text-3xl sm:text-4xl font-semibold">What would you like to</span>
-            <span className="lg:text-5xl text-3xl sm:text-4xl font-semibold mb-3">know about AuthenX ?</span>
+            <span className="lg:text-5xl text-2xl xs:text-3xl sm:text-4xl font-semibold">What would you like to</span>
+            <span className="lg:text-5xl text-2xl xs:text-3xl sm:text-4xl font-semibold mb-3">know about AuthenX ?</span>
             <span className="border-1 border-gray-300 w-32 flex justify-center px-3 py-2 rounded-2xl gap-1">
                 <span className="flex justify-center items-center text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -181,8 +181,8 @@ const FAQ = () => {
             <img src={Faqimage} alt="FAQ" className="lg:w-4/5 w-64"/>
             </div>
             </div>
-            <div className="w-full min-h-full lg:w-1/2 bg-blue-500 pb-10 rounded-xl">
-            <div className="mt-10 h-full flex flex-col items-center">
+            <div className="w-full min-h-full lg:w-1/2 bg-blue-500 pb-8 rounded-xl">
+            <div className="xs:mt-10 mt-5 h-full min-w-full flex flex-col items-center">
                 {faqs.map((item , index) => (
                 <FAQitem
                 key={index} 

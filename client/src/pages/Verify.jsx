@@ -158,7 +158,7 @@ const Verify = () => {
                                     </svg>
                                 </div>
                             </div>
-                        </div>
+              </div>
 
             <div className='flex flex-1 h-full mt-[60px] bg-gray-300'> 
               <div className='hidden lg:block'><Sidebar /></div>
@@ -167,21 +167,21 @@ const Verify = () => {
               <Sidebar />
               </div>
               )}
-                 <div className='flex flex-1 lg:ml-72 mr-5 mb-5'>
-                    <div className='ml-5 mt-5 grid lg:grid-cols-3 gap-5 lg:w-full'>
-                    <div className='lg:col-span-2 bg-white p-4 pb-0 rounded-xl flex flex-col'>
+                 <div className='flex flex-1 lg:ml-72 mr-2 xs:mr-5 mb-2 xs:mb-5'>
+                    <div className='ml-2 xs:ml-5 mt-2 xs:mt-5 grid lg:grid-cols-3 gap-2 xs:gap-5 w-full sm:ml-25 sm:mr-25 lg:ml-3 lg:mr-3 lg:w-full'>
+                    <div className='lg:col-span-2 bg-white xs:p-4 p-2 pb-0 rounded-xl flex flex-col'>
                     <div className='text-black text-3xl lg:text-5xl font-semibold flex justify-center'>Verify Document</div>
-                    <div className="mt-6 mb-6 w-full flex gap-3 lg:gap-6 justify-center">
+                    <div className="lg:mt-6 mt-4 mb-4 lg:mb-6 w-full flex gap-3 lg:gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
                     <label htmlFor="fullName" className='text-black lg:text-base text-sm font-semibold'>Your Name *</label>
                     <div className="flex gap-0 outline-1 w-full outline-gray-400 rounded-xl p-3 focus-within:outline-2 focus-within:outline-blue-500"> 
-                    <input value={name} onChange={(e) => setName(e.target.value)} className="lg:w-70 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
+                    <input value={name} onChange={(e) => setName(e.target.value)} className="lg:w-70 sm:w-48 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
                     <label htmlFor="email" className='text-black lg:text-base text-sm font-semibold'>Email Address *</label>
                     <div className="flex gap-0 outline-1 w-full outline-gray-400 rounded-xl p-3 focus-within:outline-2 focus-within:outline-blue-500"> 
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="lg:w-70 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="lg:w-70 sm:w-48 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
                     </div>
                     </div>
                     </div>
@@ -267,13 +267,13 @@ const Verify = () => {
                         </svg>
                         </div>
                       
-                      <div className='text-black lg:text-base text-xs'>Verification is powered by Ethereum Smart Contract</div>
+                      <div className='text-black lg:text-base text-[11px] xs:text-xs'>Verification is powered by Ethereum Smart Contract</div>
                     </div>
                     
                     </div>
                     </div>
                     <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 flex flex-col items-center rounded-xl h-fit'>
-                    <div className='text-3xl text-black font-semibold'>
+                    <div className='text-2xl xs:text-3xl text-black font-semibold'>
                     Verify with QR Code
                     </div>
                     {docHash === null ? (
