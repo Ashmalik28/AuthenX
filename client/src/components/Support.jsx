@@ -104,21 +104,21 @@ const Support = () => {
     return (
         <div className="flex flex-col max-w-screen items-center justify-center ">
             <div className="flex flex-col items-center justify-center">
-            <span className="text-4xl lg:text-6xl font-semibold mt-10">Get in Touch with Us</span>
-            <span className="lg:w-1/2 sm:w-3/4 text-center mt-3 text-sm lg:px-0 px-3 lg:text-lg font-medium">Have questions , feedback or need support? We're here to help! Reach out to us for inquiries, technical assistance, or partnership opportunities. Our team will respond as soon as possible.</span>
+            <span className="text-3xl xs:text-4xl lg:text-6xl font-semibold mt-10">Get in Touch with Us</span>
+            <span className="lg:w-1/2 sm:w-3/4 text-center mt-3 text-xs xs:text-sm lg:px-0 px-3 lg:text-lg font-medium">Have questions , feedback or need support? We're here to help! Reach out to us for inquiries, technical assistance, or partnership opportunities. Our team will respond as soon as possible.</span>
             </div>
-            <div className="mt-13 mb-6 flex md:flex-row flex-col gap-6">
+            <div className="xs:mt-13 mt-8 mb-6 flex md:flex-row flex-col gap-6">
                 <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                <input value={formData.name} onChange={(e) => setFormData({...formData , name : e.target.value}) } className="w-70 outline-none mt-0" type="text" placeholder="Your Name" />
+                <input value={formData.name} onChange={(e) => setFormData({...formData , name : e.target.value}) } className="w-64 xs:w-70 outline-none mt-0" type="text" placeholder="Your Name" />
                 <span className="flex w-3 justify-end text-gray-400">*</span>
                 </div>
                 <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
-                <input value={formData.email} onChange={(e) => setFormData({...formData , email : e.target.value})} className="w-70 outline-none mt-0" type="text" placeholder="Email Address" />
+                <input value={formData.email} onChange={(e) => setFormData({...formData , email : e.target.value})} className="w-64 xs:w-70 outline-none mt-0" type="text" placeholder="Email Address" />
                 <span className="flex w-3 justify-end text-gray-400">*</span>
                 </div>
             </div>
-            <div className="mb-8 h-full flex md:flex-row flex-col gap-6">
-            <div className="flex gap-0 outline-1 w-79 outline-gray-400 rounded-xl relative "> 
+            <div className="mb-8 h-full flex md:flex-row items-center flex-col gap-6">
+            <div className="flex gap-0 outline-1 xs:w-79 w-[92%] outline-gray-400 rounded-xl relative "> 
                 <div className="w-22 flex items-center justify-center text-3xl gap-1 rounded-l-xl outline-1 outline-gray-400 h-100%"
                 onClick={() => setIsOpen(!isOpen)}>
                    <span>{selectedCountry.flag}</span>
@@ -158,7 +158,7 @@ const Support = () => {
         </div>
       )}
             </div>
-             <div className="flex gap-0 outline-1 w-79 outline-gray-400 rounded-xl relative">
+             <div className="flex gap-0 outline-1 xs:w-79 w-[92%] outline-gray-400 rounded-xl relative">
             <div
                 className="w-full flex items-center justify-between text-xl px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
                 onClick={() => setInterestOpen(!interestOpen)}
@@ -199,7 +199,7 @@ const Support = () => {
             </div>
             
             </div>
-            <div className="outline-1 w-[90%] sm:w-3/5 outline-gray-400 lg:w-164 rounded-xl mb-8 h-24 sm:h-32 lg:h-40 p-3">
+            <div className="outline-1 w-[90%] sm:w-3/5 outline-gray-400 lg:w-164 rounded-xl mb-8 xs:h-24 h-32 sm:h-32 lg:h-40 p-3">
                 <textarea value={formData.message} onChange={(e) => setFormData({...formData , message : e.target.value})} className=" w-full h-full outline-none placeholder:top-1" type="text" placeholder="Type in your message" />
             </div>
             <Button onClick={handleSendMessage} variant="primary" size="md" className="before:bg-white pl-12 pr-12 rounded-full  outline-blue-400 flex gap-2 items-center">
