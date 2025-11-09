@@ -212,28 +212,28 @@ const Dashboard = () => {
               <Sidebar />
               </div>
               )}
-                <div className='flex flex-1 flex-col lg:ml-64 xl:ml-72 sm:mr-20 lg:mr-0 sm:ml-20 mb-5'>
-                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-5 mt-3 xs:mt-5 mr-3 ml-3 xs:mr-5 xs:ml-5'>
+                <div className='flex flex-1 flex-col lg:ml-72 xl:ml-72 sm:mr-20 lg:mr-5 sm:ml-20 mb-5'>
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-5 mt-3 xs:mt-5 lg:mr-0 xs:mr-5 xs:ml-5'>
                         <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='lg:text-xl text-sm xs:text-base font-semibold'>Total Verifications</div>
-                            <div className='mt-4 lg:text-4xl text-3xl font-bold'>{totalVerifications}</div>
+                            <div className='mt-4 lg:text-2xl xl:text-4xl text-3xl font-bold'>{totalVerifications}</div>
                         </div>
                         <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='lg:text-xl text-sm xs:text-base font-semibold'>Total Issued Documents </div>
-                            <div className='mt-4 lg:text-4xl text-3xl font-bold'>{totalDocuments}</div>
+                            <div className='mt-4 lg:text-2xl xl:text-4xl text-3xl font-bold'>{totalDocuments}</div>
                         </div>
                         <div className=' bg-white rounded-xl text-black p-3'>
                             <div className='lg:text-xl text-sm xs:text-base font-semibold'>Verified Organizations</div>
-                            <div className='mt-4 lg:text-4xl text-3xl font-bold'>{totalVerifiedOrgs}</div>
+                            <div className='mt-4 lg:text-2xl xl:text-4xl text-3xl font-bold'>{totalVerifiedOrgs}</div>
                         </div>
                         <div className=' bg-white rounded-xl flex flex-col justify-between text-black p-3'>
                             <div className='lg:text-xl text-sm xs:text-base font-semibold'>Wallet Balance</div>
-                            <div className='mt-4 lg:text-4xl text-3xl font-bold'>{walletBalance} {userType === "verifier" ? "" : "ETH"}</div>
+                            <div className='mt-4 lg:text-2xl xl:text-4xl text-3xl font-bold'>{walletBalance} {userType === "verifier" ? "" : "ETH"}</div>
                         </div>
                     </div>
 
-                    <div className='grid lg:grid-cols-3 gap-5 mt-5 ml-3 xs:ml-5'>
-                        <div className='bg-white rounded-xl p-6 hidden lg:flex lg:flex-col lg:col-span-2'>
+                    <div className='grid xl:grid-cols-3 gap-5 mt-5 ml-3 xs:ml-5'>
+                        <div className='bg-white rounded-xl p-6 hidden xl:flex lg:flex-col lg:col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black font-semibold text-2xl'>Quick Actions</div>
                             <div className='grid grid-cols-3 gap-5 mt-5'>
@@ -338,7 +338,7 @@ const Dashboard = () => {
 
 
                         </div>
-                        <div className='flex flex-col rounded-xl md:gap-5 mr-3 xs:mr-5'>
+                        <div className='flex xl:flex-col rounded-xl md:gap-5 mr-3 xs:mr-5 lg:mr-0'>
                                 <div className='flex-1 bg-white rounded-xl p-5 '>
                                 <div className='text-black xs:font-semibold font-bold flex justify-center text-2xl xs:text-3xl'>Welcome , {userName}</div>
                                 <div className="text-sm text-white bg-black p-3 rounded-2xl mt-3 flex justify-around">
@@ -423,16 +423,16 @@ const Dashboard = () => {
                                 </div> : <div className='flex h-full w-full  flex-1 justify-cente items-center'></div>
                                 }
                         </div>
-                        <div className='bg-white rounded-xl p-6 mr-5 lg:hidden lg:col-span-2'>
+                        <div className='bg-white rounded-xl p-6 xl:hidden xl:col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black flex justify-center font-semibold text-2xl'>Quick Actions</div>
                             <div className='grid grid-cols-3 gap-3 mt-5'>
                             <div onClick={() => navigate("/verify")} className='bg-blue-100 hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black px-3 xs:px-2 p-2'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 xs:size-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 lg:size-11 xs:size-8">
                                 <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                                 </svg>
-                                <div className='w-1/2 flex justify-center text-center text-black text-[12px] font-bold xs:text-sm mt-1 xs:font-semibold'>Verify Document</div>
+                                <div className='w-1/2 flex justify-center text-center text-black text-[12px] lg:text-lg font-bold xs:text-sm mt-1 xs:font-semibold'>Verify Document</div>
                                 </div>
                             </div>
                             {userType == "verifier" ? <div onClick={() => navigate("/#support")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-2'>
@@ -441,7 +441,7 @@ const Dashboard = () => {
                                 <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z" />
                                 <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z" />
                                 </svg>
-                                <div className='w-1/2 flex justify-center text-center text-black text-sm mt-1 font-semibold'>Connect With Us</div>
+                                <div className='w-1/2 flex justify-center text-center text-black lg:text-lg text-sm mt-1 font-semibold'>Connect With Us</div>
                                 </div>
                             </div> : <div onClick={() => navigate("/issue")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-2'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
@@ -455,11 +455,11 @@ const Dashboard = () => {
                             
                             <div onClick={() => navigate("/about")} className='bg-blue-100  hover:bg-gray-100 rounded-2xl hover:scale-110 transition-all ease-in-out duration-200 text-black p-2'>
                                 <div className='text-blue-500 flex flex-col justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 xs:size-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 lg:size-11 xs:size-8">
                                 <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
                                 <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
                                 </svg>
-                                <div className='w-1/2 flex justify-center text-center text-black text-sm mt-1 font-semibold'>Detailed Guide</div>
+                                <div className='w-1/2 flex justify-center text-center text-black lg:text-lg text-sm mt-1 font-semibold'>Detailed Guide</div>
                                 </div>
                             </div>
                             

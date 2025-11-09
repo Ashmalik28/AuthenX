@@ -237,7 +237,7 @@ const MyIssuedDocs = () => {
                  </div>
                  {loading == true ? <div className='flex-1 mt-24 h-full min-w-[calc(100vw-20rem)] flex justify-center items-center'><Loader /></div>
                     : (
-                  <div className='flex-1 grid mx-5 mt-24 h-full max-w-100% gap-5 2xl:grid-cols-4 grid-cols-2'>    
+                  <div className='flex-1 grid mx-5 lg:ml-15 xl:ml-5 mt-24 h-full min-w-100% gap-5 2xl:grid-cols-4 grid-cols-1 xl:grid-cols-2'>    
                   {isSearching ? (
                   filteredDocs.length > 0 ? (
                     filteredDocs.map((doc, index) => {

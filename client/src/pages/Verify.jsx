@@ -167,9 +167,9 @@ const Verify = () => {
               <Sidebar />
               </div>
               )}
-                 <div className='flex flex-1 lg:ml-72 mr-2 xs:mr-5 mb-2 xs:mb-5'>
-                    <div className='ml-2 xs:ml-5 mt-2 xs:mt-5 grid lg:grid-cols-3 gap-2 xs:gap-5 w-full sm:ml-25 sm:mr-25 lg:ml-3 lg:mr-3 lg:w-full'>
-                    <div className='lg:col-span-2 bg-white xs:p-4 p-2 pb-0 rounded-xl flex flex-col'>
+                 <div className='flex flex-1 lg:ml-72 mr-2 xs:mr-5 lg:mr-0 mb-2 xs:mb-5'>
+                    <div className='ml-2 xs:ml-5 mt-2 xs:mt-5 grid xl:grid-cols-3 gap-2 xs:gap-5 w-full sm:ml-25 sm:mr-25 lg:ml-3 lg:mr-3 lg:w-full'>
+                    <div className='xl:col-span-2 bg-white xs:p-4 p-2 pb-0 rounded-xl flex flex-col'>
                     <div className='text-black text-3xl lg:text-5xl font-semibold flex justify-center'>Verify Document</div>
                     <div className="lg:mt-6 mt-4 mb-4 lg:mb-6 w-full flex gap-3 lg:gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
@@ -272,7 +272,7 @@ const Verify = () => {
                     
                     </div>
                     </div>
-                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 flex flex-col items-center rounded-xl h-fit'>
+                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 lg:ml-25 lg:mr-25 xl:mr-0 xl:ml-0 flex flex-col items-center rounded-xl h-fit'>
                     <div className='text-2xl xs:text-3xl text-black font-semibold'>
                     Verify with QR Code
                     </div>
