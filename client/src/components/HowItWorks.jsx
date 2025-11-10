@@ -60,8 +60,8 @@ const HowItWorks = () => {
         <div className="max-w-screen bg-blue-500 flex justify-center">
             <div className="2xl:w-[1800px] pb-8 lg:pb-0 flex flex-col items-center">
             <div className="flex w-full flex-col items-center">
-            <span className="mt-4 text-white text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-bold">How AuthenX Works ??</span>
-            <span className="mt-3 text-white sm:text-lg text-xs xs:text-sm w-screen lg:w-2/4 text-center">Tailored solutions for individuals verifying documents and organizations issuing and managing them with blockchain-powered trust.</span>
+            <span className="mt-4 text-white text-2xl xs:text-3xl sm:text-4xl 2xl:text-6xl lg:text-5xl font-bold">How AuthenX Works ??</span>
+            <span className="mt-3 text-white sm:text-lg text-xs xs:text-sm w-screen lg:w-2/4 xl:text-2xl text-center">Tailored solutions for individuals verifying documents and organizations issuing and managing them with blockchain-powered trust.</span>
             <span className="mt-6 text-xl sm:text-2xl lg:text-3xl text-white font-bold">For End Users</span>
             </div>
             <div className="text-white flex justify-center items-center max-w-full mt-5 md:mt-10 pl-20 pr-20">
@@ -72,7 +72,7 @@ const HowItWorks = () => {
                 </svg>
                 </button>
                 </div>
-                <div ref={carouselUserRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden md:snap-none">
+                <div ref={carouselUserRef} className="lg:px-0 px-3 flex gap-5 w-screen 2xl:max-w-[1250px] lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden md:snap-none">
                     {HowItWorksData.map((data , index) => (
                     <HowItWorksCard
                     key={data.cardNo + index}
@@ -110,7 +110,7 @@ const HowItWorks = () => {
                 </svg>
                 </button>
                 </div>
-                <div ref={carouselOrgRef} className="lg:px-0 px-3 flex gap-5 w-screen lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden lg:snap-none">
+                <div ref={carouselOrgRef} className="lg:px-0 px-3 2xl:max-w-[1250px] flex gap-5 w-screen lg:max-w-3/5 xl:max-w-[1120px] overflow-hidden snap-x snap-mandatory overflow-x-auto scrollbar-none lg:overflow-hidden lg:snap-none">
                     {HowItWorksOrgData.map((data , index) => (
                     <HowItWorksCard
                     key={data.cardNo + index}
