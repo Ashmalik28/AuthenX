@@ -76,8 +76,8 @@ const Navbar = () => {
       return () => window.removeEventListener("scroll" , handleScroll);
     }, []);
     return (
-  <nav className="max-w-full fixed z-50">
-    <div className={`flex w-screen 2xl:max-w-[1800px] mx-auto justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
+  <nav className="min-w-screen flex justify-center fixed z-50">
+    <div className={`flex w-screen 2xl:max-w-[1800px] justify-between transition-colors duration-300 ease-in-out items-center mt-2 ${scrolled ? "card" : "bg-transparent border border-transparent"} pt-2 pb-2 rounded-2xl`}>
       
       <div className="flex-initial pl-5 lg:pl-8 xl:pl-20 justify-center items-center">
         <img src={logo} alt="AuthenXLogo" className=" w-32 lg:w-40 cursor-pointer" />

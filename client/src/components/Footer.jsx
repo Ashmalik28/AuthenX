@@ -2,8 +2,8 @@ import logo from '../../images/logowhite.png'
 
 const Footer = () => {
     return (
-        <div className="bg-black max-w-screen min-h-80">
-            <div className="w-full xl:pl-15 lg:pl-8 pl-10 pr-5 lg:pr-5 xl:pr-15 flex lg:flex-row flex-col mx-auto pb-10">
+        <div className="bg-black max-w-screen justify-center min-h-80">
+            <div className="w-full 2xl:w-[1800px] xl:pl-15 lg:pl-8 pl-10 pr-5 lg:pr-5 xl:pr-15 flex lg:flex-row flex-col mx-auto pb-10">
             <div className='mt-5 lg:w-1/4 w-full flex flex-col justify-between'>
             <div>
              <div className='w-full flex lg:justify-start justify-center'>

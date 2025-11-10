@@ -43,8 +43,8 @@ const Signup = () => {
     }
 
     return (
-        <div className="w-full h-screen flex flex-col">
-            <div className="w-full flex border-b-1 border-gray-300">
+        <div className="w-full h-screen items-center  bg-black flex flex-col">
+            <div className="w-full flex border-b-1 bg-white border-gray-300">
                 <div className="flex w-full lg:px-10 px-5 mx-auto justify-between pb-2">
                 <div onClick={() => navigate("/home") } className="flex-initial justify-center items-center cursor-pointer pt-3">
                     <img src={logo} alt="logo" className="lg:w-40 w-24" />
@@ -58,16 +58,16 @@ const Signup = () => {
             </div>
 
             </div>
-            <div className="flex-1 flex h-full lg:flex-row flex-col">
-            <div className="lg:w-1/2 w-full hidden lg:flex lg:flex-col bg-gray-200">
-            <div className="w-full h-full rounded-r-4xl bg-blue-500 pt-5 pl-5">
-                <div className="xl:text-5xl lg:text-4xl  text-white lg:font-bold xl:font-semibold w-3/4">Choose your role to Get Started</div>
-                <div className="mt-5 text-white lg:text-base xl:text-xl w-5/6 font-medium">AuthenX provides two secure ways to sign up as — <p>Verifier or an Organization.</p>
+            <div className="flex-1 2xl:max-w-[1800px] flex h-full lg:flex-row flex-col">
+            <div className="lg:w-1/2 w-full hidden lg:flex lg:flex-col 2xl:rounded-l-4xl bg-gray-200">
+            <div className="w-full h-full 2xl:flex 2xl:flex-col 2xl:justify-center 2xl:rounded-4xl rounded-r-4xl bg-blue-500 pt-5 pl-5 2xl:pr-5">
+                <div className="xl:text-5xl lg:text-4xl 2xl:w-full 2xl:flex 2xl:justify-center text-white 2xl:text-5xl lg:font-bold xl:font-semibold w-3/4">Choose your role to Get Started</div>
+                <div className="mt-5 text-white lg:text-base 2xl:flex 2xl:justify-center 2xl:w-full xl:text-xl w-5/6 font-medium">AuthenX provides two secure ways to sign up as — <p className="ml-1">Verifier or an Organization.</p>
                 </div>
                 <div className="w-full mt-5 pr-5 flex">
                     <div className="w-1/2 border-r-1 border-white pb-12 ">
                     <div className="flex justify-center items-center pr-5">
-                    <img src={Verifier} alt="Verifier" className="xl:w-72 lg:w-64 lg:h-48 " />
+                    <img src={Verifier} alt="Verifier" className="xl:w-72 2xl:w-80 2xl:h-72 lg:w-64 lg:h-48 " />
                     </div>
                     <div className="text-white text-3xl font-bold flex justify-center pr-5">Verifier</div>
                     <div className="mt-5 mr-3">
@@ -89,7 +89,7 @@ const Signup = () => {
                     </div>
                     <div className="w-1/2">
                     <div className="flex justify-center items-center">
-                        <img src={Org} alt="Organization" className="xl:w-72 lg:w-64 lg:h-48"/>
+                        <img src={Org} alt="Organization" className="xl:w-72 2xl:w-80 2xl:h-72 lg:w-64 lg:h-48"/>
                     </div>
                     <div className="text-white text-3xl font-bold flex justify-center">Organization</div>
                      <div className="mt-5 ml-5">
@@ -114,7 +114,7 @@ const Signup = () => {
             </div>
 
             </div>
-            <div className="flex lg:w-1/2 w-full h-full bg-gray-200 justify-center items-center">
+            <div className="flex lg:w-1/2 w-full h-full bg-gray-200 2xl:rounded-r-4xl justify-center items-center">
               <span className="xl:w-3/4 sm:w-4/6 justify-center lg:w-full m-5 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
               <span className="flex justify-start text-xl sm:text-3xl lg:text-3xl font-bold">Create Your AuthenX Account</span>
               <span className="mt-3 text-sm sm:text-base sm:w-3/4 lg:w-full flex justify-center lg:text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>
