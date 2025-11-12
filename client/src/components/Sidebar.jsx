@@ -83,7 +83,7 @@ const Sidebar = () => {
     : organizationItem;
   return (
     
-    <div className="h-[calc(100vh-60px)] bg-blue-500 border-gray-200 border-r w-[75vw]  md:w-72 lg:w-72 xl:w-72 fixed left-0 rounded-r-xl flex flex-col justify-between">
+    <div className="h-[calc(100vh-60px)] bg-blue-500 border-gray-200 border-r w-[75vw]  md:w-72 lg:w-72 xl:w-72 2xl:w-96 fixed left-0 rounded-r-xl flex flex-col justify-between">
      <div className="pt-8 flex flex-col gap-3 px-1">
       {storedType === "verifier" && 
       verifierItems.map((item , index) => (
