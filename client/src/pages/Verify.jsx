@@ -129,7 +129,7 @@ const Verify = () => {
     };
 
     return (
-        <div className='w-screen h-full flex flex-col text-white'>
+        <div className='w-screen h-full 2xl:h-screen bg-gray-300 flex flex-col text-white'>
             <div className='w-full bg-white fixed top-0 flex justify-between items-center z-60 px-2 h-[60px]'>
                             <div className="lg:hidden flex text-black items-center relative">
                             {!toggleMenu ? (
@@ -167,27 +167,27 @@ const Verify = () => {
               <Sidebar />
               </div>
               )}
-                 <div className='flex flex-1 lg:ml-72 mr-2 xs:mr-5 lg:mr-0 mb-2 xs:mb-5'>
-                    <div className='ml-2 xs:ml-5 mt-2 xs:mt-5 grid xl:grid-cols-3 gap-2 xs:gap-5 w-full sm:ml-25 sm:mr-25 lg:ml-3 lg:mr-3 lg:w-full'>
-                    <div className='xl:col-span-2 bg-white xs:p-4 p-2 pb-0 rounded-xl flex flex-col'>
-                    <div className='text-black text-3xl lg:text-5xl font-semibold flex justify-center'>Verify Document</div>
-                    <div className="lg:mt-6 mt-4 mb-4 lg:mb-6 w-full flex gap-3 lg:gap-6 justify-center">
+                 <div className='flex flex-1 lg:ml-72 2xl:ml-96 mr-2 xs:mr-5 lg:mr-0 mb-2 xs:mb-5'>
+                  <div className='ml-2 xs:ml-5 mt-2 2xl:m-10 xs:mt-5 grid xl:grid-cols-3 gap-2 xs:gap-5 2xl:gap-10 w-full sm:ml-25 sm:mr-25 lg:ml-3 lg:mr-3 lg:w-full'>
+                    <div className='xl:col-span-2 bg-white xs:p-4 p-2 2xl:p-10 pb-0 rounded-xl flex flex-col'>
+                    <div className='text-black text-3xl lg:text-5xl 2xl:text-6xl font-semibold flex justify-center'>Verify Document</div>
+                    <div className="lg:mt-6 2xl:mt-8 mt-4 mb-4 lg:mb-6 w-full flex gap-3 lg:gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="fullName" className='text-black lg:text-base text-sm font-semibold'>Your Name *</label>
+                    <label htmlFor="fullName" className='text-black lg:text-base text-sm 2xl:text-xl font-semibold'>Your Name *</label>
                     <div className="flex gap-0 outline-1 w-full outline-gray-400 rounded-xl p-3 focus-within:outline-2 focus-within:outline-blue-500"> 
-                    <input value={name} onChange={(e) => setName(e.target.value)} className="lg:w-70 sm:w-48 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
+                    <input value={name} onChange={(e) => setName(e.target.value)} className="lg:w-70 sm:w-48 w-full 2xl:w-96 lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="email" className='text-black lg:text-base text-sm font-semibold'>Email Address *</label>
+                    <label htmlFor="email" className='text-black lg:text-base text-sm 2xl:text-xl font-semibold'>Email Address *</label>
                     <div className="flex gap-0 outline-1 w-full outline-gray-400 rounded-xl p-3 focus-within:outline-2 focus-within:outline-blue-500"> 
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="lg:w-70 sm:w-48 w-full lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} className="lg:w-70 sm:w-48 w-full 2xl:w-96 lg:placeholder:text-base placeholder:text-sm outline-none mt-0 text-black " type="text" placeholder="Your email address" id='email' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-0 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="document" className='text-black text-sm lg:text-base mb-2 lg:mb-0 font-semibold'>Upload Document *</label>
+                    <label htmlFor="document" className='text-black text-sm lg:text-base mb-2 2xl:text-xl 2xl:mb-4 lg:mb-0 font-semibold'>Upload Document *</label>
                     <div onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
@@ -210,14 +210,14 @@ const Verify = () => {
                      </div>
                      
                       : 
-                     <div className='flex flex-col gap-2 w-full justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" size-7 lg:size-10">
+                     <div className='flex flex-col gap-2 w-full justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class=" size-7 lg:size-10 2xl:size-12">
                         <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm5.845 17.03a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V12a.75.75 0 0 0-1.5 0v4.19l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3Z" clip-rule="evenodd" />
                         <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
                         </svg>
                          <p className="text-gray-600 font-medium text-center">
-                         <span className="text-blue-600 lg:text-base text-xs pr-1">Click here</span><span className='lg:text-base text-xs'>to upload your file or drag and drop</span> 
+                         <span className="text-blue-600 lg:text-base 2xl:text-xl text-xs pr-1 2xl:pr-2">Click here</span><span className='lg:text-base 2xl:text-xl text-xs'>to upload your file or drag and drop</span> 
                     </p>
-                    <p className='text-gray-400 lg:text-base text-xs text-center font-semibold'>Supported Format : PDF , JPG , JPEG , PNG</p></div> }
+                    <p className='text-gray-400 lg:text-base text-xs text-center 2xl:text-lg font-semibold'>Supported Format : PDF , JPG , JPEG , PNG</p></div> }
                     </div>
                     <input onChange={handleFileChange} className="hidden" name='document' accept='.pdf , .jpg , .jpeg , .png' type="file" placeholder="Your email address" id='document' />
                     </div>
@@ -225,19 +225,19 @@ const Verify = () => {
                     </div>
                     <div className="mt-0 flex gap-6 items-center flex-col">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="Result" className='text-black font-semibold'>Result</label>
-                    <div className= {`flex flex-col gap-0 w-full cursor-pointer border ${verified === null ? "border-blue-500 " : ""} ${verified === false ? "border-red-500 bg-red-50" : ""} ${verified === true ? "border-green-500 bg-green-50" : ""} lg:w-2/3 lg:h-40 border-2 rounded-xl p-2 items-center`}> 
+                    <label htmlFor="Result" className='text-black 2xl:text-xl font-semibold'>Result</label>
+                    <div className= {`flex flex-col gap-0 w-full cursor-pointer border ${verified === null ? "border-blue-500 " : ""} ${verified === false ? "border-red-500 bg-red-50" : ""} ${verified === true ? "border-green-500 bg-green-50" : ""} lg:w-2/3 lg:h-40 2xl:h-full border-2 rounded-xl 2xl:p-5 p-2 items-center`}> 
                     {verified === null && (
                       <div className='flex flex-col items-center p-1 '>
-                        <div className='lg:w-12 lg:h-12 w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-500'>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="lg:size-6 size-5">
+                        <div className='lg:w-12 lg:h-12 2xl:h-16 2xl:w-16 w-8 h-8 bg-gray-200 rounded-full flex justify-center items-center text-gray-500'>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="lg:size-6 2xl:size-8 size-5">
                           <path d="M11.625 16.5a1.875 1.875 0 1 0 0-3.75 1.875 1.875 0 0 0 0 3.75Z" />
                           <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm6 16.5c.66 0 1.277-.19 1.797-.518l1.048 1.048a.75.75 0 0 0 1.06-1.06l-1.047-1.048A3.375 3.375 0 1 0 11.625 18Z" clip-rule="evenodd" />
                           <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
                           </svg>
                         </div>
-                        <div className='lg:text-xl font-semibold mt-1 mb-1 text-black'>No document uploaded yet</div>
-                        <div className='text-center lg:text-base text-xs font-semibold text-gray-400'>Upload a document above to verify its authenticity using our blockchain-powered verification system  </div>
+                        <div className='lg:text-xl font-semibold mt-1 mb-1 2xl:text-2xl text-black'>No document uploaded yet</div>
+                        <div className='text-center lg:text-base text-xs font-semibold 2xl:text-xl text-gray-400'>Upload a document above to verify its authenticity using our blockchain-powered verification system  </div>
                       </div>
                     )}
                     {verified === true && ( 

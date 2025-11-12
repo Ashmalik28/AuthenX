@@ -190,28 +190,28 @@ const IssueDoc = () => {
 
             <div className='flex flex-1 h-100vh mt-[60px] bg-gray-300'> 
                  <Sidebar />
-                 <div className='flex flex-1 ml-72 mr-5 mb-5'>
-                    <div className='ml-5 mt-5 grid xl:grid-cols-3 gap-5 w-full'>
+                 <div className='flex flex-1 ml-72 2xl:ml-96 2xl:mr-0 mr-5 mb-5'>
+                    <div className='ml-5 mt-5 2xl:m-10 grid xl:grid-cols-3 2xl:gap-10 gap-5 w-full'>
                     <div className='xl:col-span-2 bg-white xl:p-10 p-3  rounded-xl flex flex-col'>
-                    <div className='text-black text-6xl font-semibold flex justify-center'>Issue Document</div>
-                    <div className="mt-6 flex gap-6 justify-center">
+                    <div className='text-black text-6xl font-semibold 2xl:text-6xl flex justify-center'>Issue Document</div>
+                    <div className="mt-6 2xl:mt-8 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="name" className='text-black font-semibold'>Recipient Name *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="name" className='text-black 2xl:text-xl font-semibold'>Recipient Name *</label>
+                    <div className="flex gap-0 2xl:w-96 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input value={personName} onChange={(e)=> setPersonName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s full name (as on doc)" id='name' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="recipientWallet" className='text-black font-semibold'>Recipient wallet address *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="recipientWallet" className='text-black 2xl:text-xl font-semibold'>Recipient wallet address *</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input value={personWallet} onChange={(e) => setPersonWallet(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter recipient’s wallet address (0x...)" id='recipientWallet' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-6 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="doctype" className='text-black font-semibold'>Select Document Type *</label>
-                    <div id='doctype' className="flex gap-0 outline-1 w-80 outline-gray-400 rounded-xl relative">
+                    <label htmlFor="doctype" className='text-black 2xl:text-xl font-semibold'>Select Document Type *</label>
+                    <div id='doctype' className="flex gap-0 outline-1 2xl:w-96 w-80 outline-gray-400 rounded-xl relative">
                     <div 
                     className="w-full flex items-center justify-between h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
                     onClick={() => setDocTypeOpen(!DocTypeOpen)}
@@ -252,15 +252,15 @@ const IssueDoc = () => {
 
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name</label>
-                    <div className="flex w-80 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="OrgName" className='text-black 2xl:text-xl  font-semibold'>Organization Name</label>
+                    <div className="flex w-80 2xl:w-96 gap-0 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input readOnly value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Name of the organization" id='OrgName' />
                     </div>
                     </div>
                     </div>
                     <div className="mt-4 mb-6 flex gap-6 justify-center">
                     <div className='flex flex-col gap-2 w-full justify-center items-center'>
-                    <label htmlFor="document" className='text-black font-semibold'>Upload Document *</label>
+                    <label htmlFor="document" className='text-black 2xl:text-xl 2xl:mb-4 font-semibold'>Upload Document *</label>
                     <div onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
@@ -283,14 +283,14 @@ const IssueDoc = () => {
                      </div>
                      
                       : 
-                     <div className='flex flex-col gap-2 w-full justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-10">
+                     <div className='flex flex-col gap-2 w-full justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-10 2xl:size-12">
                         <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm5.845 17.03a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V12a.75.75 0 0 0-1.5 0v4.19l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3Z" clip-rule="evenodd" />
                         <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
                         </svg>
                          <p className="text-gray-600 font-medium text-center">
-                         <span className="text-blue-600">Click here</span> to upload your file or drag and drop
+                         <span className="text-blue-600 2xl:text-xl 2xl:mr-2">Click here</span><span className='2xl:text-xl'>to upload your file or drag and drop</span>
                     </p>
-                    <p className='text-gray-400 font-semibold'>Supported Format : PDF , JPG , JPEG , PNG</p></div> }
+                    <p className='text-gray-400 font-semibold 2xl:text-lg'>Supported Format : PDF , JPG , JPEG , PNG</p></div> }
                     </div>
                     <input onChange={handleFileChange} className="hidden" name='document' accept='.pdf , .jpg , .jpeg , .png' type="file" placeholder="Your email address" id='document' />
                     </div>
@@ -341,47 +341,47 @@ const IssueDoc = () => {
                     Download QR Code
                     </Button>
                     </div>
-                    <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white  rounded-xl p-4`}>
-                    <div className='text-black flex justify-center text-3xl font-bold'>KYC Status</div>
-                    {kycStatus === "Approved" && (
-                    <div className='flex flex-col items-center'>
-                    <div className='mt-4 py-3 px-4 items-center border-1 border-green-400 w-fit bg-green-100 rounded-2xl shadow-xs shadow-green-500 text-green-700 font-semibold flex gap-2'>
-                    <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                      <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
-                    </svg>
-                    </div> <div className='font-bold'> KYC {kycStatus}</div>
-                    </div>
-                    <div className='text-center text-sm font-semibold flex flex-col gap-1 text-gray-700 mt-3'>
-                    <div>Your KYC verification is successfully completed!</div>
-                    You now have full access to all platform features.</div>
-                    <Button onClick={() => navigate("/dashboard")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl justify-center mt-4 mb-0 outline-blue-400 flex gap-2 items-center">
-                    View Details
-                    </Button>
-                    </div>)
-                    }
-                    {kycStatus === "Pending" && 
-                    <div className='flex flex-col items-center'>
-                    <div className='mt-5 py-3 px-4 items-center border-1 border-red-400 w-fit bg-red-100 rounded-2xl shadow-2xs shadow-red-500 text-red-700 font-semibold flex gap-2'>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
-                        </svg>
-                    </div> <div>KYC {kycStatus}</div> 
-                    </div> 
-                    <div>
-                    <p className="text-gray-700 text-center text-sm mt-3 font-semibold">
-                        Your KYC verification is still pending. Please complete the process
-                        to unlock the ability to issue documents.
-                    </p>
-                    <div className='flex justify-center'>
-                    <Button onClick={() => navigate("/orgkyc")} variant="primary" size="md" className="before:bg-white rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
-                        Verify Now
-                    </Button> 
-                    </div>
-                    </div>
-                    </div>    
-                    }
-                    </div>
+                    <div className={`flex-1 flex flex-col justify-center items-center ${kycStatus == "Approved" ? "border-2 border-green-500" :"border-2 border-red-500"} bg-white rounded-xl p-5`}>
+                                                    <div className='text-black flex justify-center 2xl:text-5xl font-bold text-3xl '>KYC Status</div>
+                                                    {kycStatus == "Approved" && (
+                                                    <div className='flex flex-col items-center'>
+                                                    <div className='mt-4 2xl:mt-6 py-3 px-4 2xl:px-6 2xl:text-xl items-center border-1 border-green-400 w-fit bg-green-100 rounded-2xl shadow-xs shadow-green-500 text-green-700 font-semibold flex gap-2'>
+                                                    <div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 2xl:size-10">
+                                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                    </div> <div className='font-bold'> KYC {kycStatus}</div>
+                                                    </div>
+                                                    <div className='text-center text-sm font-semibold 2xl:text-lg flex flex-col gap-1 text-gray-700 2xl:mt-6 mt-3'>
+                                                    <div>Your KYC verification is successfully completed!</div>
+                                                    You now have full access to all platform features.</div>
+                                                    <Button onClick={() => navigate("/issue")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl 2xl:text-lg justify-center 2xl:mt-6 mb-0 outline-blue-400 flex gap-2 items-center">
+                                                    Issue Document
+                                                    </Button>
+                                                    </div>)
+                                                    }
+                                                    {kycStatus == "Pending" && 
+                                                    <div className='flex flex-col items-center'>
+                                                    <div className='mt-5 2xl:mt-6 py-3 px-4 2xl:px-6 2xl:text-xl items-center border-1 border-red-400 w-fit bg-red-100 rounded-2xl shadow-2xs shadow-red-500 text-red-700 font-semibold flex gap-2'>
+                                                    <div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 2xl:size-10">
+                                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </div> <div>KYC {kycStatus}</div> 
+                                                    </div> 
+                                                    <div>
+                                                    <p className="text-gray-700 text-center 2xl:text-lg  text-sm mt-3 font-semibold">
+                                                        Your KYC verification is still pending. Please complete the process
+                                                        to unlock the ability to issue documents.
+                                                    </p>
+                                                    <div className='flex justify-center'>
+                                                    <Button onClick={() => navigate("/orgkyc")} variant="primary" size="md" className="before:bg-white 2xl:text-lg rounded-lg w-full hover:scale-0  justify-center text-lg outline-blue-400 mt-6 flex gap-2 items-center">
+                                                        Verify Now
+                                                    </Button> 
+                                                    </div>
+                                                    </div>
+                                                    </div>    
+                                                    }
+                                                    </div> 
 
                     </div>
                     
