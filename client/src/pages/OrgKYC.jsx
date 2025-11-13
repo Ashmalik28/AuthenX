@@ -189,36 +189,36 @@ const OrgKYC = () => {
 
             <div className='flex flex-1 w-full h-fit mt-[60px] bg-gray-300'> 
                  <Sidebar />
-                 <div className='flex flex-1 flex-col ml-72 w-full h-full'>
+                 <div className='flex flex-1 flex-col  2xl:ml-96 ml-72 w-full h-full'>
                  <div className='flex flex-col flex-1 h-full lg:m-2 xl:m-5 bg-white rounded-2xl'>
-                 <div className='w-full flex gap-3 bg-blue-700 rounded-t-2xl items-center h-24 p-6'>
+                 <div className='w-full flex gap-3 bg-blue-700 rounded-t-2xl items-center 2xl:p-8 p-6'>
                  <div className='bg-[#4d72e1] flex items-center justify-center text-white px-3 py-3 rounded-lg'>
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 2xl:size-10">
                  <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clip-rule="evenodd" />
                  <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375Zm9.586 4.594a.75.75 0 0 0-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.116-.062l3-3.75Z" clip-rule="evenodd" />
                  </svg>
                  </div>
                  <div className='flex flex-col'>
-                    <div className='text-white text-3xl font-semibold'>KYC Information Form (Organization)</div>
-                    <div className='text-white text-base'>Please provide accurate information for verification purpose</div>
+                    <div className='text-white text-3xl 2xl:text-5xl font-semibold'>KYC Information Form (Organization)</div>
+                    <div className='text-white 2xl:text-lg text-base'>Please provide accurate information for verification purpose</div>
                  </div>
                  </div>
-                 <div className='p-6 flex lg:flex-col xl:flex-row gap-8'>
+                 <div className='p-6 2xl:p-8 flex justify-center lg:flex-col xl:flex-row gap-8'>
                  <div className='flex flex-col justify-center w-fit'>
                     <div className='flex gap-3 items-center'>
-                    <div className='bg-blue-700 text-white p-1 rounded-full font-bold flex justify-center items-center text-sm w-[24px] h-[24px]'>1</div>
-                    <div className='text-black font-bold text-xl'>Basic Information</div>
+                    <div className='bg-blue-700 text-white p-1 rounded-full font-bold flex justify-center items-center 2xl:w-[28px] 2xl:h-[28px] text-sm w-[24px] h-[24px]'>1</div>
+                    <div className='text-black 2xl:text-3xl font-bold text-xl'>Basic Information</div>
                     </div>
-                    <div className="mt-4 flex gap-6 justify-start">
+                    <div className="mt-4 2xl:mt-6 flex gap-6 justify-start">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="OrgName" className='text-black font-semibold'>Organization Name *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="OrgName" className='text-black 2xl:text-xl font-semibold'>Organization Name *</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={orgName} onChange={(e) => setOrgName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter Organization Name" id='OrgName' />
                     </div>
                     </div>
                    <div className='flex flex-col gap-2'>
-                    <label htmlFor="OrgType" className='text-black font-semibold'>Organization Type *</label>
-                    <div id='OrgType' className="flex gap-0 outline-1 w-80 outline-gray-400 rounded-xl relative">
+                    <label htmlFor="OrgType" className='text-black 2xl:text-xl  font-semibold'>Organization Type *</label>
+                    <div id='OrgType' className="flex gap-0 outline-1 w-80 2xl:w-96 outline-gray-400 rounded-xl relative">
                     <div 
                     className="w-full flex items-center justify-between h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
                     onClick={() => setOrgTypeOpen(!OrgTypeOpen)}
@@ -259,29 +259,29 @@ const OrgKYC = () => {
 
                     </div>
                     </div>
-                    <div className="mt-4 flex gap-6 text-black justify-start">
+                    <div className="mt-4 2xl:mt-6 flex gap-6 text-black justify-start">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="email" className='text-black font-semibold'>Official Email *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="email" className='text-black 2xl:text-xl font-semibold'>Official Email *</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={officialEmail} onChange={(e) => setOfficialEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="organization@example.com" id='email' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="website" className='text-black font-semibold'>Website URL</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="website" className='text-black 2xl:text-xl font-semibold'>Website URL</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={website} onChange={(e) => setWebsite(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="https://www.example.com" id='website' />
                     </div>
                     </div>
                     </div>
-                    <div className='flex flex-col h-fit gap-2 mt-4'>
-                    <label htmlFor="address" className='text-black font-semibold'>Registered Address *</label>
-                    <div className="outline-1 outline-gray-400 w-full rounded-xl h-24 p-3">
+                    <div className='flex flex-col h-fit gap-2 2xl:mt-6 mt-4'>
+                    <label htmlFor="address" className='text-black 2xl:text-xl font-semibold'>Registered Address *</label>
+                    <div className="outline-1 outline-gray-400 w-full rounded-xl 2xl:h-40 h-24 p-3">
                     <textarea autoComplete='off' value={address} onChange={(e) => setAddress(e.target.value)} id='address' className=" w-full h-full text-black outline-none placeholder:top-1" type="text" placeholder="Enter complete registered address " />
                     </div>
                     </div>
-                    <div className="mt-4 flex  gap-6 justify-start">
+                    <div className="mt-4 2xl:mt-6 flex  gap-6 justify-start">
                    <div className='flex flex-col gap-2'>
-                    <label htmlFor="country" className='text-black font-semibold'>Country of Registration *</label>
+                    <label htmlFor="country" className='text-black 2xl:text-xl font-semibold'>Country of Registration *</label>
                     <div id='country' className="flex gap-0 outline-1 w-80 text-black outline-gray-400 rounded-xl relative">
                     <div 
                     className="w-full flex items-center justify-between text-black h-12 text-lg px-3 py-3 cursor-pointer rounded-xl outline-1 outline-gray-400"
@@ -340,20 +340,20 @@ const OrgKYC = () => {
                  </div>
                  <div className='flex flex-col w-full'>
                     <div className='flex gap-3 items-center'>
-                    <div className='bg-blue-700 p-1 rounded-full font-bold flex text-white justify-center items-center text-sm w-[24px] h-[24px]'>2</div>
-                    <div className='text-black font-bold text-xl'>Legal Information</div>
+                    <div className='bg-blue-700 p-1 rounded-full 2xl:w-[28px] 2xl:h-[28px] font-bold flex text-white justify-center items-center text-sm w-[24px] h-[24px]'>2</div>
+                    <div className='text-black 2xl:text-3xl font-bold text-xl'>Legal Information</div>
                     </div>
-                    <div className="mt-4 flex gap-6 justify-start">
-                    <div className='flex flex-col gap-2 lg:w-full xl:w-full'>
-                    <label htmlFor="registrationNo" className='text-black font-semibold'>Registration Number / Business ID *</label>
+                    <div className="mt-4 2xl:mt-6 flex gap-6 justify-start">
+                    <div className='flex flex-col gap-2 lg:w-full 2xl:w-96 xl:w-full'>
+                    <label htmlFor="registrationNo" className='text-black 2xl:text-xl font-semibold'>Registration Number / Business ID *</label>
                     <div className="flex gap-0 lg:w-96 xl:w-full outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={registrationNo} onChange={(e) => setRegistrationNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter registration number or business ID" id='registrationNo' />
                     </div>
                     </div>
                     </div>
-                    <div className="mt-4 mb-6 flex gap-6 justify-start">
-                    <div className='flex flex-col gap-2 lg:w-full xl:w-full justify-start items-start'>
-                    <label htmlFor="certificate" className='text-black font-semibold '>Upload Registration Certificate *</label>
+                    <div className="mt-4 2xl:mt-6 mb-6 flex gap-6 justify-start">
+                    <div className='flex flex-col gap-2 lg:w-full 2xl:w-2/3 xl:w-full justify-start items-start'>
+                    <label htmlFor="certificate" className='text-black 2xl:text-xl font-semibold '>Upload Registration Certificate *</label>
                     <div id='certificate' onDragOver={(e) => {
                         e.preventDefault();
                         setIsDragging(true);
@@ -391,42 +391,42 @@ const OrgKYC = () => {
                     </div>
                  </div>
                  </div>
-                 <div className='px-6 flex lg:flex-col xl:flex-row gap-8 mb-6'>
+                 <div className='px-6 flex 2xl:flex-col lg:flex-col xl:flex-row gap-8 mb-6'>
                  <div className='flex flex-col w-fit justify-center'>
                     <div className='flex gap-3 items-center'>
-                    <div className='bg-blue-700 p-1 rounded-full font-bold text-white flex justify-center items-center text-sm w-[24px] h-[24px]'>3</div>
-                    <div className='text-black font-bold text-xl'>Contact Person Details</div>
+                    <div className='bg-blue-700 p-1 rounded-full font-bold 2xl:w-[28px] 2xl:h-[28px] text-white flex justify-center items-center text-sm w-[24px] h-[24px]'>3</div>
+                    <div className='text-black 2xl:text-3xl  font-bold text-xl'>Contact Person Details</div>
                     </div>
-                    <div className="mt-4 flex gap-6 justify-start">
+                    <div className="mt-4 2xl:mt-6 flex gap-6 justify-start">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="fullName" className='text-black font-semibold'>Full Name *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="fullName" className='text-black 2xl:text-xl font-semibold'>Full Name *</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='fullName' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="position" className='text-black font-semibold'>Position *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="position" className='text-black 2xl:text-xl font-semibold'>Position *</label>
+                    <div className="flex gap-0 w-80 2xl:w-96 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={position} onChange={(e) => setPosition(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="e.g., CEO , Director , Manager" id='position' />
                     </div>
                     </div>
                     </div>
-                    <div className="mt-4 flex gap-6 justify-start">
+                    <div className="mt-4 2xl:mt-6 flex gap-6 justify-start">
                     <div className='flex flex-col gap-2'>
-                    <label htmlFor="contactNo" className='text-black font-semibold'>Contact Number *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="contactNo" className='text-black 2xl:text-xl font-semibold'>Contact Number *</label>
+                    <div className="flex gap-0 2xl:w-96 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={contactNo} onChange={(e) => setContactNo(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="Enter full name" id='contactNo' />
                     </div>
                     </div>
                      <div className='flex flex-col gap-2'>
-                    <label htmlFor="personalEmail" className='text-black font-semibold'>Personal Email *</label>
-                    <div className="flex gap-0 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
+                    <label htmlFor="personalEmail" className='text-black 2xl:text-xl font-semibold'>Personal Email *</label>
+                    <div className="flex gap-0 2xl:w-96 w-80 outline-1 outline-gray-400 rounded-xl p-3 focus-within:outline-blue-500"> 
                     <input autoComplete='off' value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} className="w-full outline-none mt-0 text-black " type="text" placeholder="manager@example.com" id='personalEmail' />
                     </div>
                     </div>
                     </div>
                  </div>
-                 <div className='w-full flex flex-col items-center-safe justify-end'>
+                 <div className='w-full flex flex-col 2xl:items-start 2xl:mt-6 items-center-safe justify-end'>
                      {serverError && (
                     <div className="mb-3 p-2 w-full rounded-lg bg-red-100 text-red-600 text-sm">{serverError}</div>
                     )}

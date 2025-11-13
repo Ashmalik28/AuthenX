@@ -104,7 +104,7 @@ const Signin = () => {
             
              </div>
             </div>
-            <div className="flex lg:w-1/2 w-full h-full bg-gray-200 justify-center rounded-r-4xl items-center">
+            <div className="flex lg:w-1/2 w-[100vw] h-full bg-gray-200  justify-center lg:rounded-r-4xl items-center">
               <span className=" xl:w-3/4 sm:w-4/6 lg:w-full  bg-white border-gray-400 rounded-3xl m-5 shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
               <span className="flex justify-start 2xl:justify-center text-xl sm:text-3xl lg:text-3xl font-bold">Signin to your AuthenX Account</span>
               <span className="mt-3 text-sm sm:text-base lg:w-full flex justify-center lg:text-base">Welcome back ! Log in to verify documents securely or issue them with trust</span>
