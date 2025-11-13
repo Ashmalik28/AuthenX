@@ -114,7 +114,7 @@ const Signup = () => {
             </div>
 
             </div>
-            <div className="flex lg:w-1/2 w-full h-full bg-gray-200 2xl:rounded-r-4xl justify-center items-center">
+            <div className="flex lg:w-1/2 w-[100vw] h-full bg-gray-200 2xl:rounded-r-4xl justify-center items-center">
               <span className="xl:w-3/4 sm:w-4/6 justify-center lg:w-full m-5 bg-white border-gray-400 rounded-3xl shadow-blue-300 shadow-[-2px_4px_51px_20px_rgba(0,_0,_0,_0.1)] flex flex-col p-6">
               <span className="flex justify-start 2xl:justify-center text-xl sm:text-3xl lg:text-3xl font-bold">Create Your AuthenX Account</span>
               <span className="mt-3 text-sm sm:text-base sm:w-3/4 lg:w-full flex justify-center lg:text-base">Join AuthenX to verify documents securely or issue them with complete trust.</span>

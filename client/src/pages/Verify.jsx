@@ -272,7 +272,7 @@ const Verify = () => {
                     
                     </div>
                     </div>
-                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 lg:ml-25 lg:mr-25 xl:mr-0 xl:ml-0 flex flex-col items-center rounded-xl h-fit'>
+                    <div ref={qrRef} className='bg-white border-green-600 border-2 p-5 lg:ml-25 lg:mr-25 xl:mr-5 xl:ml-0 flex flex-col items-center rounded-xl h-fit'>
                     <div className='text-2xl xs:text-3xl text-black font-semibold'>
                     Verify with QR Code
                     </div>

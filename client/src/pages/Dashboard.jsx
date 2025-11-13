@@ -212,27 +212,27 @@ const Dashboard = () => {
               <Sidebar />
               </div>
               )}
-                <div className='flex flex-1 flex-col 2xl:ml-96 lg:ml-72 xl:ml-72 sm:mr-20 2xl:mr-10 2xl:mt-5 lg:mr-5 sm:ml-20 mb-5'>
-                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-5 2xl:gap-10 mt-3 xs:mt-5 2xl:ml-10 lg:mr-0 xs:mr-5 xs:ml-5'>
-                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3'>
-                            <div className='lg:text-xl 2xl:text-4xl text-sm xs:text-base font-semibold'>Total Verifications</div>
+                <div className='flex flex-1 flex-col 2xl:ml-96 lg:ml-72 xl:ml-72 ml-3 mr-3 xs:ml-0 xs:mr-0 sm:mr-20 2xl:mr-10 2xl:mt-5 lg:mr-5 sm:ml-20 mb-3 xs:mb-5'>
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-2 mx-auto xs:mx-0 xs:gap-5 2xl:gap-10 mt-3 xs:mt-5 2xl:ml-10 lg:mr-0 xs:mr-5 xs:ml-5'>
+                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3 xs:p-3'>
+                            <div className='lg:text-xl 2xl:text-4xl text-base xs:text-base font-semibold'>Total Verifications</div>
                             <div className='mt-4 lg:text-2xl xl:text-4xl 2xl:text-6xl text-3xl font-bold'>{totalVerifications}</div>
                         </div>
-                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3'>
-                            <div className='lg:text-xl text-sm 2xl:text-4xl xs:text-base font-semibold'>Total Issued Documents </div>
+                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3 xs:p-3'>
+                            <div className='lg:text-xl text-base 2xl:text-4xl xs:text-base font-semibold'>Total Issued Documents </div>
                             <div className='mt-4 lg:text-2xl xl:text-4xl 2xl:text-6xl text-3xl font-bold'>{totalDocuments}</div>
                         </div>
-                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3'>
-                            <div className='lg:text-xl text-sm 2xl:text-4xl xs:text-base font-semibold'>Verified Organizations</div>
+                        <div className=' bg-white rounded-xl text-black 2xl:p-6 p-3 xs:p-3'>
+                            <div className='lg:text-xl text-base 2xl:text-4xl xs:text-base font-semibold'>Verified Organizations</div>
                             <div className='mt-4 lg:text-2xl xl:text-4xl 2xl:text-6xl text-3xl font-bold'>{totalVerifiedOrgs}</div>
                         </div>
-                        <div className=' bg-white rounded-xl flex flex-col 2xl:text-6xl justify-between text-black 2xl:p-6 p-3'>
-                            <div className='lg:text-xl text-sm 2xl:text-4xl xs:text-base font-semibold'>Wallet Balance</div>
+                        <div className=' bg-white rounded-xl flex flex-col 2xl:text-6xl justify-between text-black 2xl:p-6 p-3 xs:p-3'>
+                            <div className='lg:text-xl text-base 2xl:text-4xl xs:text-base font-semibold'>Wallet Balance</div>
                             <div className='mt-4 lg:text-2xl xl:text-4xl 2xl:text-6xl text-3xl font-bold'>{walletBalance} {userType === "verifier" ? "" : "ETH"}</div>
                         </div>
                     </div>
 
-                    <div className='grid xl:grid-cols-3 gap-5 2xl:gap-10 2xl:ml-10 2xl:mt-10 mt-5 ml-3 xs:ml-5'>
+                    <div className='grid xl:grid-cols-3 gap-3 xs:gap-5 2xl:gap-10 2xl:ml-10 2xl:mt-10 mt-3 xs:mt-5 xs:ml-5'>
                         <div className='bg-white rounded-xl p-6 2xl:p-10 hidden xl:flex lg:flex-col lg:col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black font-semibold 2xl:text-5xl text-2xl'>Quick Actions</div>
@@ -338,7 +338,7 @@ const Dashboard = () => {
 
 
                         </div>
-                        <div className='flex xl:flex-col rounded-xl 2xl:gap-10 md:gap-5 mr-3 xs:mr-5 lg:mr-0'>
+                        <div className='flex xl:flex-col rounded-xl 2xl:gap-10 h-fit md:gap-5 xs:mr-5 lg:mr-0'>
                                 <div className='flex-1 bg-white rounded-xl 2xl:p-10 p-5 '>
                                 <div className='text-black xs:font-semibold font-bold flex justify-center 2xl:text-4xl text-2xl xs:text-3xl'>Welcome , {userName}</div>
                                 <div className="text-sm text-white bg-black p-3 rounded-2xl 2xl:mt-7 mt-3 flex justify-around">
@@ -390,7 +390,7 @@ const Dashboard = () => {
                                 </svg>
                                 </div> <div className='font-bold'> KYC {kycStatus}</div>
                                 </div>
-                                <div className='text-center text-sm font-semibold 2xl:text-lg flex flex-col gap-1 text-gray-700 2xl:mt-6 mt-3'>
+                                <div className='text-center text-sm font-semibold 2xl:text-lg flex flex-col gap-1 text-gray-700 2xl:mt-6 mb-2 mt-3'>
                                 <div>Your KYC verification is successfully completed!</div>
                                 You now have full access to all platform features.</div>
                                 <Button onClick={() => navigate("/issue")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl 2xl:text-lg justify-center 2xl:mt-6 mb-0 outline-blue-400 flex gap-2 items-center">
@@ -420,10 +420,10 @@ const Dashboard = () => {
                                 </div>
                                 </div>    
                                 }
-                                </div> : <div className='flex h-full w-full  flex-1 justify-cente items-center'></div>
+                                </div> : ""
                                 }
                         </div>
-                        <div className='bg-white rounded-xl p-6 xl:hidden xl:col-span-2'>
+                        <div className='bg-white rounded-xl xs:p-4 lg:p-6 p-3 xl:hidden xs:mr-5 lg:mr-0 xl:col-span-2'>
                             <div className='flex flex-1 flex-col'>
                             <div className='text-black flex justify-center font-semibold text-2xl'>Quick Actions</div>
                             <div className='grid grid-cols-3 gap-3 mt-5'>

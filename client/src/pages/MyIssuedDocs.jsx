@@ -210,8 +210,8 @@ const MyIssuedDocs = () => {
 
             <div className='flex flex-1 h-fit mt-[60px] bg-gray-200'> 
                  <Sidebar />
-                 <div className='flex flex-col max-w-screen ml-72 mb-5'>
-                    <div className='flex fixed top-[60px] left-72 z-30 w-2/3 '>
+                 <div className='flex flex-col max-w-screen 2xl:ml-96 ml-72 mb-5'>
+                    <div className='flex fixed top-[60px] 2xl:left-96 left-72 z-30 w-2/3 '>
                     <div className='bg-gray-700 w-3/5 mt-6 ml-6 mr-4 flex justify-between items-center h-12 rounded-full pl-3 pr-2 transition-all duration-300 ease-in-out focus-within:bg-gray-800'>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
                       <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
