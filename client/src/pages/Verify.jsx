@@ -14,6 +14,7 @@ import { verifierData } from '../../api';
 import {Loader} from '../components';
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
+import { toast } from 'react-toastify';
 
 const Verify = () => {
     const {currentAccount ,verifyDocument} = useContext(TransactionContext);
@@ -64,11 +65,11 @@ const Verify = () => {
     try {
       setloading(true);
       if (!selectedFile) {
-        alert("Please upload a document");
+        toast.error("Please upload a document first");
         return;
       }
       if (!name || !email) {
-        alert("Please fill all required fields");
+        toast.error("Please fill all required fields");
         return;
       }
 
@@ -83,9 +84,11 @@ const Verify = () => {
         const res = await verifierData(name , email , cid);
         if(res){
         setVerified(true);
+        toast.success("Valid document");
         }
       } else {
         setVerified(false);
+        toast.error("Document not valid")
       }
       setloading(false);
     } catch (error) {
@@ -103,6 +106,7 @@ const Verify = () => {
         link.href = image;
         link.download = "AuthenX_QR_Code.png";
         link.click();
+        toast.success("QR code downloaded successfully")
     }
 
     const handleDrop = (e) => {

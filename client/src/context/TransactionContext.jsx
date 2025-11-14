@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import axios from "axios";
 import {contractABI , contractAddress} from "../utils/constants"
+import { toast } from "react-toastify";
 
 export const TransactionContext = React.createContext();
 
@@ -84,8 +85,8 @@ const getTransactionHistory = async () => {
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       const signer = await provider.getSigner();
       const address = accounts[0];
-  
-      console.log("Connected address:", address);
+
+      setCurrentAccount(address);
 
       const { data } = await axios.post("http://localhost:3000/nonce",{ 
       walletAddress: address 
@@ -101,10 +102,11 @@ const getTransactionHistory = async () => {
       });
   
       localStorage.setItem("token", res.data.token);
+      toast.success("Login Successful");
       window.location.href = "/dashboard";
   } catch (error) {
     console.error("Wallet connection error:", error);
-    alert(error.message || "Connection failed. Please try again.");
+    toast.error("Connection failed. Please try again.");
   }
 };
 
@@ -118,7 +120,7 @@ const getTransactionHistory = async () => {
       const tx = await contract.approveOrg(orgAddress, orgName);
       await tx.wait();
 
-      console.log("✅ Organization approved on blockchain:", orgAddress);
+      toast.success("Organization approved on blockchain:");
       setIsLoading(false);
       
       return true;
@@ -137,7 +139,7 @@ const getTransactionHistory = async () => {
       setIsLoading(true);
       await tx.wait();
       setIsLoading(false);
-      console.log("❌ Organization revoked:", orgAddress);
+      toast.success("Organization revoked:");
     } catch (error) {
       console.error("revokeOrg error:", error);
     }

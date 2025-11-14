@@ -11,6 +11,7 @@ import Loader from '../components/Loader';
 import { fetchOrgDetails } from '../../api';
 import {issuedDocument} from '../../api'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 const DocType = [
@@ -58,8 +59,6 @@ const IssueDoc = () => {
    fetchDetails();
    }, []);
 
-   console.log(kycStatus);
-
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if(file){
@@ -74,10 +73,11 @@ const IssueDoc = () => {
         link.href = image;
         link.download = "AuthenX_QR_Code.png";
         link.click();
+        toast.success("QR downloaded successfully");
     }
     
     const uploadFile = async () => {
-    if (!selectedFile) return null;
+    if (!selectedFile) return toast.error("Upload a document first !");
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -90,11 +90,10 @@ const IssueDoc = () => {
 
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Upload failed");
-        console.log(data);
         return data; 
     } catch (err) {
         console.error("File upload failed:", err.message);
-        alert("File upload failed: " + err.message);
+        toast.error("File upload failed: " + err.message);
         return null;
     }
     };
@@ -106,7 +105,7 @@ const IssueDoc = () => {
       const uploadResult = await uploadFile();
 
       if (!uploadResult || !uploadResult.success) {
-        alert("❌ Upload failed, please try again.");
+        toast.error("Upload failed, please try again.");
         setLoading(false);
         return;
       }
@@ -115,7 +114,7 @@ const IssueDoc = () => {
       setdocHash(docHash);
       
       if (!personName || !personWallet || !selectedInterest.label || !orgName) {
-        alert("⚠️ Please fill all fields before issuing the document.");
+        toast.error("Please fill all fields before issuing the document.");
         setLoading(false);
         return;
       }
@@ -134,12 +133,10 @@ const IssueDoc = () => {
       };
 
       const dbRes = await issuedDocument(docData);
-      console.log("✅ Document stored in DB:", dbRes);
-      alert("✅ Document successfully issued and recorded!");
+      toast.success("Document successfully issued and recorded!");
     }
     } catch (error) {
-      console.error("❌ Error issuing document:", error);
-      alert("❌ Something went wrong: " + error.message);
+      toast.error("Something went wrong: " + error.message);
     } finally {
       setLoading(false); 
     }
@@ -354,7 +351,7 @@ const IssueDoc = () => {
                                                     <div className='text-center text-sm font-semibold 2xl:text-lg flex flex-col gap-1 text-gray-700 2xl:mt-6 mt-3'>
                                                     <div>Your KYC verification is successfully completed!</div>
                                                     You now have full access to all platform features.</div>
-                                                    <Button onClick={() => navigate("/issue")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl 2xl:text-lg justify-center 2xl:mt-6 mb-0 outline-blue-400 flex gap-2 items-center">
+                                                    <Button onClick={() => navigate("/issue")} variant="primary" size="md" className="before:bg-white pl-12 pr-12 w-full rounded-xl 2xl:text-lg justify-center mt-4 2xl:mt-6 mb-0 outline-blue-400 flex gap-2 items-center">
                                                     Issue Document
                                                     </Button>
                                                     </div>)

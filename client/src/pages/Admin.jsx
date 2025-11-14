@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import AdminCheck from "../protectedRoute/AdminProtectedRoute";
 import { useEffect } from "react";
 import logo from "../../images/AuthenXLogo.png"
 import {shortenAddress} from "../utils/shortenAddress"
 import { TransactionContext } from '../context/TransactionContext';
-import React, { useContext , useState } from 'react'
+import { useContext , useState } from 'react'
 import { Button } from "../components";
 import { fetchPendingKYC } from "../../api";
 import { updateOrgStatus } from "../../api";
 import { viewDocument } from "../../api";
 import {Loader} from "../components";
+import { toast } from "react-toastify";
 
 
 
@@ -54,7 +54,6 @@ const Admin = () => {
     try {
       const data = await fetchPendingKYC();
       setRequests(data.requests);
-      console.log(data);
     } catch (err) {
       console.error("Error fetching KYC requests:", err.response?.data || err.message);
     } finally {
@@ -71,7 +70,6 @@ const Admin = () => {
     try {
       setLoadingDocs(true);
       const docs = await getAllDocuments();
-      console.log(docs);
 
     const formattedDocs = docs.map((doc) => {
     const issuedAt = Number(doc.issuedAt || doc[5]); 
@@ -109,11 +107,11 @@ const handleViewDocument = async (cid, index) => {
       const newTab = window.open('', '_blank');
       newTab.location.href = data.url;
     } else {
-      alert(data.message || "Failed to open document");
+      toast.error("Failed to open document");
     }
   } catch (error) {
     console.error("View document error:", error);
-    alert("Something went wrong while viewing document");
+    toast.error("Something went wrong while viewing document");
   } finally {
     setLoadingIndex(null);
   }
@@ -125,11 +123,11 @@ const handleViewDocument = async (cid, index) => {
         try {
             setLoading(true);
             const result = await updateOrgStatus(walletAddress, status);
-            alert(result.message);
+            toast.update(result.message);
             loadRequests(); 
         } catch (err) {
             console.error(err);
-            alert("Error updating status");
+            toast.error("Error updating status");
         } finally {
             setLoading(false);
         }
@@ -139,8 +137,9 @@ const handleViewDocument = async (cid, index) => {
         const success = await approveOrg(walletAddress, orgName);
         if (success) {
             await handleStatusUpdate(walletAddress, "Approved");
+            toast.success("Organization approved successfully");
         } else {
-            alert("Blockchain approval failed");
+            toast.error("Blockchain approval failed");
         }
         };
     
@@ -169,7 +168,7 @@ const handleViewDocument = async (cid, index) => {
 
     useEffect(() => {
         if(isAdmin === false){
-            alert("You are not an Admin");
+            toast.error("You are not an Admin");
             navigate("/dashboard");
         }
     }, [isAdmin , navigate]);

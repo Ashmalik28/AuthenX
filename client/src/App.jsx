@@ -41,6 +41,7 @@ function App() {
   }
 
   return (
+    <>
     <TransactionsProvider>
       <BrowserRouter>
       <ScrollToHashElement />
@@ -63,6 +64,8 @@ function App() {
         </Routes>
       </BrowserRouter>
     </TransactionsProvider>
+    </>
+    
   );
 }
 

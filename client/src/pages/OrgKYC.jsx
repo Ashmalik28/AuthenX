@@ -8,6 +8,7 @@ import { TransactionContext } from '../context/TransactionContext';
 import {shortenAddress} from "../utils/shortenAddress"
 import { submitKYC } from '../../api';
 import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 const OrgType = [
   { id: 1, label: "Private Limited" },
@@ -67,27 +68,26 @@ const OrgKYC = () => {
     const [position, setPosition] = useState("");
     const [contactNo, setContactNo] = useState("");
     const [personalEmail, setPersonalEmail] = useState("");
-    const [serverError , setServerError] = useState("");
     const [loading , setLoading] = useState(false);
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setServerError("");
         setLoading(true);
         try{
         
-        if (!orgName) return setServerError("Organization Name is required");
-        if (!selectedOrg.id) return setServerError("Organization Type is required");
-        if (!officialEmail) return setServerError("Official Email is required");
-        if (!address) return setServerError("Registered Address is required");
-        if (!selectedCountry.code) return setServerError("Country is required");
-        if (!registrationNo) return setServerError("Registration Number is required");
-        if (!selectedFile) return setServerError("Certificate upload is required");
-        if (!fullName) return setServerError("Full Name is required");
-        if (!position) return setServerError("Position is required");
-        if (!contactNo) return setServerError("Contact Number is required");
-        if (!personalEmail) return setServerError("Personal Email is required")
+        if (!orgName) return toast.error("Organization Name is required");
+        if (!selectedOrg.id) return toast.error("Organization Type is required");
+        if (!officialEmail) return toast.error("Official Email is required");
+        if (!address) return toast.error("Registered Address is required");
+        if (!selectedCountry.code) return toast.error("Country is required");
+        if (!registrationNo) return toast.error("Registration Number is required");
+        if (!selectedFile) return toast.error("Certificate upload is required");
+        if (!fullName) return toast.error("Full Name is required");
+        if (!position) return toast.error("Position is required");
+        if (!contactNo) return toast.error("Contact Number is required");
+        if (!personalEmail) return toast.error("Personal Email is required")
 
         const formData = new FormData();
         formData.append("orgName" , orgName);
@@ -105,7 +105,7 @@ const OrgKYC = () => {
 
         const res = await submitKYC(formData);
     
-        alert("KYC submitted successfully!");
+        toast.success("KYC submitted successfully!");
 
         setOrgName("");
         setSelectedOrg({ id: null, label: "Select organization type" });
@@ -127,13 +127,31 @@ const OrgKYC = () => {
 
         const zodErrors = err.response?.data?.errors;
         if(zodErrors && zodErrors.length > 0){
-            setServerError(zodErrors[0].message);
+            toast.error(zodErrors[0].message);
         }else{
-            setServerError(err.response?.data?.message || "Something went wrong . Please try again");
+            toast.error("Something went wrong . Please try again");
         }
         } finally {
             setLoading(false);
         }
+    }
+
+    const handleCancel =  (e) => {
+        e.preventDefault();
+        setOrgName("");
+        setSelectedOrg({ id: null, label: "Select organization type" });
+        setOfficialEmail("");
+        setWebsite("");
+        setAddress("");
+        setSelectedCountry({ code: null, name: "Select Country" });
+        setRegistrationNo("");
+        setSelectedFile(null);
+        setFullName("");
+        setPosition("");
+        setContactNo("");
+        setPersonalEmail("");
+        setOrgTypeOpen(false);
+        setCountryOpen(false);
     }
 
 
@@ -152,20 +170,6 @@ const OrgKYC = () => {
             setSelectedFile(file);
         }
     }
-
-    const StatusBadge = ({ status }) => {
-    const baseClasses = "px-3 py-1 text-sm font-medium rounded-full inline-block";
-    const statusClasses = {
-        Completed: "bg-green-100 text-green-800",
-        Failed: "bg-red-100 text-red-800",
-    };
-
-    return (
-        <span className={`${baseClasses} ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`}>
-        {status}
-        </span>
-    );
-    };
 
     return (
         <div className='w-full h-screen flex flex-col'>
@@ -427,12 +431,9 @@ const OrgKYC = () => {
                     </div>
                  </div>
                  <div className='w-full flex flex-col 2xl:items-start 2xl:mt-6 items-center-safe justify-end'>
-                     {serverError && (
-                    <div className="mb-3 p-2 w-full rounded-lg bg-red-100 text-red-600 text-sm">{serverError}</div>
-                    )}
                     <div className='flex gap-3'>
                         {loading ? <Loader /> : <div className='flex gap-3'>
-                        <button className='text-black border-1 rounded-xl font-semibold border-gray-400 px-7 py-3'>Cancel</button>
+                        <button onClick={handleCancel} className='text-black border-1 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 ease-in-out hover:text-white border-gray-400 px-7 py-3'>Cancel</button>
                         <button onClick={handleSubmit} className='bg-blue-700 flex gap-1 py-3 text-white transition-all duration-300 ease-in-out hover:bg-black px-8 font-semibold rounded-xl'>Submit for Verification 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                             <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />

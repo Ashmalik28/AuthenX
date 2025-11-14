@@ -7,6 +7,7 @@ import {useNavigate } from "react-router-dom";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
+import { toast } from "react-toastify";
 
 
 const NavbarItem = ({title , classprops , onClick}) => {
@@ -29,9 +30,9 @@ const SidebarItem = ({title , classprops , onClick , icon}) => {
         </li>
   )
 }
-const DropdownItem = ({title , subtitle , classprops , icon}) => {
+const DropdownItem = ({title , subtitle , classprops , icon , onClick}) => {
     return (
-        <li className={`px-2 py-2 m-3 cursor-pointer group/item hover:bg-gray-100 flex items-center gap-4 rounded-xl transition-colors duration-200 ${classprops}`}>
+        <li onClick={onClick} className={`px-2 py-2 m-3 cursor-pointer group/item hover:bg-gray-100 flex items-center gap-4 rounded-xl transition-colors duration-200 ${classprops}`}>
           <span className="bg-gray-100 group-hover/item:text-blue-500 group-hover/item:bg-white transition duration-200 ease-in-out p-5 rounded-lg">
             {icon}
           </span> 
@@ -44,7 +45,7 @@ const DropdownItem = ({title , subtitle , classprops , icon}) => {
 }
 
 const services = [
-  { title: "Register as Admin", subtitle: "Manage platform access & oversee document workflows" ,icon: <RiAdminFill size={20} /> },
+  { title: "Register as Admin", subtitle: "Manage platform access & oversee document workflows" ,icon: <RiAdminFill size={20} />  },
   { title: "Register as Organization" , subtitle: "Get verified to issue trusted blockchain documents" , icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
   </svg>
@@ -93,9 +94,40 @@ const Navbar = () => {
             </svg>
           </button>
           <ul className="absolute left-0 mt-2 top-full w-125 text-black scale-95 group-hover:scale-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out bg-white shadow-lg z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 flex-col border border-gray-300 rounded-2xl">
-            {services.map((service, index) => (
-              <DropdownItem key={service.title + index} title={service.title} icon={service.icon} subtitle={service.subtitle}/>
-            ))}
+            {services.map((service, index) => {
+            const handleClick = () => {
+              if (service.title === "Register as Admin") {
+                toast.info("Coming soon 🚧");
+              }
+
+              if (service.title === "Register as Organization") {
+                navigate("/orgkyc");
+              }
+
+              if (service.title === "Issue Document") {
+                navigate("/issue");
+              }
+
+              if (service.title === "Help & Support") {
+                const section = document.getElementById("support");
+                if (section) {
+                  section.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  toast.error("Support section not found!");
+                }
+              }
+            };
+
+            return (
+              <DropdownItem
+                key={service.title + index}
+                title={service.title}
+                icon={service.icon}
+                subtitle={service.subtitle}
+                onClick={handleClick}
+              />
+            );
+          })}
           </ul>
         </li>
 
@@ -104,9 +136,12 @@ const Navbar = () => {
         <NavbarItem onClick={() => navigate("/About")} title="About" classprops="hover:text-blue-500" />
       </ul>
 
-      <div className="hidden lg:flex pr-5 lg:pr-8 xl:pr-20">
+      <div className="hidden lg:flex pr-5 lg:pr-8 xl:pr-20 gap-3">
         <Button onClick={() => navigate("/signup")} variant="primary" size="md" className="before:bg-white rounded-lg outline-blue-400 flex gap-2 items-center">
-          Login / Signup
+          Signup
+        </Button>
+        <Button onClick={() => navigate("/signin")} variant="secondary" size="md" className="before:bg-blue-500 rounded-lg outline-blue-400 flex gap-2 items-center">
+          Login
         </Button>
       </div>
 
