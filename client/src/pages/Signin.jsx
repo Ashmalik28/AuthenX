@@ -10,6 +10,7 @@ import wcicon from "../../images/Signup/wc.png"
 import { signin} from "../../api";
 import { useContext } from "react";
 import { TransactionContext } from "../context/TransactionContext";
+import { toast } from "react-toastify";
 
 const Signin = () => {
     const {connectWallet} = useContext(TransactionContext)
@@ -20,19 +21,28 @@ const Signin = () => {
         email : "",
         password : ""
     })
+    const [hide , sethide] = useState(true);
     const handleSignin = async () => {
         try {
             const data = await signin(formData);
+            toast.success("Login Successfull");
             navigate("/dashboard");
         }catch (err){
             const zodErrors = err.response?.data?.error;
             if(zodErrors){
-                setServerError(err.response.data.error);
+                toast.error(err.response.data.error);
             }else {
-                setServerError("Something went wrong , please try again later !")
+                toast.error("Something went wrong , please try again later !")
             }
         }
     }
+    const handleConnect = async () => {
+        const ok = await connectWallet();
+         if (ok) {
+         navigate("/dashboard"); 
+         }
+    }
+
     
     return (
         <div className="w-full h-screen items-center flex bg-black flex-col">
@@ -58,7 +68,7 @@ const Signin = () => {
                             <div className="w-full mt-5 pr-5 flex">
                                 <div className="w-1/2 border-r-1 border-white pb-12 ">
                                 <div className="flex justify-center items-center pr-5">
-                                <img src={Verifier} alt="Verifier" className="xl:w-72 2xl:w-80 2xl:h-72 lg:w-64 lg:h-48 " />
+                                <img src={Verifier} alt="Verifier" className="xl:w-72 xl:h-64 2xl:w-80 2xl:h-72 lg:w-64 lg:h-48 " />
                                 </div>
                                 <div className="text-white text-3xl font-bold flex justify-center pr-5">Verifier</div>
                                 <div className="mt-5 mr-3">
@@ -80,7 +90,7 @@ const Signin = () => {
                                 </div>
                                 <div className="w-1/2">
                                 <div className="flex justify-center items-center">
-                                    <img src={Org} alt="Organization" className="xl:w-72 2xl:w-80 2xl:h-72 lg:w-64 lg:h-48"/>
+                                    <img src={Org} alt="Organization" className="xl:w-72 2xl:w-80 xl:h-64 2xl:h-72 lg:w-64 lg:h-48"/>
                                 </div>
                                 <div className="text-white text-3xl font-bold flex justify-center">Organization</div>
                                  <div className="mt-5 ml-5">
@@ -141,11 +151,19 @@ const Signin = () => {
                     </div>
                     <div className="flex gap-0 outline-1 outline-gray-400 rounded-xl p-3 "> 
                     <input className="w-full outline-none mt-0" 
-                    type="password" 
+                    type={hide ? "password" : "text"}
                     placeholder="Enter your Password"
                     value={formData.password}
                     onChange={(e) => setFormData({...formData , password : e.target.value})}
                     />
+                    {hide == true ? <div onClick={() => sethide(false)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>
+                    </div> : <div onClick={() => sethide(true)} className="h-full"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    </div>  }
                     </div>
               </div>
               {serverError && (
@@ -165,7 +183,7 @@ const Signin = () => {
                 <div className="w-full bg-gray-100 border-gray-100 rounded-2xl flex flex-col items-center border mt-3 pb-3">
                 <div className="flex flex-col items-center bg-white p-5 rounded-2xl mt-5 mb-5">
                 <div className=" flex justify-center text-xl font-bold">Select Wallet</div>
-                <span onClick={connectWallet} className="text-lg w-96 font-semibold mt-4 text-white flex justify-center bg-black py-3 hover:bg-neutral-800 px-8 rounded-xl">Continue with Metamask <div className="pl-3 flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
+                <span onClick={handleConnect} className="text-lg w-96 font-semibold mt-4 text-white flex justify-center bg-black py-3 hover:bg-neutral-800 px-8 rounded-xl">Continue with Metamask <div className="pl-3 flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Metamask-Icon--Streamline-Svg-Logos" height="24" width="24">
                 <desc>
                     Metamask Icon Streamline Icon: https://streamlinehq.com
                 </desc>

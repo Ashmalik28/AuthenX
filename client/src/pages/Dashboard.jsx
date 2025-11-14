@@ -109,7 +109,7 @@ const Dashboard = () => {
     };
 
     fetchBalance();
-   }, [currentAccount , userType ]);
+    }, [currentAccount , userType ]);
 
     useEffect(() => {
     const getStats = async () => {
