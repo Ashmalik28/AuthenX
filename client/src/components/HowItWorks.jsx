@@ -5,7 +5,7 @@ import happyimg from "../../images/HowItWorks/happy.png"
 import { useRef, useState } from "react"
 import connectW from "../../images/HowItWorks/connect.png"
 import registerOrg from "../../images/HowItWorks/register.png"
-import issueDoc from "../../images/HowItWorks/issueDoc.png"
+import issueDoc from "../../images/HowItWorks/IssueDoc.png"
 import verifyDoc from "../../images/HowItWorks/VerifyDoc.png"
 import management from "../../images/HowItWorks/manage.png"
 
